@@ -1,0 +1,20 @@
+# Build PyInstaller (chạy build.bat để tạo lại)
+build/
+dist/
+
+# App tự tạo khi chạy: dữ liệu tải từ Data Dragon và cấu hình cá nhân
+cache/
+config.json
+
+# Python
+__pycache__/
+*.pyc
+
+# Research: dữ liệu ghi thô và kết quả sinh ra (nặng, tạo lại bằng record.py / detect.py).
+# Giữ lại code, tài liệu, templates/ và các file csv/json nhỏ (nhãn tay, giờ game).
+research/audio/sessions/**/audio.wav
+research/audio/sessions/**/frames/
+research/audio/sessions/**/detect_flash/
+research/audio/sessions/**/labels_check/
+research/audio/sessions/**/*.npy
+research/audio/sessions/**/STOP
