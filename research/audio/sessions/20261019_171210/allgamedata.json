@@ -1,0 +1,227 @@
+{
+ "activePlayer": {
+  "abilities": {
+   "E": {
+    "abilityLevel": 0,
+    "displayName": "Đu Kiểu Anh Hùng",
+    "id": "AkshanE",
+    "rawDescription": "GeneratedTip_Spell_AkshanE_Description",
+    "rawDisplayName": "GeneratedTip_Spell_AkshanE_DisplayName"
+   },
+   "Passive": {
+    "displayName": "Không Từ Thủ Đoạn",
+    "id": "AkshanPassive",
+    "rawDescription": "GeneratedTip_Passive_AkshanPassive_Description",
+    "rawDisplayName": "GeneratedTip_Passive_AkshanPassive_DisplayName"
+   },
+   "Q": {
+    "abilityLevel": 0,
+    "displayName": "Boomerang Hàng Hiệu",
+    "id": "AkshanQ",
+    "rawDescription": "GeneratedTip_Spell_AkshanQ_Description",
+    "rawDisplayName": "GeneratedTip_Spell_AkshanQ_DisplayName"
+   },
+   "R": {
+    "abilityLevel": 0,
+    "displayName": "Phát Bắn Nhớ Đời",
+    "id": "AkshanR",
+    "rawDescription": "GeneratedTip_Spell_AkshanR_Description",
+    "rawDisplayName": "GeneratedTip_Spell_AkshanR_DisplayName"
+   },
+   "W": {
+    "abilityLevel": 0,
+    "displayName": "Len Lén Báo Thù",
+    "id": "AkshanW",
+    "rawDescription": "GeneratedTip_Spell_AkshanW_Description",
+    "rawDisplayName": "GeneratedTip_Spell_AkshanW_DisplayName"
+   }
+  },
+  "championStats": {
+   "abilityHaste": 0.0,
+   "abilityPower": 0.0,
+   "armor": 26.0,
+   "armorPenetrationFlat": 0.0,
+   "armorPenetrationPercent": 1.0,
+   "attackDamage": 57.400001525878906,
+   "attackRange": 500.0,
+   "attackSpeed": 0.6899999976158142,
+   "bonusArmorPenetrationPercent": 1.0,
+   "bonusMagicPenetrationPercent": 1.0,
+   "critChance": 0.0,
+   "critDamage": 200.0,
+   "currentHealth": 620.0,
+   "healShieldPower": 0.0,
+   "healthRegenRate": 0.75,
+   "lifeSteal": 0.0,
+   "magicLethality": 0.0,
+   "magicPenetrationFlat": 0.0,
+   "magicPenetrationPercent": 1.0,
+   "magicResist": 33.0,
+   "maxHealth": 620.0,
+   "moveSpeed": 725.0,
+   "omnivamp": 0.0,
+   "physicalLethality": 0.0,
+   "physicalVamp": 0.0,
+   "resourceMax": 350.0,
+   "resourceRegenRate": 1.6399999856948853,
+   "resourceType": "MANA",
+   "resourceValue": 350.0,
+   "spellVamp": 0.0,
+   "tenacity": 5.0
+  },
+  "currentGold": 500.0,
+  "fullRunes": {
+   "generalRunes": [
+    {
+     "displayName": "Bước Chân Thần Tốc",
+     "id": 8021,
+     "rawDescription": "perk_tooltip_FleetFootwork",
+     "rawDisplayName": "perk_displayname_FleetFootwork"
+    },
+    {
+     "displayName": "Hấp Thụ Sinh Mệnh",
+     "id": 9101,
+     "rawDescription": "perk_tooltip_9101",
+     "rawDisplayName": "perk_displayname_9101"
+    },
+    {
+     "displayName": "Huyền Thoại: Tốc Độ Đánh",
+     "id": 9104,
+     "rawDescription": "perk_tooltip_9104",
+     "rawDisplayName": "perk_displayname_9104"
+    },
+    {
+     "displayName": "Đốn Hạ",
+     "id": 8017,
+     "rawDescription": "perk_tooltip_CutDown",
+     "rawDisplayName": "perk_displayname_CutDown"
+    },
+    {
+     "displayName": "Lan Tràn",
+     "id": 8451,
+     "rawDescription": "perk_tooltip_Overgrowth",
+     "rawDisplayName": "perk_displayname_Overgrowth"
+    },
+    {
+     "displayName": "Ngọn Gió Thứ Hai",
+     "id": 8444,
+     "rawDescription": "perk_tooltip_SecondWind",
+     "rawDisplayName": "perk_displayname_SecondWind"
+    }
+   ],
+   "keystone": {
+    "displayName": "Bước Chân Thần Tốc",
+    "id": 8021,
+    "rawDescription": "perk_tooltip_FleetFootwork",
+    "rawDisplayName": "perk_displayname_FleetFootwork"
+   },
+   "primaryRuneTree": {
+    "displayName": "Chuẩn Xác",
+    "id": 8000,
+    "rawDescription": "perkstyle_tooltip_7201",
+    "rawDisplayName": "perkstyle_displayname_7201"
+   },
+   "secondaryRuneTree": {
+    "displayName": "Kiên Định",
+    "id": 8400,
+    "rawDescription": "perkstyle_tooltip_7204",
+    "rawDisplayName": "perkstyle_displayname_7204"
+   },
+   "statRunes": [
+    {
+     "id": 5005,
+     "rawDescription": "perk_tooltip_StatModAttackSpeed"
+    },
+    {
+     "id": 5008,
+     "rawDescription": "perk_tooltip_StatModAdaptive"
+    },
+    {
+     "id": 5001,
+     "rawDescription": "perk_tooltip_StatModHealthScaling"
+    }
+   ]
+  },
+  "level": 1,
+  "riotId": "GEN Chovy#ASol",
+  "riotIdGameName": "GEN Chovy",
+  "riotIdTagLine": "ASol",
+  "summonerName": "GEN Chovy#ASol",
+  "teamRelativeColors": false
+ },
+ "allPlayers": [
+  {
+   "championName": "Akshan",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "NONE",
+   "rawChampionName": "game_character_displayname_Akshan",
+   "rawSkinName": "game_character_displayname_Akshan",
+   "respawnTimer": 0.0,
+   "riotId": "GEN Chovy#ASol",
+   "riotIdGameName": "GEN Chovy",
+   "riotIdTagLine": "ASol",
+   "runes": {
+    "keystone": {
+     "displayName": "Bước Chân Thần Tốc",
+     "id": 8021,
+     "rawDescription": "perk_tooltip_FleetFootwork",
+     "rawDisplayName": "perk_displayname_FleetFootwork"
+    },
+    "primaryRuneTree": {
+     "displayName": "Chuẩn Xác",
+     "id": 8000,
+     "rawDescription": "perkstyle_tooltip_7201",
+     "rawDisplayName": "perkstyle_displayname_7201"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Kiên Định",
+     "id": 8400,
+     "rawDescription": "perkstyle_tooltip_7204",
+     "rawDisplayName": "perkstyle_displayname_7204"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "skinID": 0,
+   "skinName": "Akshan",
+   "summonerName": "GEN Chovy#ASol",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Dịch Chuyển",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerTeleport_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerTeleport_DisplayName"
+    }
+   },
+   "team": "ORDER"
+  }
+ ],
+ "events": {
+  "Events": [
+   {
+    "EventID": 0,
+    "EventName": "GameStart",
+    "EventTime": 0.03120950050652027
+   }
+  ]
+ },
+ "gameData": {
+  "gameMode": "PRACTICETOOL",
+  "gameTime": 1.7765194177627563,
+  "mapName": "Map11",
+  "mapNumber": 11,
+  "mapTerrain": "Default"
+ }
+}
