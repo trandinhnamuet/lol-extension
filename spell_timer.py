@@ -9,6 +9,7 @@ import gzip
 import json
 import math
 import os
+import queue
 import re
 import ssl
 import sys
@@ -18,6 +19,7 @@ import tkinter as tk
 import tkinter.font as tkfont
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
+from ctypes import wintypes
 from functools import lru_cache
 
 API_URL = "https://127.0.0.1:2999/liveclientdata/allgamedata"
@@ -25,12 +27,16 @@ DDRAGON = "https://ddragon.leagueoflegends.com"
 APP_DIR = os.path.dirname(os.path.abspath(sys.argv[0]))
 CONFIG_PATH = os.path.join(APP_DIR, "config.json")
 CACHE_DIR = os.path.join(APP_DIR, "cache")
+# file đi kèm: chạy từ exe PyInstaller thì nằm trong thư mục giải nén tạm sys._MEIPASS
+ICON_PATH = os.path.join(getattr(sys, "_MEIPASS", APP_DIR), "assets", "icon.ico")
 
 DEFAULT_CONFIG = {
     "opacity": 0.7,
     "scale": 0.8,  # tỉ lệ giao diện (kéo góc dưới phải hoặc menu ⚙)
     "compact": False,  # chế độ gọn: ẩn tên tướng + dòng điểm hồi
     "ui_version": 2,
+    "auto_show": True,  # tự hiện khi vào trận, tự ẩn xuống khay khi hết trận
+    "tray_hint_shown": False,
     "x": 40,
     "y": 200,
     "haste_options": [0, 10, 18, 28],
@@ -474,6 +480,180 @@ def foreground_window():
 def set_foreground(hwnd):
     if user32 and hwnd:
         user32.SetForegroundWindow(hwnd)
+
+
+# ---------- icon ở khay hệ thống (góc phải taskbar): Win32 thuần qua ctypes ----------
+WM_NULL, WM_DESTROY, WM_CLOSE = 0x0000, 0x0002, 0x0010
+WM_LBUTTONUP, WM_RBUTTONUP = 0x0202, 0x0205
+WM_TRAY = 0x8000 + 1  # WM_APP + 1: Windows gửi về khi có thao tác chuột trên icon
+NIM_ADD, NIM_MODIFY, NIM_DELETE = 0, 1, 2
+NIF_MESSAGE, NIF_ICON, NIF_TIP, NIF_INFO = 0x1, 0x2, 0x4, 0x10
+MF_STRING, MF_CHECKED, MF_SEPARATOR = 0x0, 0x8, 0x800
+TPM_RIGHTBUTTON, TPM_NONOTIFY, TPM_RETURNCMD = 0x2, 0x80, 0x100
+LRESULT = ctypes.c_ssize_t
+
+
+class NOTIFYICONDATAW(ctypes.Structure):
+    _fields_ = [
+        ("cbSize", wintypes.DWORD), ("hWnd", wintypes.HWND), ("uID", wintypes.UINT),
+        ("uFlags", wintypes.UINT), ("uCallbackMessage", wintypes.UINT),
+        ("hIcon", wintypes.HICON), ("szTip", wintypes.WCHAR * 128),
+        ("dwState", wintypes.DWORD), ("dwStateMask", wintypes.DWORD),
+        ("szInfo", wintypes.WCHAR * 256), ("uVersion", wintypes.UINT),
+        ("szInfoTitle", wintypes.WCHAR * 64), ("dwInfoFlags", wintypes.DWORD),
+        ("guidItem", ctypes.c_byte * 16), ("hBalloonIcon", wintypes.HICON),
+    ]
+
+
+WNDPROC = ctypes.WINFUNCTYPE(LRESULT, wintypes.HWND, wintypes.UINT, wintypes.WPARAM,
+                             wintypes.LPARAM)
+
+
+class WNDCLASSW(ctypes.Structure):
+    _fields_ = [
+        ("style", wintypes.UINT), ("lpfnWndProc", WNDPROC), ("cbClsExtra", ctypes.c_int),
+        ("cbWndExtra", ctypes.c_int), ("hInstance", wintypes.HINSTANCE),
+        ("hIcon", wintypes.HICON), ("hCursor", wintypes.HANDLE),
+        ("hbrBackground", wintypes.HBRUSH), ("lpszMenuName", wintypes.LPCWSTR),
+        ("lpszClassName", wintypes.LPCWSTR),
+    ]
+
+
+class TrayIcon(threading.Thread):
+    """Icon ở khay hệ thống. Chạy vòng lặp message Win32 ở luồng riêng; mọi thao tác của
+    người dùng được đẩy vào `events` (queue) để luồng UI Tk tự lấy ra xử lý.
+    `menu_items()` trả về [(id, nhãn, có_dấu_tích)], id None = đường kẻ ngang."""
+
+    def __init__(self, tooltip, icon_path, menu_items):
+        super().__init__(daemon=True)
+        self.tooltip = tooltip
+        self.icon_path = icon_path
+        self.menu_items = menu_items
+        self.events = queue.Queue()
+        self.hwnd = None
+        self.taskbar_created = None  # wndproc nhận message ngay trong lúc CreateWindowExW
+        self.ready = threading.Event()
+        # WinDLL riêng để argtypes không đụng tới cấu hình user32 ở phần khác
+        self.u = u = ctypes.WinDLL("user32", use_last_error=True)
+        self.shell = ctypes.WinDLL("shell32")
+        u.DefWindowProcW.restype = LRESULT
+        u.DefWindowProcW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM,
+                                     wintypes.LPARAM]
+        u.CreateWindowExW.restype = wintypes.HWND
+        u.CreateWindowExW.argtypes = [wintypes.DWORD, wintypes.LPCWSTR, wintypes.LPCWSTR,
+                                      wintypes.DWORD, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+                                      ctypes.c_int, wintypes.HWND, wintypes.HMENU,
+                                      wintypes.HINSTANCE, wintypes.LPVOID]
+        u.LoadImageW.restype = wintypes.HANDLE
+        u.LoadImageW.argtypes = [wintypes.HINSTANCE, wintypes.LPCWSTR, wintypes.UINT,
+                                 ctypes.c_int, ctypes.c_int, wintypes.UINT]
+        u.LoadIconW.restype = wintypes.HICON
+        u.LoadIconW.argtypes = [wintypes.HINSTANCE, wintypes.LPVOID]
+        u.CreatePopupMenu.restype = wintypes.HMENU
+        u.AppendMenuW.argtypes = [wintypes.HMENU, wintypes.UINT, ctypes.c_size_t,
+                                  wintypes.LPCWSTR]
+        u.TrackPopupMenu.argtypes = [wintypes.HMENU, wintypes.UINT, ctypes.c_int, ctypes.c_int,
+                                     ctypes.c_int, wintypes.HWND, wintypes.LPVOID]
+        u.PostMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM,
+                                   wintypes.LPARAM]
+        u.SetForegroundWindow.argtypes = [wintypes.HWND]
+        u.DestroyMenu.argtypes = [wintypes.HMENU]
+        u.DestroyWindow.argtypes = [wintypes.HWND]
+        u.GetMessageW.argtypes = [ctypes.POINTER(wintypes.MSG), wintypes.HWND, wintypes.UINT,
+                                  wintypes.UINT]
+        self.shell.Shell_NotifyIconW.argtypes = [wintypes.DWORD,
+                                                 ctypes.POINTER(NOTIFYICONDATAW)]
+
+    def start(self):
+        super().start()
+        if not self.ready.wait(3) or not self.hwnd:
+            raise OSError("không tạo được icon khay hệ thống")
+        return self
+
+    def icon_data(self, flags):
+        nid = NOTIFYICONDATAW()
+        nid.cbSize = ctypes.sizeof(NOTIFYICONDATAW)
+        nid.hWnd, nid.uID, nid.uFlags = self.hwnd, 1, flags
+        return nid
+
+    def add_icon(self):
+        nid = self.icon_data(NIF_MESSAGE | NIF_ICON | NIF_TIP)
+        nid.uCallbackMessage = WM_TRAY
+        nid.hIcon = self.hicon
+        nid.szTip = self.tooltip
+        return self.shell.Shell_NotifyIconW(NIM_ADD, ctypes.byref(nid))
+
+    def notify(self, title, text):
+        """Bong bóng thông báo của Windows cạnh icon."""
+        nid = self.icon_data(NIF_INFO)
+        nid.szInfoTitle, nid.szInfo, nid.dwInfoFlags = title, text, 1  # NIIF_INFO
+        self.shell.Shell_NotifyIconW(NIM_MODIFY, ctypes.byref(nid))
+
+    def stop(self):
+        if self.hwnd:
+            self.u.PostMessageW(self.hwnd, WM_CLOSE, 0, 0)
+            self.join(2)
+
+    def run(self):
+        u = self.u
+        hinstance = ctypes.windll.kernel32.GetModuleHandleW(None)
+        self._wndproc = WNDPROC(self.wndproc)  # giữ tham chiếu, nếu không sẽ bị thu gom
+        wc = WNDCLASSW(lpfnWndProc=self._wndproc, hInstance=hinstance,
+                       lpszClassName="LOLSpellTimerTray")
+        u.RegisterClassW(ctypes.byref(wc))
+        # cửa sổ ẩn (không bao giờ hiện) chỉ để nhận message từ icon
+        self.hwnd = u.CreateWindowExW(0, "LOLSpellTimerTray", "LOL Spell Timer tray", 0,
+                                      0, 0, 0, 0, None, None, hinstance, None)
+        # Explorer khởi động lại (vd crash) sẽ phát message này: phải thêm lại icon
+        self.taskbar_created = u.RegisterWindowMessageW("TaskbarCreated")
+        size = u.GetSystemMetrics(49)  # SM_CXSMICON: cỡ icon nhỏ theo DPI hiện tại
+        self.hicon = (u.LoadImageW(None, self.icon_path, 1, size, size, 0x10)  # LR_LOADFROMFILE
+                      if os.path.exists(self.icon_path) else None) \
+            or u.LoadIconW(None, ctypes.c_void_p(32512))  # IDI_APPLICATION
+        if self.hwnd and not self.add_icon():
+            self.hwnd = None
+        self.ready.set()
+        msg = wintypes.MSG()
+        while u.GetMessageW(ctypes.byref(msg), None, 0, 0) > 0:
+            u.TranslateMessage(ctypes.byref(msg))
+            u.DispatchMessageW(ctypes.byref(msg))
+
+    def wndproc(self, hwnd, msg, wparam, lparam):
+        if msg == WM_TRAY:
+            event = lparam & 0xFFFF
+            if event == WM_LBUTTONUP:
+                self.events.put("toggle")
+            elif event == WM_RBUTTONUP:
+                self.show_menu()
+            return 0
+        if msg == self.taskbar_created:
+            self.add_icon()
+        elif msg == WM_CLOSE:
+            self.shell.Shell_NotifyIconW(NIM_DELETE, ctypes.byref(self.icon_data(0)))
+            self.u.DestroyWindow(hwnd)
+            return 0
+        elif msg == WM_DESTROY:
+            self.u.PostQuitMessage(0)
+            return 0
+        return self.u.DefWindowProcW(hwnd, msg, wparam, lparam)
+
+    def show_menu(self):
+        u = self.u
+        menu = u.CreatePopupMenu()
+        for item_id, label, checked in self.menu_items():
+            if item_id is None:
+                u.AppendMenuW(menu, MF_SEPARATOR, 0, None)
+            else:
+                u.AppendMenuW(menu, MF_STRING | (MF_CHECKED if checked else 0), item_id, label)
+        point = wintypes.POINT()
+        u.GetCursorPos(ctypes.byref(point))
+        u.SetForegroundWindow(self.hwnd)  # bắt buộc để menu tự đóng khi click ra ngoài
+        chosen = u.TrackPopupMenu(menu, TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD,
+                                  point.x, point.y, 0, self.hwnd, None)
+        u.PostMessageW(self.hwnd, WM_NULL, 0, 0)
+        u.DestroyMenu(menu)
+        if chosen:
+            self.events.put(chosen)
 
 
 def fixed_box(parent, width, height, **pack):
@@ -1200,6 +1380,7 @@ class App:
     def __init__(self, mock_path=None):
         self.cfg = load_config()
         self.root = tk.Tk()
+        self.root.withdraw()  # chưa hiện: tránh nháy cửa sổ + giành focus của game lúc khởi động
         self.root.title("LOL Spell Timer")
         self.root.overrideredirect(True)
         self.root.attributes("-topmost", True)
@@ -1219,6 +1400,10 @@ class App:
         self.last_seq = -1
         self.status_hold_until = 0
         self.picker = ChampionPicker(self)
+        self.visible = False
+        self.in_game = False
+        self.missed_polls = 0  # số lần liên tiếp không đọc được API (để biết hết trận)
+        self.hidden_by_user = False  # bấm ✕ giữa trận: không tự hiện lại tới trận sau
 
         self.build_header()
         body = tk.Frame(self.root, bg=BG)
@@ -1226,8 +1411,15 @@ class App:
         self.rows = [EnemyRow(self, body, role, keys) for role, keys in ROLES]
         self.build_grip()
         self.root.bind("<Control-MouseWheel>", self.on_ctrl_wheel)
-        self.root.update_idletasks()
-        set_no_activate(self.root)
+        self.tray = self.create_tray()
+        if not self.tray:  # không có khay hệ thống: hiện như bình thường
+            self.show_window()
+        elif not self.cfg["tray_hint_shown"]:  # chưa vào trận: nằm ở khay, vào trận tự hiện
+            self.tray.notify("LOL Spell Timer đang chạy",
+                             "App nằm ở khay hệ thống, tự hiện khi vào trận. "
+                             "Click icon để hiện / ẩn, click phải để thoát.")
+            self.cfg["tray_hint_shown"] = True
+            save_config(self.cfg)
 
         self.poller = Poller(mock_path)
         self.poller.start()
@@ -1359,7 +1551,7 @@ class App:
         close = tk.Label(header, text="✕", font=self.fonts["title"], bg=HEADER_BG, fg=MUTED,
                          cursor="hand2", padx=6)
         close.pack(side="right")
-        close.bind("<Button-1>", lambda e: self.quit())
+        close.bind("<Button-1>", lambda e: self.close_button())
         settings = tk.Label(header, text="⚙", font=self.fonts["title"], bg=HEADER_BG, fg=MUTED,
                             cursor="hand2", padx=2)
         settings.pack(side="right")
@@ -1424,6 +1616,7 @@ class App:
         return self.game_time + (time.monotonic() - self.game_time_at)
 
     def apply_game_data(self, data, fetched_at):
+        self.update_game_presence(data is not None)
         if data is None:
             self.game_time = None
             self.set_status("chưa vào trận" if self.signature is None else "mất kết nối")
@@ -1476,6 +1669,8 @@ class App:
         self.set_status(self.ingame_status())
 
     def tick(self):
+        if self.handle_tray_events():  # người dùng chọn Thoát: cửa sổ đã bị hủy
+            return
         with self.poller.lock:
             seq, latest = self.poller.seq, self.poller.latest
         if seq != self.last_seq and latest is not None:
@@ -1514,9 +1709,95 @@ class App:
         self.root.clipboard_append(" | ".join(parts))
         self.set_status("đã copy, Ctrl+V vào chat", hold=2)
 
+    # ---------- khay hệ thống / tự hiện theo trận ----------
+    def create_tray(self):
+        if not user32:
+            return None
+        try:
+            return TrayIcon("LOL Spell Timer", ICON_PATH, self.tray_menu_items).start()
+        except Exception as e:
+            print("Không tạo được icon khay hệ thống:", e)
+            return None
+
+    def tray_menu_items(self):  # gọi từ luồng của khay, chỉ đọc giá trị
+        return [
+            (1, "Ẩn cửa sổ" if self.visible else "Hiện cửa sổ", False),
+            (2, "Tự hiện khi vào trận, tự ẩn khi hết trận", self.cfg["auto_show"]),
+            (None, None, False),
+            (3, "Thoát LOL Spell Timer", False),
+        ]
+
+    def handle_tray_events(self):
+        """Xử lý thao tác trên icon khay; trả về True nếu app vừa thoát."""
+        while self.tray:
+            try:
+                event = self.tray.events.get_nowait()
+            except queue.Empty:
+                return False
+            if event in ("toggle", 1):
+                if self.visible:
+                    self.hide_window(by_user=True)
+                else:
+                    self.show_window()
+            elif event == 2:
+                self.cfg["auto_show"] = not self.cfg["auto_show"]
+                save_config(self.cfg)
+            elif event == 3:
+                self.quit()
+                return True
+        return False
+
+    def close_button(self):
+        if self.tray:
+            self.hide_window(by_user=True)
+        else:
+            self.quit()
+
+    def show_window(self):
+        if self.visible:
+            return
+        previous = self.outside_foreground()  # thường là game
+        self.root.deiconify()
+        self.root.geometry(f"+{self.cfg['x']}+{self.cfg['y']}")
+        self.root.attributes("-topmost", True)
+        set_no_activate(self.root)
+        set_foreground(previous)  # hiện lên nhưng không lấy focus của game
+        self.visible = True
+        self.hidden_by_user = False
+
+    def hide_window(self, by_user=False):
+        if self.visible and self.root.winfo_viewable():  # nhớ vị trí để hiện lại đúng chỗ
+            self.cfg["x"], self.cfg["y"] = self.root.winfo_x(), self.root.winfo_y()
+        self.picker.hide()
+        self.root.withdraw()
+        self.visible = False
+        if by_user and self.in_game:
+            self.hidden_by_user = True
+
+    def update_game_presence(self, has_data):
+        """Vào trận -> tự hiện; hết trận (mất API ~6 giây liên tục) -> tự ẩn xuống khay."""
+        if has_data:
+            self.missed_polls = 0
+            if not self.in_game:
+                self.in_game = True
+                self.hidden_by_user = False
+            if self.tray and self.cfg["auto_show"] and not self.visible \
+                    and not self.hidden_by_user:
+                self.show_window()
+        else:
+            self.missed_polls += 1
+            if self.in_game and self.missed_polls >= 3:
+                self.in_game = False
+                self.hidden_by_user = False
+                if self.tray and self.cfg["auto_show"] and self.visible:
+                    self.hide_window()
+
     def quit(self):
-        self.cfg["x"], self.cfg["y"] = self.root.winfo_x(), self.root.winfo_y()
+        if self.visible and self.root.winfo_viewable():
+            self.cfg["x"], self.cfg["y"] = self.root.winfo_x(), self.root.winfo_y()
         save_config(self.cfg)
+        if self.tray:
+            self.tray.stop()
         self.root.destroy()
 
     def run(self):

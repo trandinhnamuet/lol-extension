@@ -28,10 +28,15 @@ Những lần sau dùng cache, và tự cập nhật khi có patch mới hoặc 
 | Click vào **◆** (dưới tên tướng) | Xem điểm hồi kỹ năng từ trang bị (tự động) và cộng thêm phần từ ngọc / mảnh chỉ số; menu hiện luôn thời gian hồi từng kỹ năng |
 | **Copy** | Copy thời điểm hồi xong theo giờ game (vd `Zed Flash 14:40`), Ctrl+V vào chat |
 | Click phải vào **avatar** | Chọn tướng, chỉnh điểm hồi phép / kỹ năng (dùng khi bật chế độ gọn) |
-| Kéo thanh tiêu đề | Di chuyển cửa sổ (vị trí được lưu khi tắt bằng ✕) |
+| Kéo thanh tiêu đề | Di chuyển cửa sổ (vị trí được lưu) |
+| **✕** | Ẩn xuống **khay hệ thống** (icon góc phải taskbar), app vẫn chạy |
+| Click **icon ở khay** | Hiện / ẩn cửa sổ |
+| Click phải **icon ở khay** | Bật/tắt tự hiện theo trận, **Thoát** app |
 | Kéo góc **◢** (dưới phải) | Phóng to / thu nhỏ cả giao diện (50% – 150%) |
 | **Ctrl + lăn chuột** trên cửa sổ | Chỉnh độ trong suốt ±5% |
 | **⚙** | Độ trong suốt, kích thước, **chế độ gọn** (ẩn tên tướng + điểm hồi để cửa sổ hẹp hơn) |
+
+**Tự hiện / tự ẩn theo trận:** app nằm ở khay hệ thống khi chưa vào trận, **vào trận thì tự hiện** (không lấy focus của game), **hết trận thì tự ẩn**. Bấm ✕ giữa trận thì app ẩn tới hết trận đó. Muốn tắt hẳn: click phải icon ở khay → Thoát.
 
 **Click vào app không làm mất focus game**: phím vẫn điều khiển tướng bình thường. Chỉ khi mở bảng chọn tướng (cần gõ tìm) app mới tạm lấy focus, đóng bảng là focus tự về game.
 

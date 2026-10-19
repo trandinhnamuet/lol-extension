@@ -84,6 +84,23 @@ Ba cái bẫy gặp phải khi làm:
 
 Cách test mà không cần mở LMHT: chạy một cửa sổ "game giả" ghi lại mọi phím nhận được, dùng `SetCursorPos` + `mouse_event` để click thật vào ô phép, rồi kiểm tra `GetForegroundWindow()` vẫn là game giả và phím gõ sau đó vẫn vào game giả.
 
+**Icon ở khay hệ thống: Win32 thuần qua `ctypes`**
+
+Tk không hỗ trợ khay hệ thống. Thư viện phổ biến là `pystray`, nhưng app tự làm bằng Win32 để giữ nguyên tắc "chỉ thư viện chuẩn" (class `TrayIcon`):
+
+1. Tạo một **cửa sổ ẩn** (`RegisterClassW` + `CreateWindowExW`, không bao giờ hiện) chỉ để nhận message.
+2. `Shell_NotifyIconW(NIM_ADD, …)` gắn icon vào khay, với `uCallbackMessage = WM_APP + 1`. Windows gửi message này vào cửa sổ ẩn mỗi khi người dùng thao tác chuột trên icon (`lParam` = `WM_LBUTTONUP` / `WM_RBUTTONUP`).
+3. Vòng lặp `GetMessageW` / `DispatchMessageW` chạy ở **luồng riêng**. Hàm `wndproc` (một Python function bọc bằng `WINFUNCTYPE`, phải giữ tham chiếu kẻo bị thu gom) không chạm vào Tk mà chỉ đẩy sự kiện vào `queue.Queue`. `tick()` của Tk tự lấy ra xử lý.
+4. Menu chuột phải: `CreatePopupMenu` + `TrackPopupMenu(TPM_RETURNCMD)`. Phải `SetForegroundWindow(cửa sổ ẩn)` trước và gửi `WM_NULL` sau, nếu không menu sẽ không tự đóng khi click ra ngoài (lỗi kinh điển ghi trong tài liệu của Microsoft).
+5. Đăng ký message `"TaskbarCreated"`: khi Explorer khởi động lại, icon cũ biến mất và phải `NIM_ADD` lại.
+
+Các lỗi gặp khi test:
+- `wndproc` nhận message **ngay trong lúc** `CreateWindowExW` (`WM_NCCREATE`…), trước khi kịp gán thuộc tính. Thuộc tính nào `wndproc` dùng thì phải khởi tạo từ trước.
+- Cửa sổ Tk được vẽ ra (và kích hoạt) ngay khi tạo, nên **giành focus của game lúc khởi động**. Cách sửa: `root.withdraw()` ngay sau `tk.Tk()`, chỉ hiện khi cần.
+- Chọn "Thoát" từ khay: `quit()` chạy bên trong `tick()`, phần còn lại của `tick()` chạm vào widget đã hủy. `tick()` phải dừng ngay.
+
+**Tự hiện / tự ẩn theo trận:** Live Client API chỉ mở khi đang trong trận. Có dữ liệu thì app hiện (`deiconify`, bật lại `WS_EX_NOACTIVATE`, trả focus cho cửa sổ trước đó). Mất dữ liệu **3 lần liên tiếp** (~6 giây) mới tính là hết trận, để một lần API chậm không làm cửa sổ nhấp nháy. Khi chạy từ exe, icon được nạp từ `sys._MEIPASS` (thư mục giải nén tạm của PyInstaller, thêm vào bằng `--add-data`).
+
 **Vì sao phải để game ở chế độ Borderless (Không viền)?**
 
 - **Borderless:** game chỉ là một cửa sổ phủ kín màn hình. **DWM** (Desktop Window Manager) vẫn ghép hình tất cả cửa sổ trước khi xuất ra màn hình, nên một cửa sổ topmost nằm đè lên được.
