@@ -1,0 +1,15 @@
+{
+  "opacity": 0.88,
+  "x": 1350,
+  "y": 242,
+  "lucidity_haste": 10,
+  "haste_options": [
+    0,
+    10,
+    18,
+    28
+  ],
+  "cd_override": {
+    "smite": 90
+  }
+}
