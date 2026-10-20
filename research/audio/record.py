@@ -29,12 +29,15 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import SESSIONS_DIR  # noqa: E402
 
 API_URL = "https://127.0.0.1:2999/liveclientdata/allgamedata"
+# vùng hai cột khung tướng của HUD replay trong khung 960x540 (xem hud_flash.py)
+HUD_CROP = {"y0": 60, "y1": 340, "left_x0": 0, "right_x0": 900, "width": 60}
 MAX_GAP = 0.1  # giây: loopback im lặng không trả dữ liệu -> chèn số 0 để giữ đúng mốc thời gian
 
 
 class Recorder:
-    def __init__(self, session, fps, monitor, screen, game, seconds=None):
+    def __init__(self, session, fps, monitor, screen, game, seconds=None, hud_only=False):
         self.session = session
+        self.hud_only = hud_only  # chỉ lưu hai cột khung tướng (HUD replay), ảnh 120x270
         self.fps = fps
         self.monitor = monitor
         self.want_screen = screen
@@ -100,6 +103,9 @@ class Recorder:
         interval = 1 / self.fps
         next_at = time.perf_counter()
         last = None
+        if self.hud_only:
+            with open(os.path.join(self.session, "hud_crop.json"), "w") as hc:
+                json.dump(HUD_CROP, hc)
         while not self.stop.is_set():
             frame = cam.grab()
             if frame is not None:
@@ -108,8 +114,12 @@ class Recorder:
             if now >= next_at and last is not None:
                 next_at += interval
                 small = cv2.resize(last, (960, 540), interpolation=cv2.INTER_AREA)
+                if self.hud_only:
+                    c = HUD_CROP
+                    small = np.hstack([small[c["y0"]:c["y1"], c["left_x0"]:c["left_x0"] + c["width"]],
+                                       small[c["y0"]:c["y1"], c["right_x0"]:c["right_x0"] + c["width"]]])
                 name = f"{self.frames_saved:06d}.jpg"
-                cv2.imwrite(os.path.join(frames_dir, name), small, [cv2.IMWRITE_JPEG_QUALITY, 80])
+                cv2.imwrite(os.path.join(frames_dir, name), small, [cv2.IMWRITE_JPEG_QUALITY, 90])
                 writer.writerow([f"{now - self.t0:.3f}", name])
                 self.frames_saved += 1
             else:
@@ -128,7 +138,7 @@ class Recorder:
         f = open(os.path.join(self.session, "game.csv"), "w", newline="")
         writer = csv.writer(f)
         writer.writerow(["t", "gameTime"])
-        saved = False
+        saved_players = -1
         while not self.stop.is_set():
             try:
                 with opener.open(API_URL, timeout=1.5) as r:
@@ -137,12 +147,15 @@ class Recorder:
                 writer.writerow([f"{t:.3f}", data["gameData"]["gameTime"]])
                 f.flush()
                 self.game_rows += 1
-                if not saved:
+                # lúc mới tải (nhất là replay) allPlayers chỉ có 1-2 người: lưu lại mỗi khi có thêm
+                n_players = len(data.get("allPlayers", []))
+                if n_players > saved_players:
                     with open(os.path.join(self.session, "allgamedata.json"), "w",
                               encoding="utf-8") as g:
                         json.dump(data, g, ensure_ascii=False, indent=1)
-                    saved = True
-                    print("Đã kết nối Live Client API")
+                    if saved_players < 0:
+                        print("Đã kết nối Live Client API")
+                    saved_players = n_players
             except Exception:
                 pass
             self.stop.wait(2)
@@ -183,12 +196,13 @@ def main():
     ap.add_argument("--monitor", type=int, default=0, help="màn hình đang chạy game")
     ap.add_argument("--no-screen", action="store_true")
     ap.add_argument("--no-game", action="store_true")
+    ap.add_argument("--hud-only", action="store_true", help="chỉ lưu hai cột HUD replay (nhẹ)")
     ap.add_argument("--seconds", type=float, help="tự dừng sau chừng này giây")
     args = ap.parse_args()
     session = os.path.join(args.out, time.strftime("%Y%m%d_%H%M%S"))
     os.makedirs(session, exist_ok=True)
     Recorder(session, args.fps, args.monitor, not args.no_screen, not args.no_game,
-             args.seconds).run()
+             args.seconds, args.hud_only).run()
 
 
 if __name__ == "__main__":

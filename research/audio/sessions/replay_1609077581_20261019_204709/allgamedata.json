@@ -1,0 +1,963 @@
+{
+	"activePlayer": {
+		"error": "Spectator mode doesn't currently support this feature"
+	},
+	"allPlayers": [
+		{
+			"championName": "Gangplank",
+			"isBot": false,
+			"isDead": false,
+			"items": [
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Kiếm Doran",
+					"itemID": 1055,
+					"price": 450,
+					"rawDescription": "GeneratedTip_Item_1055_Description",
+					"rawDisplayName": "Item_1055_Name",
+					"slot": 0
+				},
+				{
+					"canUse": true,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Mắt Xanh",
+					"itemID": 3340,
+					"price": 0,
+					"rawDescription": "GeneratedTip_Item_3340_Description",
+					"rawDisplayName": "Item_3340_Name",
+					"slot": 6
+				}
+			],
+			"level": 4,
+			"position": "TOP",
+			"rawChampionName": "game_character_displayname_Gangplank",
+			"rawSkinName": "game_character_skin_displayname_Gangplank_8",
+			"respawnTimer": 0.0,
+			"riotId": "Wanglin王林#1801",
+			"riotIdGameName": "Wanglin王林",
+			"riotIdTagLine": "1801",
+			"runes": {
+				"keystone": {
+					"displayName": "Xung Kích Bão Tố",
+					"id": 8230,
+					"rawDescription": "perk_tooltip_PhaseRush",
+					"rawDisplayName": "perk_displayname_PhaseRush"
+				},
+				"primaryRuneTree": {
+					"displayName": "Pháp Thuật",
+					"id": 8200,
+					"rawDescription": "perkstyle_tooltip_7202",
+					"rawDisplayName": "perkstyle_displayname_7202"
+				},
+				"secondaryRuneTree": {
+					"displayName": "Chuẩn Xác",
+					"id": 8000,
+					"rawDescription": "perkstyle_tooltip_7201",
+					"rawDisplayName": "perkstyle_displayname_7201"
+				}
+			},
+			"scores": {
+				"assists": 0,
+				"creepScore": 10,
+				"deaths": 0,
+				"kills": 0,
+				"wardScore": 1.7018297910690308
+			},
+			"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"skinID": 8,
+			"skinName": "Gangplank Hiểm Họa Không Gian",
+			"summonerName": "Wanglin王林#1801",
+			"summonerSpells": {
+				"summonerSpellOne": {
+					"displayName": "Tốc Biến",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+				},
+				"summonerSpellTwo": {
+					"displayName": "Thiêu Đốt",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+				}
+			},
+			"team": "ORDER"
+		},
+		{
+			"championName": "Graves",
+			"isBot": false,
+			"isDead": false,
+			"items": [
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Linh Hồn Hỏa Khuyển",
+					"itemID": 1101,
+					"price": 450,
+					"rawDescription": "GeneratedTip_Item_1101_Description",
+					"rawDisplayName": "Item_1101_Name",
+					"slot": 0
+				},
+				{
+					"canUse": true,
+					"consumable": true,
+					"count": 1,
+					"displayName": "Bình Máu",
+					"itemID": 2003,
+					"price": 50,
+					"rawDescription": "GeneratedTip_Item_2003_Description",
+					"rawDisplayName": "Item_2003_Name",
+					"slot": 1
+				},
+				{
+					"canUse": true,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Mắt Xanh",
+					"itemID": 3340,
+					"price": 0,
+					"rawDescription": "GeneratedTip_Item_3340_Description",
+					"rawDisplayName": "Item_3340_Name",
+					"slot": 6
+				}
+			],
+			"level": 4,
+			"position": "JUNGLE",
+			"rawChampionName": "game_character_displayname_Graves",
+			"rawSkinName": "game_character_skin_displayname_Graves_39",
+			"respawnTimer": 0.0,
+			"riotId": "Ánh Hoàng Hôn#2001",
+			"riotIdGameName": "Ánh Hoàng Hôn",
+			"riotIdTagLine": "2001",
+			"runes": {
+				"keystone": {
+					"displayName": "Thu Thập Hắc Ám",
+					"id": 8128,
+					"rawDescription": "perk_tooltip_DarkHarvest",
+					"rawDisplayName": "perk_displayname_DarkHarvest"
+				},
+				"primaryRuneTree": {
+					"displayName": "Áp Đảo",
+					"id": 8100,
+					"rawDescription": "perkstyle_tooltip_7200",
+					"rawDisplayName": "perkstyle_displayname_7200"
+				},
+				"secondaryRuneTree": {
+					"displayName": "Chuẩn Xác",
+					"id": 8000,
+					"rawDescription": "perkstyle_tooltip_7201",
+					"rawDisplayName": "perkstyle_displayname_7201"
+				}
+			},
+			"scores": {
+				"assists": 0,
+				"creepScore": 20,
+				"deaths": 0,
+				"kills": 0,
+				"wardScore": 0.0
+			},
+			"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"skinID": 39,
+			"skinName": "Graves Vệ Binh Ánh Sáng (Tử Thạch)",
+			"summonerName": "Ánh Hoàng Hôn#2001",
+			"summonerSpells": {
+				"summonerSpellOne": {
+					"displayName": "Tốc Biến",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+				},
+				"summonerSpellTwo": {
+					"displayName": "Trừng Phạt",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerSmite_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerSmite_DisplayName"
+				}
+			},
+			"team": "ORDER"
+		},
+		{
+			"championName": "Sivir",
+			"isBot": false,
+			"isDead": false,
+			"items": [
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Kiếm Doran",
+					"itemID": 1055,
+					"price": 450,
+					"rawDescription": "GeneratedTip_Item_1055_Description",
+					"rawDisplayName": "Item_1055_Name",
+					"slot": 0
+				},
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Lưỡi Hái",
+					"itemID": 1083,
+					"price": 450,
+					"rawDescription": "GeneratedTip_Item_1083_Description",
+					"rawDisplayName": "Item_1083_Name",
+					"slot": 1
+				},
+				{
+					"canUse": true,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Mắt Xanh",
+					"itemID": 3340,
+					"price": 0,
+					"rawDescription": "GeneratedTip_Item_3340_Description",
+					"rawDisplayName": "Item_3340_Name",
+					"slot": 6
+				}
+			],
+			"level": 4,
+			"position": "MIDDLE",
+			"rawChampionName": "game_character_displayname_Sivir",
+			"rawSkinName": "game_character_skin_displayname_Sivir_7",
+			"respawnTimer": 0.0,
+			"riotId": "Marcus1403#752",
+			"riotIdGameName": "Marcus1403",
+			"riotIdTagLine": "752",
+			"runes": {
+				"keystone": {
+					"displayName": "Nhịp Độ Chết Người",
+					"id": 8008,
+					"rawDescription": "perk_tooltip_LethalTempo",
+					"rawDisplayName": "perk_displayname_LethalTempo"
+				},
+				"primaryRuneTree": {
+					"displayName": "Chuẩn Xác",
+					"id": 8000,
+					"rawDescription": "perkstyle_tooltip_7201",
+					"rawDisplayName": "perkstyle_displayname_7201"
+				},
+				"secondaryRuneTree": {
+					"displayName": "Pháp Thuật",
+					"id": 8200,
+					"rawDescription": "perkstyle_tooltip_7202",
+					"rawDisplayName": "perkstyle_displayname_7202"
+				}
+			},
+			"scores": {
+				"assists": 0,
+				"creepScore": 20,
+				"deaths": 0,
+				"kills": 0,
+				"wardScore": 0.0
+			},
+			"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"skinID": 7,
+			"skinName": "Sivir Tổ Đội Quản Ngục",
+			"summonerName": "Marcus1403#752",
+			"summonerSpells": {
+				"summonerSpellOne": {
+					"displayName": "Tốc Biến",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+				},
+				"summonerSpellTwo": {
+					"displayName": "Tốc Hành",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerHaste_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHaste_DisplayName"
+				}
+			},
+			"team": "ORDER"
+		},
+		{
+			"championName": "Caitlyn",
+			"isBot": false,
+			"isDead": false,
+			"items": [
+				{
+					"canUse": true,
+					"consumable": true,
+					"count": 2,
+					"displayName": "Bình Máu",
+					"itemID": 2003,
+					"price": 50,
+					"rawDescription": "GeneratedTip_Item_2003_Description",
+					"rawDisplayName": "Item_2003_Name",
+					"slot": 0
+				},
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Kiếm Dài",
+					"itemID": 1036,
+					"price": 350,
+					"rawDescription": "GeneratedTip_Item_1036_Description",
+					"rawDisplayName": "Item_1036_Name",
+					"slot": 4
+				},
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Cung Doran",
+					"itemID": 1086,
+					"price": 400,
+					"rawDescription": "GeneratedTip_Item_1086_Description",
+					"rawDisplayName": "Item_1086_Name",
+					"slot": 5
+				},
+				{
+					"canUse": true,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Mắt Xanh",
+					"itemID": 3340,
+					"price": 0,
+					"rawDescription": "GeneratedTip_Item_3340_Description",
+					"rawDisplayName": "Item_3340_Name",
+					"slot": 6
+				}
+			],
+			"level": 3,
+			"position": "BOTTOM",
+			"rawChampionName": "game_character_displayname_Caitlyn",
+			"rawSkinName": "game_character_skin_displayname_Caitlyn_28",
+			"respawnTimer": 0.0,
+			"riotId": "Quỷ Dữ 666#2812",
+			"riotIdGameName": "Quỷ Dữ 666",
+			"riotIdTagLine": "2812",
+			"runes": {
+				"keystone": {
+					"displayName": "Nhịp Độ Chết Người",
+					"id": 8008,
+					"rawDescription": "perk_tooltip_LethalTempo",
+					"rawDisplayName": "perk_displayname_LethalTempo"
+				},
+				"primaryRuneTree": {
+					"displayName": "Chuẩn Xác",
+					"id": 8000,
+					"rawDescription": "perkstyle_tooltip_7201",
+					"rawDisplayName": "perkstyle_displayname_7201"
+				},
+				"secondaryRuneTree": {
+					"displayName": "Pháp Thuật",
+					"id": 8200,
+					"rawDescription": "perkstyle_tooltip_7202",
+					"rawDisplayName": "perkstyle_displayname_7202"
+				}
+			},
+			"scores": {
+				"assists": 0,
+				"creepScore": 10,
+				"deaths": 1,
+				"kills": 0,
+				"wardScore": 0.0
+			},
+			"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"skinID": 28,
+			"skinName": "Arcane Caitlyn Cảnh Binh",
+			"summonerName": "Quỷ Dữ 666#2812",
+			"summonerSpells": {
+				"summonerSpellOne": {
+					"displayName": "Lá Chắn",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerBarrier_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerBarrier_DisplayName"
+				},
+				"summonerSpellTwo": {
+					"displayName": "Tốc Biến",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+				}
+			},
+			"team": "ORDER"
+		},
+		{
+			"championName": "Shen",
+			"isBot": false,
+			"isDead": false,
+			"items": [
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Bản Đồ Thế Giới",
+					"itemID": 3865,
+					"price": 400,
+					"rawDescription": "GeneratedTip_Item_3865_Description",
+					"rawDisplayName": "Item_3865_Name",
+					"slot": 0
+				},
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Giáp Lụa",
+					"itemID": 1029,
+					"price": 300,
+					"rawDescription": "GeneratedTip_Item_1029_Description",
+					"rawDisplayName": "Item_1029_Name",
+					"slot": 1
+				},
+				{
+					"canUse": true,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Mắt Xanh",
+					"itemID": 3340,
+					"price": 0,
+					"rawDescription": "GeneratedTip_Item_3340_Description",
+					"rawDisplayName": "Item_3340_Name",
+					"slot": 6
+				}
+			],
+			"level": 3,
+			"position": "UTILITY",
+			"rawChampionName": "game_character_displayname_Shen",
+			"rawSkinName": "game_character_skin_displayname_Shen_51",
+			"respawnTimer": 0.0,
+			"riotId": "Maple Baka#LTK58",
+			"riotIdGameName": "Maple Baka",
+			"riotIdTagLine": "LTK58",
+			"runes": {
+				"keystone": {
+					"displayName": "Dư Chấn",
+					"id": 8439,
+					"rawDescription": "perk_tooltip_VeteranAftershock",
+					"rawDisplayName": "perk_displayname_VeteranAftershock"
+				},
+				"primaryRuneTree": {
+					"displayName": "Kiên Định",
+					"id": 8400,
+					"rawDescription": "perkstyle_tooltip_7204",
+					"rawDisplayName": "perkstyle_displayname_7204"
+				},
+				"secondaryRuneTree": {
+					"displayName": "Áp Đảo",
+					"id": 8100,
+					"rawDescription": "perkstyle_tooltip_7200",
+					"rawDisplayName": "perkstyle_displayname_7200"
+				}
+			},
+			"scores": {
+				"assists": 0,
+				"creepScore": 0,
+				"deaths": 0,
+				"kills": 0,
+				"wardScore": 1.5120967626571656
+			},
+			"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"skinID": 51,
+			"skinName": "Shen Tam Đại Danh Thần",
+			"summonerName": "Maple Baka#LTK58",
+			"summonerSpells": {
+				"summonerSpellOne": {
+					"displayName": "Tốc Biến",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+				},
+				"summonerSpellTwo": {
+					"displayName": "Thiêu Đốt",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+				}
+			},
+			"team": "ORDER"
+		},
+		{
+			"championName": "Olaf",
+			"isBot": false,
+			"isDead": false,
+			"items": [
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Kiếm Doran",
+					"itemID": 1055,
+					"price": 450,
+					"rawDescription": "GeneratedTip_Item_1055_Description",
+					"rawDisplayName": "Item_1055_Name",
+					"slot": 5
+				},
+				{
+					"canUse": true,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Mắt Xanh",
+					"itemID": 3340,
+					"price": 0,
+					"rawDescription": "GeneratedTip_Item_3340_Description",
+					"rawDisplayName": "Item_3340_Name",
+					"slot": 6
+				}
+			],
+			"level": 3,
+			"position": "TOP",
+			"rawChampionName": "game_character_displayname_Olaf",
+			"rawSkinName": "game_character_skin_displayname_Olaf_35",
+			"respawnTimer": 0.0,
+			"riotId": "Blaze#B1az3",
+			"riotIdGameName": "Blaze",
+			"riotIdTagLine": "B1az3",
+			"runes": {
+				"keystone": {
+					"displayName": "Xung Kích Bão Tố",
+					"id": 8230,
+					"rawDescription": "perk_tooltip_PhaseRush",
+					"rawDisplayName": "perk_displayname_PhaseRush"
+				},
+				"primaryRuneTree": {
+					"displayName": "Pháp Thuật",
+					"id": 8200,
+					"rawDescription": "perkstyle_tooltip_7202",
+					"rawDisplayName": "perkstyle_displayname_7202"
+				},
+				"secondaryRuneTree": {
+					"displayName": "Áp Đảo",
+					"id": 8100,
+					"rawDescription": "perkstyle_tooltip_7200",
+					"rawDisplayName": "perkstyle_displayname_7200"
+				}
+			},
+			"scores": {
+				"assists": 0,
+				"creepScore": 10,
+				"deaths": 0,
+				"kills": 0,
+				"wardScore": 0.75
+			},
+			"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"skinID": 35,
+			"skinName": "Olaf Pentakill III: Cấm Thư",
+			"summonerName": "Blaze#B1az3",
+			"summonerSpells": {
+				"summonerSpellOne": {
+					"displayName": "Tốc Biến",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+				},
+				"summonerSpellTwo": {
+					"displayName": "Thiêu Đốt",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+				}
+			},
+			"team": "CHAOS"
+		},
+		{
+			"championName": "Cho'Gath",
+			"isBot": false,
+			"isDead": false,
+			"items": [
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Linh Hồn Hỏa Khuyển",
+					"itemID": 1101,
+					"price": 450,
+					"rawDescription": "GeneratedTip_Item_1101_Description",
+					"rawDisplayName": "Item_1101_Name",
+					"slot": 0
+				},
+				{
+					"canUse": true,
+					"consumable": true,
+					"count": 1,
+					"displayName": "Bình Máu",
+					"itemID": 2003,
+					"price": 50,
+					"rawDescription": "GeneratedTip_Item_2003_Description",
+					"rawDisplayName": "Item_2003_Name",
+					"slot": 1
+				},
+				{
+					"canUse": true,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Mắt Xanh",
+					"itemID": 3340,
+					"price": 0,
+					"rawDescription": "GeneratedTip_Item_3340_Description",
+					"rawDisplayName": "Item_3340_Name",
+					"slot": 6
+				}
+			],
+			"level": 3,
+			"position": "JUNGLE",
+			"rawChampionName": "game_character_displayname_Chogath",
+			"rawSkinName": "game_character_skin_displayname_Chogath_3",
+			"respawnTimer": 0.0,
+			"riotId": "Anh Ba Tới Chơi#1808",
+			"riotIdGameName": "Anh Ba Tới Chơi",
+			"riotIdTagLine": "1808",
+			"runes": {
+				"keystone": {
+					"displayName": "Mưa Kiếm",
+					"id": 9923,
+					"rawDescription": "perk_tooltip_HailOfBlades",
+					"rawDisplayName": "perk_displayname_HailOfBlades"
+				},
+				"primaryRuneTree": {
+					"displayName": "Áp Đảo",
+					"id": 8100,
+					"rawDescription": "perkstyle_tooltip_7200",
+					"rawDisplayName": "perkstyle_displayname_7200"
+				},
+				"secondaryRuneTree": {
+					"displayName": "Pháp Thuật",
+					"id": 8200,
+					"rawDescription": "perkstyle_tooltip_7202",
+					"rawDisplayName": "perkstyle_displayname_7202"
+				}
+			},
+			"scores": {
+				"assists": 0,
+				"creepScore": 20,
+				"deaths": 0,
+				"kills": 0,
+				"wardScore": 1.3388428688049317
+			},
+			"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"skinID": 3,
+			"skinName": "Cho'Gath Hồ Lốc-nét",
+			"summonerName": "Anh Ba Tới Chơi#1808",
+			"summonerSpells": {
+				"summonerSpellOne": {
+					"displayName": "Tốc Biến",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+				},
+				"summonerSpellTwo": {
+					"displayName": "Trừng Phạt",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerSmite_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerSmite_DisplayName"
+				}
+			},
+			"team": "CHAOS"
+		},
+		{
+			"championName": "Akshan",
+			"isBot": false,
+			"isDead": false,
+			"items": [
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Cung Doran",
+					"itemID": 1086,
+					"price": 400,
+					"rawDescription": "GeneratedTip_Item_1086_Description",
+					"rawDisplayName": "Item_1086_Name",
+					"slot": 0
+				},
+				{
+					"canUse": true,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Mắt Xanh",
+					"itemID": 3340,
+					"price": 0,
+					"rawDescription": "GeneratedTip_Item_3340_Description",
+					"rawDisplayName": "Item_3340_Name",
+					"slot": 6
+				}
+			],
+			"level": 4,
+			"position": "MIDDLE",
+			"rawChampionName": "game_character_displayname_Akshan",
+			"rawSkinName": "game_character_displayname_Akshan",
+			"respawnTimer": 0.0,
+			"riotId": "SRV TranKhoaCu#ICS",
+			"riotIdGameName": "SRV TranKhoaCu",
+			"riotIdTagLine": "ICS",
+			"runes": {
+				"keystone": {
+					"displayName": "Sẵn Sàng Tấn Công",
+					"id": 8005,
+					"rawDescription": "perk_tooltip_PressTheAttack",
+					"rawDisplayName": "perk_displayname_PressTheAttack"
+				},
+				"primaryRuneTree": {
+					"displayName": "Chuẩn Xác",
+					"id": 8000,
+					"rawDescription": "perkstyle_tooltip_7201",
+					"rawDisplayName": "perkstyle_displayname_7201"
+				},
+				"secondaryRuneTree": {
+					"displayName": "Kiên Định",
+					"id": 8400,
+					"rawDescription": "perkstyle_tooltip_7204",
+					"rawDisplayName": "perkstyle_displayname_7204"
+				}
+			},
+			"scores": {
+				"assists": 0,
+				"creepScore": 20,
+				"deaths": 0,
+				"kills": 0,
+				"wardScore": 0.0
+			},
+			"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+			"skinID": 0,
+			"skinName": "Akshan",
+			"summonerName": "SRV TranKhoaCu#ICS",
+			"summonerSpells": {
+				"summonerSpellOne": {
+					"displayName": "Tốc Biến",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+				},
+				"summonerSpellTwo": {
+					"displayName": "Thiêu Đốt",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+				}
+			},
+			"team": "CHAOS"
+		},
+		{
+			"championName": "Kai'Sa",
+			"isBot": false,
+			"isDead": false,
+			"items": [
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Cung Doran",
+					"itemID": 1086,
+					"price": 400,
+					"rawDescription": "GeneratedTip_Item_1086_Description",
+					"rawDisplayName": "Item_1086_Name",
+					"slot": 0
+				},
+				{
+					"canUse": true,
+					"consumable": true,
+					"count": 1,
+					"displayName": "Bình Máu",
+					"itemID": 2003,
+					"price": 50,
+					"rawDescription": "GeneratedTip_Item_2003_Description",
+					"rawDisplayName": "Item_2003_Name",
+					"slot": 1
+				},
+				{
+					"canUse": true,
+					"consumable": true,
+					"count": 1,
+					"displayName": "Bánh Quy",
+					"itemID": 2010,
+					"price": 50,
+					"rawDescription": "GeneratedTip_Item_2010_Description",
+					"rawDisplayName": "Item_2010_Name",
+					"slot": 2
+				},
+				{
+					"canUse": true,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Mắt Xanh",
+					"itemID": 3340,
+					"price": 0,
+					"rawDescription": "GeneratedTip_Item_3340_Description",
+					"rawDisplayName": "Item_3340_Name",
+					"slot": 6
+				}
+			],
+			"level": 3,
+			"position": "BOTTOM",
+			"rawChampionName": "game_character_displayname_Kaisa",
+			"rawSkinName": "game_character_displayname_Kaisa",
+			"respawnTimer": 0.0,
+			"riotId": "KARINA#baby3",
+			"riotIdGameName": "KARINA",
+			"riotIdTagLine": "baby3",
+			"runes": {
+				"keystone": {
+					"displayName": "Nhịp Độ Chết Người",
+					"id": 8008,
+					"rawDescription": "perk_tooltip_LethalTempo",
+					"rawDisplayName": "perk_displayname_LethalTempo"
+				},
+				"primaryRuneTree": {
+					"displayName": "Chuẩn Xác",
+					"id": 8000,
+					"rawDescription": "perkstyle_tooltip_7201",
+					"rawDisplayName": "perkstyle_displayname_7201"
+				},
+				"secondaryRuneTree": {
+					"displayName": "Cảm Hứng",
+					"id": 8300,
+					"rawDescription": "perkstyle_tooltip_7203",
+					"rawDisplayName": "perkstyle_displayname_7203"
+				}
+			},
+			"scores": {
+				"assists": 0,
+				"creepScore": 20,
+				"deaths": 0,
+				"kills": 1,
+				"wardScore": 0.3826897442340851
+			},
+			"screenPositionBottom": "862.8719482,470.8550415",
+			"screenPositionCenter": "864.8999023,426.3722839",
+			"skinID": 0,
+			"skinName": "Kai'Sa",
+			"summonerName": "KARINA#baby3",
+			"summonerSpells": {
+				"summonerSpellOne": {
+					"displayName": "Tốc Biến",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+				},
+				"summonerSpellTwo": {
+					"displayName": "Lá Chắn",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerBarrier_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerBarrier_DisplayName"
+				}
+			},
+			"team": "CHAOS"
+		},
+		{
+			"championName": "Seraphine",
+			"isBot": false,
+			"isDead": false,
+			"items": [
+				{
+					"canUse": false,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Bản Đồ Thế Giới",
+					"itemID": 3865,
+					"price": 400,
+					"rawDescription": "GeneratedTip_Item_3865_Description",
+					"rawDisplayName": "Item_3865_Name",
+					"slot": 0
+				},
+				{
+					"canUse": true,
+					"consumable": true,
+					"count": 1,
+					"displayName": "Bình Máu",
+					"itemID": 2003,
+					"price": 50,
+					"rawDescription": "GeneratedTip_Item_2003_Description",
+					"rawDisplayName": "Item_2003_Name",
+					"slot": 1
+				},
+				{
+					"canUse": true,
+					"consumable": false,
+					"count": 1,
+					"displayName": "Mắt Xanh",
+					"itemID": 3340,
+					"price": 0,
+					"rawDescription": "GeneratedTip_Item_3340_Description",
+					"rawDisplayName": "Item_3340_Name",
+					"slot": 6
+				}
+			],
+			"level": 3,
+			"position": "UTILITY",
+			"rawChampionName": "Character_Seraphine_Name",
+			"rawSkinName": "game_character_skin_displayname_Seraphine_3",
+			"respawnTimer": 0.0,
+			"riotId": "Mè iu ơiii#Vừng",
+			"riotIdGameName": "Mè iu ơiii",
+			"riotIdTagLine": "Vừng",
+			"runes": {
+				"keystone": {
+					"displayName": "Triệu Hồi Aery",
+					"id": 8214,
+					"rawDescription": "perk_tooltip_SummonAery",
+					"rawDisplayName": "perk_displayname_SummonAery"
+				},
+				"primaryRuneTree": {
+					"displayName": "Pháp Thuật",
+					"id": 8200,
+					"rawDescription": "perkstyle_tooltip_7202",
+					"rawDisplayName": "perkstyle_displayname_7202"
+				},
+				"secondaryRuneTree": {
+					"displayName": "Cảm Hứng",
+					"id": 8300,
+					"rawDescription": "perkstyle_tooltip_7203",
+					"rawDisplayName": "perkstyle_displayname_7203"
+				}
+			},
+			"scores": {
+				"assists": 1,
+				"creepScore": 0,
+				"deaths": 0,
+				"kills": 0,
+				"wardScore": 1.5017874240875245
+			},
+			"screenPositionBottom": "1055.9279785,577.0289917",
+			"screenPositionCenter": "1053.5994873,522.7389526",
+			"skinID": 3,
+			"skinName": "K/DA ALL OUT Seraphine - Siêu Sao Âm Nhạc",
+			"summonerName": "Mè iu ơiii#Vừng",
+			"summonerSpells": {
+				"summonerSpellOne": {
+					"displayName": "Tốc Biến",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+				},
+				"summonerSpellTwo": {
+					"displayName": "Hồi Máu",
+					"rawDescription": "GeneratedTip_SummonerSpell_SummonerHeal_Description",
+					"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHeal_DisplayName"
+				}
+			},
+			"team": "CHAOS"
+		}
+	],
+	"events": {
+		"Events": [
+			{
+				"EventID": 0,
+				"EventName": "GameStart",
+				"EventTime": 0.0
+			},
+			{
+				"EventID": 1,
+				"EventName": "MinionsSpawning",
+				"EventTime": 30.009557723999025
+			},
+			{
+				"Assisters": [
+					"Mè iu ơiii"
+				],
+				"EventID": 2,
+				"EventName": "ChampionKill",
+				"EventTime": 161.16470336914063,
+				"KillerName": "KARINA",
+				"VictimName": "Quỷ Dữ 666"
+			},
+			{
+				"EventID": 3,
+				"EventName": "FirstBlood",
+				"EventTime": 161.16470336914063,
+				"Recipient": "KARINA"
+			}
+		]
+	},
+	"gameData": {
+		"gameMode": "CLASSIC",
+		"gameTime": 188.1356201171875,
+		"mapName": "Map11",
+		"mapNumber": 11,
+		"mapTerrain": "Default"
+	}
+}

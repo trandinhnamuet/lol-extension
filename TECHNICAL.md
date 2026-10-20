@@ -361,7 +361,27 @@ Với Vanguard, tool này nhìn không khác gì Notepad hay một trình duyệ
 
 ---
 
-## 12. Gợi ý tìm hiểu thêm
+## 12. Tự bắt Flash: nghe tiếng + quy kết bằng minimap
+
+Ba file riêng, `spell_timer.py` chỉ gọi vào qua lớp `AutoFlash`:
+
+| File | Luồng | Việc |
+|---|---|---|
+| `flash_listener.py` | nền | Loopback WASAPI (`pyaudiowpatch`) → ring buffer 8 s → mỗi 100 ms tính log-mel 1 s cuối (numpy, cùng tham số với lúc huấn luyện) → chuẩn hóa theo trung vị/IQR 120 s gần nhất → CNN ONNX (`models/flash_cnn.onnx`, 60k tham số, onnxruntime CPU) → xác suất; đỉnh ≥ ngưỡng, cách nhau ≥ 1 s → sự kiện |
+| `minimap_tracker.py` | nền | `mss` chụp vùng minimap ~20 fps → mặt nạ màu đỏ (viền icon địch) → `HoughCircles` tìm tâm icon (bỏ trụ/ping vì lõi đặc đỏ) → trong mỗi vòng so chân dung Data Dragon của 5 địch bằng NCC có mặt nạ tròn, gán danh tính tham lam có nhớ vết → lịch sử vị trí 3 s. `who_jumped(t)`: icon dịch ≥ ~5 px trong ≤ 0,25 s quanh mốc tiếng và ở lại chỗ mới. ~13 ms/khung |
+| `auto_flash.py` | UI | Hàng đợi sự kiện → sau 0,5 s hỏi tracker → đúng một ứng viên (Flash chưa hồi) thì `TimerSlot.start()` + nhãn "auto"; không thì dải chân dung để chọn. Ghi `auto_flash.log` |
+
+Vì sao tìm vòng đỏ trước thay vì khớp chân dung trên cả minimap: khớp mẫu toàn vùng 264×270 với mặt nạ tốn ~60 ms/tướng, và chân dung nhỏ (19 px) khớp nhầm vào nền (Malphite đạt 0,80 trên đất trống). Vòng đỏ 2 px thì màu rất đặc trưng, Hough tìm trong ~2 ms, rồi chỉ phải so chân dung tại đúng chỗ có icon (4/4 đúng trong thử nghiệm, biên 0,48–0,69 so với ≤ 0,28 của tướng khác).
+
+Vì sao cần hai nguồn: tiếng Flash giống nhau cho mọi tướng và mọi skin, nên âm thanh chỉ nói "có
+người Flash"; minimap cho biết ai, nhưng kỹ năng lướt cũng làm icon nhảy, nên bắt buộc có tiếng
+làm điều kiện. Cả hai đều chỉ đọc đầu ra của game (âm thanh hệ thống, điểm ảnh màn hình), không
+chạm vào tiến trình game.
+
+Mô hình âm thanh và cách tạo nhãn tự động từ HUD replay: `research/audio/RESEARCH.md` mục 9.
+Trên 18 trận kiểm chéo theo trận: bắt 79% Flash, 1,1 báo sai / 10 phút ở ngưỡng 0,95.
+
+## 13. Gợi ý tìm hiểu thêm
 
 - **Riot Developer Portal:** Game Client API, Data Dragon, chính sách bên thứ ba.
 - **Tkinter Canvas và PhotoImage:** [tkdocs.com](https://tkdocs.com), và trang `photo` trong tài liệu Tcl/Tk (các lệnh `data`, `put`, `copy -subsample/-zoom`).

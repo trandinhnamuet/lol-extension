@@ -1,0 +1,53 @@
+t,gameTime,player,champion,team,slot,yellow_before,yellow_after
+60.47,53.4,Dak Truong Thon2,Jayce,ORDER,2,81.3,25.8
+61.98,54.9,VSP map,Riven,CHAOS,1,79.4,24.9
+143.73,136.7,T1 YaGi,Thresh,CHAOS,2,67.2,21.7
+143.97,136.9,Bé Sao Đỏ,Kai'Sa,ORDER,1,69.6,22.1
+208.73,201.7,Càn Long Vi Hành,Jarvan IV,CHAOS,1,79.8,25.2
+214.72,207.7,Quyết Thúy,Veigar,ORDER,1,76.8,23.2
+222.48,215.4,SRV TranKhoaCu,Azir,CHAOS,1,76.6,23.8
+267.23,260.2,YuJimin,Nautilus,ORDER,1,67.9,20.4
+388.98,381.9,VSP map,Riven,CHAOS,1,78.5,25.2
+390.23,383.2,Dak Truong Thon2,Jayce,ORDER,2,81.7,26.9
+454.72,447.7,T1 YaGi,Thresh,CHAOS,2,68.1,21.7
+460.73,453.7,Bé Sao Đỏ,Kai'Sa,ORDER,1,69.1,19.7
+462.98,455.9,Tokyokyto,Sivir,CHAOS,2,70.1,21.4
+520.48,513.4,KenNy Phạm,Cho'Gath,ORDER,1,78.3,24.9
+570.73,563.7,YuJimin,Nautilus,ORDER,1,69.0,21.4
+663.22,656.2,Quyết Thúy,Veigar,ORDER,1,78.2,22.2
+740.98,733.9,T1 YaGi,Thresh,CHAOS,2,67.0,21.0
+795.73,788.7,Càn Long Vi Hành,Jarvan IV,CHAOS,1,78.1,26.1
+802.22,795.2,Dak Truong Thon2,Jayce,ORDER,2,81.3,26.1
+803.47,796.4,VSP map,Riven,CHAOS,1,78.6,25.4
+841.23,834.2,YuJimin,Nautilus,ORDER,1,67.3,21.0
+901.48,894.4,SRV TranKhoaCu,Azir,CHAOS,1,76.7,24.2
+908.23,901.2,Bé Sao Đỏ,Kai'Sa,ORDER,1,69.9,21.4
+916.23,909.2,KenNy Phạm,Cho'Gath,ORDER,1,77.1,23.4
+1011.73,1004.7,Quyết Thúy,Veigar,ORDER,1,76.9,22.8
+1052.22,1045.2,Càn Long Vi Hành,Jarvan IV,CHAOS,1,79.7,26.1
+1053.73,1046.7,Tokyokyto,Sivir,CHAOS,2,72.3,23.4
+1058.23,1051.2,T1 YaGi,Thresh,CHAOS,2,67.9,21.2
+1177.98,1170.9,Dak Truong Thon2,Jayce,ORDER,2,82.8,24.7
+1182.23,1175.2,VSP map,Riven,CHAOS,1,78.7,25.4
+1201.98,1194.9,YuJimin,Nautilus,ORDER,1,67.7,21.1
+1292.73,1285.7,Bé Sao Đỏ,Kai'Sa,ORDER,1,71.3,21.0
+1309.73,1302.7,SRV TranKhoaCu,Azir,CHAOS,1,77.0,25.2
+1409.48,1402.4,KenNy Phạm,Cho'Gath,ORDER,1,77.6,24.3
+1417.97,1410.9,Quyết Thúy,Veigar,ORDER,1,76.5,23.8
+1441.72,1434.7,T1 YaGi,Thresh,CHAOS,2,67.2,21.4
+1543.23,1536.2,Dak Truong Thon2,Jayce,ORDER,2,83.1,26.3
+1556.23,1549.2,Càn Long Vi Hành,Jarvan IV,CHAOS,1,79.4,25.8
+1592.98,1585.9,VSP map,Riven,CHAOS,1,79.9,24.4
+1597.73,1590.7,YuJimin,Nautilus,ORDER,1,67.4,22.1
+1603.97,1596.9,Bé Sao Đỏ,Kai'Sa,ORDER,1,70.2,21.3
+1607.72,1600.7,Tokyokyto,Sivir,CHAOS,2,72.5,23.8
+1677.22,1670.2,SRV TranKhoaCu,Azir,CHAOS,1,76.7,25.4
+1681.23,1674.2,Quyết Thúy,Veigar,ORDER,1,77.1,23.1
+1781.98,1774.9,T1 YaGi,Thresh,CHAOS,2,67.8,21.7
+1782.72,1775.7,KenNy Phạm,Cho'Gath,ORDER,1,77.3,24.2
+1849.72,1842.7,Càn Long Vi Hành,Jarvan IV,CHAOS,1,78.4,25.5
+1925.72,1918.7,Bé Sao Đỏ,Kai'Sa,ORDER,1,69.6,19.7
+1927.23,1920.2,YuJimin,Nautilus,ORDER,1,69.4,21.0
+1936.98,1929.9,Dak Truong Thon2,Jayce,ORDER,2,82.6,25.0
+1967.23,1960.2,Tokyokyto,Sivir,CHAOS,2,72.2,21.4
+1971.97,1964.9,KenNy Phạm,Cho'Gath,ORDER,1,36.7,30.0
