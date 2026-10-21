@@ -40,6 +40,16 @@ class UpdateError(Exception):
     pass
 
 
+def log(msg):
+    """Nhật ký cập nhật (update.log cạnh exe / file chạy); không bao giờ làm hỏng luồng chính."""
+    try:
+        base = os.path.dirname(exe_path()) if is_frozen() else os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(base, "update.log"), "a", encoding="utf-8") as f:
+            f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} v{APP_VERSION} {msg}\n")
+    except Exception:
+        pass
+
+
 def vtuple(v):
     """"1.2.0" / "v1.2" -> (1, 2, 0) / (1, 2); không đọc được -> (0,)."""
     nums = re.findall(r"\d+", str(v or ""))
@@ -110,13 +120,12 @@ class UpdateInfo:
         return "\n\n".join(f"v{v}\n{plain(notes[v])}" for v in vs) or "(không có ghi chú)"
 
 
-def check(current=APP_VERSION, url=None, log=None):
+def check(current=APP_VERSION, url=None):
     """UpdateInfo, hoặc None khi không kiểm tra được: khi đó dùng bình thường."""
     try:
         return UpdateInfo(fetch_manifest(url), current)
     except Exception as e:  # noqa: BLE001
-        if log:
-            log(f"không kiểm tra được bản mới ({e}); dùng bình thường")
+        globals()["log"](f"không kiểm tra được bản mới ({type(e).__name__}: {e}); dùng bình thường")
         return None
 
 
