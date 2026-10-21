@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+# WAV của phiên replay nặng 200-350 MB, vượt giới hạn GitHub
+research/audio/sessions/replay_*/audio.wav
+# dữ liệu phiên replay nặng (ảnh HUD 4 fps, log-mel cache, xác suất dò); CSV/JSON kết quả vẫn commit
+research/audio/sessions/replay_*/frames/
+research/audio/sessions/replay_*/clips/
+research/audio/sessions/*/logmel.npy
+research/audio/sessions/*/cnn_prob.npy
+research/audio/sessions/*/listener_prob.npy
+research/audio/sessions/broken_*/
+build/
+auto_flash.log
+minimap_snapshot.png
+dist/
+research/audio/sessions/replay_*/detect_flash/*.jpg
+research/audio/sessions/replay_*/labels_check/
