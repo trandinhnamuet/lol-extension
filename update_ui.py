@@ -17,6 +17,7 @@ FG = "#d8dde6"
 MUTED = "#6b7380"
 ACCENT = "#f0b429"
 OK = "#62c370"
+RETRY_AFTER = 15 * 60  # giây: kiểm tra lại sau lần thất bại
 
 
 class UpdateController:
@@ -49,6 +50,8 @@ class UpdateController:
         def work():
             self.result = ("info", updater.check())
             self.checking = False
+            r = self.result[1]
+            updater.log("kiểm tra: " + ("không có kết quả" if r is None else f"mới nhất {r.latest} ({r.state})"))
 
         threading.Thread(target=work, daemon=True).start()
 
@@ -60,10 +63,12 @@ class UpdateController:
             if self.result is not None:
                 _, info = self.result
                 self.result = None
+                if info is None:  # lỗi tạm thời (mạng, CDN vừa đăng): thử lại sau 15 phút thay vì chờ 6 giờ
+                    self.last_check = time.monotonic() - updater.CHECK_EVERY + RETRY_AFTER
                 if info is not None and info.state == "available":
                     self.info = info
                     self.show_label()
-                    if self.auto and self.state == "idle":
+                    if self.auto and self.state in ("idle", "error"):
                         self.begin_download()
                 elif info is not None:
                     self.info = None
@@ -73,6 +78,7 @@ class UpdateController:
             self.refresh_dialog()
         except Exception as e:  # không để lỗi cập nhật làm đơ app
             self.state, self.error = "error", str(e)
+            updater.log(f"lỗi giao diện cập nhật: {type(e).__name__}: {e}")
         self.app.root.after(300 if self.state == "downloading" else 1000, self.tick)
 
     def show_label(self):
@@ -182,6 +188,8 @@ class UpdateController:
             except Exception as e:  # noqa: BLE001
                 self.state = "idle" if self.cancel_flag else "error"
                 self.error = str(e)
+                updater.log(f"tải lỗi: {type(e).__name__}: {e}")
+                self.last_check = time.monotonic() - updater.CHECK_EVERY + RETRY_AFTER
 
         threading.Thread(target=work, daemon=True).start()
 
@@ -191,6 +199,8 @@ class UpdateController:
             updater.install(self.new_path, self.info.asset["sha256"])
         except Exception as e:  # noqa: BLE001
             self.state, self.error = "error", str(e)
+            updater.log(f"cài lỗi: {type(e).__name__}: {e}")
             return
+        updater.log(f"đã cài v{self.info.latest}, khởi động lại")
         updater.restart()
         self.app.quit()
