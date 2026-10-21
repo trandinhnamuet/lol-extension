@@ -55,8 +55,11 @@ def normalize(X):
     return ((X - med) / iqr).astype(np.float32)
 
 
+EVENTS_FILE = "flash_events.csv"  # --events: nhãn của phép khác, vd ignite_events.csv
+
+
 def load_events(path):
-    with open(os.path.join(path, "flash_events.csv"), newline="", encoding="utf-8") as f:
+    with open(os.path.join(path, EVENTS_FILE), newline="", encoding="utf-8") as f:
         return np.array([float(r["t"]) for r in csv.DictReader(f)])
 
 
@@ -213,8 +216,8 @@ def load_sessions(paths):
     out = []
     for p in paths:
         p = p.rstrip("/\\")
-        if not os.path.exists(os.path.join(p, "flash_events.csv")):
-            print("  bỏ qua (chưa có flash_events.csv):", p)
+        if not os.path.exists(os.path.join(p, EVENTS_FILE)):
+            print(f"  bỏ qua (chưa có {EVENTS_FILE}):", p)
             continue
         out.append((p, normalize(session_logmel(p)), load_events(p)))
     return out
@@ -229,7 +232,11 @@ def main():
     ap.add_argument("--mine", action="store_true", help="2 giai đoạn: thêm âm khó từ chính phiên huấn luyện")
     ap.add_argument("--folds", type=int, default=0, help="--cv: chỉ chấm N phiên đầu (so sánh nhanh)")
     ap.add_argument("--save", action="store_true")
+    ap.add_argument("--events", default="flash_events.csv", help="file nhãn trong mỗi phiên")
+    ap.add_argument("--model-name", default="flash_cnn", help="tên file mô hình khi --save")
     args = ap.parse_args()
+    global EVENTS_FILE
+    EVENTS_FILE = args.events
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("Thiết bị:", device)
 
@@ -242,7 +249,7 @@ def main():
             print(f"\n=== Giữ lại {os.path.basename(path)} ===")
             model = train_two_stage([s for i, s in enumerate(sessions) if i != k], args.epochs, device, args.mine)
             st, pr = score(model, X, device)
-            np.save(os.path.join(path, "cnn_prob.npy"), np.stack([st, pr]))
+            np.save(os.path.join(path, EVENTS_FILE.replace("_events.csv", "") + "_cnn_prob.npy"), np.stack([st, pr]))
             for p, hit, miss, fp, rate in evaluate(st, pr, ev, os.path.basename(path)):
                 a = total.setdefault(p, [0, 0, 0, 0.0])
                 a[0] += hit
@@ -261,12 +268,12 @@ def main():
     print(f"Huấn luyện {time.time() - t0:.0f} s")
     for path, X, ev in load_sessions(args.test):
         st, pr = score(model, X, device)
-        np.save(os.path.join(path, "cnn_prob.npy"), np.stack([st, pr]))
+        np.save(os.path.join(path, EVENTS_FILE.replace("_events.csv", "") + "_cnn_prob.npy"), np.stack([st, pr]))
         evaluate(st, pr, ev, os.path.basename(path))
     if args.save or args.test:
         os.makedirs(MODELS, exist_ok=True)
-        torch.save(model.state_dict(), os.path.join(MODELS, "flash_cnn.pt"))
-        print("Đã lưu", os.path.join(MODELS, "flash_cnn.pt"))
+        torch.save(model.state_dict(), os.path.join(MODELS, args.model_name + ".pt"))
+        print("Đã lưu", os.path.join(MODELS, args.model_name + ".pt"))
 
 
 if __name__ == "__main__":

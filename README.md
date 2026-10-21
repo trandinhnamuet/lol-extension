@@ -65,6 +65,9 @@ click một cái để gán, 6 giây không click thì tự ẩn.
   có lần tự bấm sai nào. Tiếng Flash trong giao tranh đông dễ bị lấn, nên không phải lần nào cũng
   nghe thấy; dải hỏi cũng hiện khi đồng minh Flash (tiếng giống nhau), cứ bỏ qua.
 
+### Thiêu Đốt (từ v1.3.0)
+Cùng bộ nghe (mô hình thứ hai trên cùng log-mel, thêm ~2,5% một lõi). Thiêu Đốt nhắm mục tiêu nên không có cú nhảy; thay vào đó: kẻ thi triển phải là địch mang Thiêu Đốt đang cách một đồng minh (hoặc bạn) không quá tầm 600 trên minimap lúc nghe thấy tiếng. Một ứng viên → tự bấm. Hỏi khi: nhiều ứng viên, không ứng viên nào trong tầm, hoặc một đồng minh cũng mang Thiêu Đốt đứng trong tầm (tiếng của hai phe giống nhau, không phân biệt được ai vừa dùng). Tắt riêng bằng `auto_ignite: false`.
+
 ## Tùy chỉnh `config.json`
 File được tạo ở lần chạy đầu.
 - `cd_override`: ghi đè thời gian hồi, ví dụ `{"smite": 90, "flash": 300}`. Mặc định lấy theo Data Dragon của patch hiện tại.
@@ -72,7 +75,7 @@ File được tạo ở lần chạy đầu.
 - `ability_haste_options`: các mức điểm hồi kỹ năng hiện trong menu.
 - `champion_abilities`: kỹ năng theo dõi của từng tướng, vd `{"Yasuo": ["W", "R"], "LeeSin": []}` (app tự ghi khi bạn thêm/bỏ).
 - TP+ mặc định hồi 330s (level 1) → 240s (level 18). Các nguồn đang ghi khác nhau; muốn cố định thì thêm `"teleport_unleashed": 300` vào `cd_override`.
-- `auto_flash`: bật tự bắt Flash. `auto_flash_threshold`: ngưỡng xác suất (0,9 nhạy hơn, 0,98 ít báo sai hơn). `auto_flash_ask_unknown`: hỏi khi không biết ai (false = chỉ tự bấm khi chắc). `minimap_rect`: vùng minimap.
+- `auto_flash`: bật tự bắt Flash. `auto_ignite` (mặc định true) và `auto_ignite_threshold`: phần Thiêu Đốt. `auto_flash_threshold`: ngưỡng xác suất (0,9 nhạy hơn, 0,98 ít báo sai hơn). `auto_flash_ask_unknown`: hỏi khi không biết ai (false = chỉ tự bấm khi chắc). `minimap_rect`: vùng minimap.
 - `opacity`: độ trong suốt (0.2 – 1.0, mặc định 0.7). `scale`: kích thước (0.5 – 1.5, mặc định 0.8). `compact`: chế độ gọn. Cả ba chỉnh được ngay trong app.
 
 ## An toàn tài khoản

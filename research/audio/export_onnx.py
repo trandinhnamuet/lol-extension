@@ -16,13 +16,16 @@ from train_cnn import FlashCNN, W, with_delta  # noqa: E402
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 SRC = os.path.join(HERE, "models", "flash_cnn.pt")
-DST = os.path.join(ROOT, "models", "flash_cnn.onnx")
+DST = os.path.join(ROOT, "models", "flash_cnn.onnx")  # --name ignite_cnn -> ignite_cnn.pt / .onnx
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", help="phiên có logmel.npy để so sánh")
+    ap.add_argument("--name", default="flash_cnn")
     args = ap.parse_args()
+    global SRC, DST
+    SRC, DST = os.path.join(HERE, "models", args.name + ".pt"), os.path.join(ROOT, "models", args.name + ".onnx")
     model = FlashCNN()
     model.load_state_dict(torch.load(SRC, map_location="cpu", weights_only=True))
     model.eval()

@@ -1,7 +1,9 @@
-"""Nghe tiếng Tốc Biến (Flash) từ âm thanh hệ thống bằng mô hình CNN nhỏ (ONNX).
+"""Nghe tiếng phép bổ trợ (Flash, Thiêu Đốt...) từ âm thanh hệ thống bằng các mô hình CNN nhỏ (ONNX)
+chạy trên cùng một log-mel.
 
-    listener = FlashListener(on_event=lambda t, p: ..., threshold=0.95)
-    listener.start()      # luồng nền; on_event(t_monotonic, xác suất) gọi từ luồng nền
+    listener = FlashListener(on_event=lambda t, p, spell: ..., threshold=0.95,
+                             models={"flash": path1, "ignite": path2}, thresholds={"ignite": 0.95})
+    listener.start()      # luồng nền; on_event(t_monotonic, xác suất, tên phép) gọi từ luồng nền
     listener.stop()
 
 Cách làm (giống research/audio/train_cnn.py, phải giữ đúng tham số để mô hình còn đúng):
@@ -38,9 +40,14 @@ MAX_GAP_FILL = 0.1  # loopback im lặng: chèn số 0 nếu thiếu hơn chừn
 
 HERE = os.path.dirname(os.path.abspath(sys.argv[0] if getattr(sys, "frozen", False) else __file__))
 # exe (PyInstaller --onefile): mô hình được giải nén vào sys._MEIPASS; file cạnh exe (nếu có) ưu tiên
-_CANDIDATES = [os.path.join(HERE, "models", "flash_cnn.onnx"),
-               os.path.join(getattr(sys, "_MEIPASS", HERE), "models", "flash_cnn.onnx")]
-MODEL_PATH = next((p for p in _CANDIDATES if os.path.exists(p)), _CANDIDATES[0])
+def model_path(name):
+    cands = [os.path.join(HERE, "models", name + ".onnx"),
+             os.path.join(getattr(sys, "_MEIPASS", HERE), "models", name + ".onnx")]
+    return next((p for p in cands if os.path.exists(p)), cands[0])
+
+
+MODEL_PATH = model_path("flash_cnn")
+DEFAULT_MODELS = {"flash": model_path("flash_cnn"), "ignite": model_path("ignite_cnn")}
 
 
 # ---------- đặc trưng (bản numpy, không cần scipy) ----------
@@ -119,11 +126,15 @@ class RunningStats:
 
 
 class FlashListener(threading.Thread):
-    def __init__(self, on_event, threshold=0.95, model_path=MODEL_PATH, device_index=None):
+    def __init__(self, on_event, threshold=0.95, model_path=MODEL_PATH, device_index=None,
+                 models=None, thresholds=None):
         super().__init__(daemon=True)
         self.on_event = on_event
         self.threshold = threshold
         self.model_path = model_path
+        # tên phép -> đường dẫn ONNX; mặc định chỉ Flash (giữ tương thích). Thiếu file thì bỏ qua phép đó.
+        self.models = {k: v for k, v in (models or {"flash": model_path}).items() if os.path.exists(v)}
+        self.thresholds = dict(thresholds or {})
         self.device_index = device_index
         self.stop_flag = threading.Event()
         self.status = "chưa chạy"
@@ -133,8 +144,8 @@ class FlashListener(threading.Thread):
         self.buf = np.zeros(SR * 8, np.float32)  # ring 8 s
         self.written = 0  # tổng số mẫu đã ghi (48 kHz)
         self.t0 = None  # monotonic ứng với mẫu 0
-        self.probs = deque(maxlen=50)  # (t_center, p)
-        self.last_event = -1e9
+        self.probs = {k: deque(maxlen=50) for k in self.models}  # phép -> (t_center, p)
+        self.last_event = {k: -1e9 for k in self.models}
         self.session = None
         self.stats = RunningStats()
         self.last_stats_update = 0
@@ -206,14 +217,21 @@ class FlashListener(threading.Thread):
         so = ort.SessionOptions()
         so.intra_op_num_threads = 2
         so.inter_op_num_threads = 1
-        self.sess = ort.InferenceSession(self.model_path, so, providers=["CPUExecutionProvider"])
-        self.input_name = self.sess.get_inputs()[0].name
+        self.sessions = {}
+        for name, path in self.models.items():
+            sess = ort.InferenceSession(path, so, providers=["CPUExecutionProvider"])
+            self.sessions[name] = (sess, sess.get_inputs()[0].name)
+        if not self.sessions:
+            raise FileNotFoundError("không có mô hình ONNX nào")
 
     def score_window(self, X):
-        """X: (64, >= W + DELTA) log-mel đã chuẩn hóa; chấm cửa sổ W khung cuối."""
-        x = with_delta(X[:, -(W + DELTA):])[:, :, DELTA:]  # (2, 64, W)
-        out = self.sess.run(None, {self.input_name: x[None].astype(np.float32)})[0]
-        return float(1 / (1 + np.exp(-out.reshape(-1)[0])))
+        """X: (64, >= W + DELTA) log-mel đã chuẩn hóa; {phép: xác suất} cho cửa sổ W khung cuối."""
+        x = with_delta(X[:, -(W + DELTA):])[:, :, DELTA:][None].astype(np.float32)  # (1, 2, 64, W)
+        out = {}
+        for name, (sess, inp) in self.sessions.items():
+            logit = sess.run(None, {inp: x})[0]
+            out[name] = float(1 / (1 + np.exp(-logit.reshape(-1)[0])))
+        return out
 
     # ---------- vòng chính ----------
     def run(self):
@@ -242,8 +260,9 @@ class FlashListener(threading.Thread):
                     self.last_stats_update = t_end
                 p = self.score_window(self.stats.normalize(X))
                 t_center = t_end - 0.5
-                self.probs.append((t_center, p))
-                self._maybe_emit()
+                for name, v in p.items():
+                    self.probs[name].append((t_center, v))
+                    self._maybe_emit(name)
         except Exception as e:
             self.status = f"lỗi: {e}"
         finally:
@@ -256,15 +275,17 @@ class FlashListener(threading.Thread):
             if self.status == "đang nghe":
                 self.status = "đã dừng"
 
-    def _maybe_emit(self):
-        """Đỉnh: p[-2] >= ngưỡng, lớn hơn hai bên, cách sự kiện trước >= MIN_GAP."""
-        if len(self.probs) < 3:
+    def _maybe_emit(self, name="flash"):
+        """Đỉnh: p[-2] >= ngưỡng, lớn hơn hai bên, cách sự kiện trước (cùng phép) >= MIN_GAP."""
+        probs = self.probs[name]
+        if len(probs) < 3:
             return
-        (t1, p1), (t2, p2), (t3, p3) = self.probs[-3], self.probs[-2], self.probs[-1]
-        if p2 >= self.threshold and p2 >= p1 and p2 >= p3 and t2 - self.last_event >= MIN_GAP:
-            self.last_event = t2
+        (t1, p1), (t2, p2), (t3, p3) = probs[-3], probs[-2], probs[-1]
+        thr = self.thresholds.get(name, self.threshold)
+        if p2 >= thr and p2 >= p1 and p2 >= p3 and t2 - self.last_event[name] >= MIN_GAP:
+            self.last_event[name] = t2
             try:
-                self.on_event(t2, p2)
+                self.on_event(t2, p2, name)
             except Exception as e:
                 self.status = f"lỗi on_event: {e}"
 
@@ -272,16 +293,16 @@ class FlashListener(threading.Thread):
         self.stop_flag.set()
 
 
-if __name__ == "__main__":  # chạy thử: in ra mỗi lần nghe thấy Flash
-    def show(t, p):
-        print(f"\nFLASH  p={p:.2f}  t={t:.2f}", flush=True)
+if __name__ == "__main__":  # chạy thử: in ra mỗi lần nghe thấy phép
+    def show(t, p, spell):
+        print(f"\n{spell.upper()}  p={p:.2f}  t={t:.2f}", flush=True)
 
-    lst = FlashListener(show, threshold=float(sys.argv[1]) if len(sys.argv) > 1 else 0.9)
+    lst = FlashListener(show, threshold=float(sys.argv[1]) if len(sys.argv) > 1 else 0.9, models=DEFAULT_MODELS)
     lst.start()
     try:
         while True:
             time.sleep(1)
-            last = lst.probs[-1][1] if lst.probs else 0
-            print(f"\r{lst.status} | {lst.device_name} | p={last:.2f}   ", end="", flush=True)
+            last = " ".join(f"{k}={v[-1][1]:.2f}" for k, v in lst.probs.items() if v)
+            print(f"\r{lst.status} | {lst.device_name} | {last}   ", end="", flush=True)
     except KeyboardInterrupt:
         lst.stop()

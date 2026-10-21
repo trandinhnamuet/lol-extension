@@ -33,7 +33,9 @@ def main():
     ap.add_argument("session")
     ap.add_argument("--team", help="phe địch theo app (ORDER/CHAOS); mặc định: phe khác người chơi")
     ap.add_argument("--tol", type=float, default=2.5)
+    ap.add_argument("--spell", default="flash", help="flash | ignite: đọc <spell>_events.csv và dòng log của phép đó")
     args = ap.parse_args()
+    SP = args.spell
     s = args.session
     meta = json.load(open(os.path.join(s, "replay.json"), encoding="utf-8"))
     data = json.load(open(os.path.join(s, "allgamedata.json"), encoding="utf-8"))
@@ -44,12 +46,14 @@ def main():
     for p in data["allPlayers"]:
         raw = p.get("rawChampionName", "")
         champ_of[p["championName"]] = raw.rsplit("_", 1)[-1] if raw else p["championName"]
-    events = [r for r in csv.DictReader(open(os.path.join(s, "flash_events.csv"), encoding="utf-8"))]
+    events = [r for r in csv.DictReader(open(os.path.join(s, f"{SP}_events.csv"), encoding="utf-8"))]
     enemy_ev = [(float(e["gameTime"]), champ_of.get(e["champion"], e["champion"]), e["champion"])
                 for e in events if e["team"] == enemy_team]
     ally_ev = [(float(e["gameTime"]), e["champion"]) for e in events if e["team"] != enemy_team]
     log = parse_log(args.log)
-    heard = [(gt, msg) for _, gt, msg in log if msg.startswith("tiếng")]
+    # dòng log: "tiếng p=…" (Flash, bản cũ) hoặc "tiếng <phép> p=…"
+    heard = [(gt, msg) for _, gt, msg in log
+             if msg.startswith(f"tiếng {SP} ") or (SP == "flash" and msg.startswith("tiếng p="))]
     auto = [(gt, re.search(r"TỰ BẤM (\S+)", msg).group(1)) for gt, msg in heard if "TỰ BẤM" in msg]
     asked = [(gt, msg) for gt, msg in heard if "HỎI" in msg]
 
