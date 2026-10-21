@@ -134,6 +134,7 @@ def main():
     ap.add_argument("--no-screen", action="store_true")
     ap.add_argument("--hud-only", action="store_true", help="chỉ lưu hai cột HUD (ảnh nhẹ, đủ cho hud_flash.py)")
     ap.add_argument("--speed", type=float, default=1.0)
+    ap.add_argument("--fog", choices=["Xanh", "Đỏ", "Tất cả"], help="chọn phe nhìn thấy trên minimap (cần game ở foreground, 1080p)")
     ap.add_argument("--start", type=float, default=0, help="giây replay bắt đầu ghi")
     ap.add_argument("--kill", action="store_true", help="đóng game khi hết replay")
     args = ap.parse_args()
@@ -193,6 +194,10 @@ def main():
                    "players": [{k: p.get(k) for k in ("riotId", "championName", "team", "summonerSpells")}
                                for p in data.get("allPlayers", [])]}, f, ensure_ascii=False, indent=1)
 
+    if args.fog:
+        from replay_ui import set_fog
+        set_fog(args.fog)
+        print("Sương mù:", args.fog)
     rec = Recorder(session, args.fps, args.monitor, not args.no_screen, True, hud_only=args.hud_only)
     threads = [threading.Thread(target=rec.run_audio, daemon=True),
                threading.Thread(target=rec.run_game, daemon=True)]

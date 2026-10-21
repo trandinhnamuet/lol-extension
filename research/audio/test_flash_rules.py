@@ -45,6 +45,7 @@ def main():
     ap.add_argument("session")
     ap.add_argument("--team", default="CHAOS")
     ap.add_argument("--tol", type=float, default=3.0)
+    ap.add_argument("--fog-lum", type=float, help="bỏ icon địch nằm trong vùng sương mù (độ sáng nền < giá trị này); ảnh phải ghi ở chế độ Xanh")
     args = ap.parse_args()
     data = json.load(open(os.path.join(args.session, "allgamedata.json"), encoding="utf-8"))
     cid = {p["championName"]: (p.get("rawChampionName", "").rsplit("_", 1)[-1] or p["championName"]) for p in data["allPlayers"]}
@@ -60,6 +61,7 @@ def main():
         who = "không Flash HUD" if not near else ("địch" if any(e[2] == args.team for e in near) else "đồng minh")
         true_enemy = [e[1] for e in near if e[2] == args.team]
         tr = mt.MinimapTracker(rect=(0, 0, 264, 270))
+        tr.fog_min_lum = args.fog_lum
         tr.set_enemies({c: os.path.join(CACHE, c + ".png") for c in enemies})
         tr.set_allies({c: os.path.join(CACHE, c + ".png") for c in allies})
         files = sorted(glob.glob(os.path.join(d, "*.png")), key=lambda p: float(os.path.basename(p)[:-4]))

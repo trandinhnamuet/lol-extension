@@ -598,6 +598,18 @@ Alt+Tab) và chỉ loại được ~1/5 số ca đồng minh nên chưa đưa v�
 minimap thì tiếng đó là đồng minh" (game chỉ phát tiếng địch khi địch trong tầm nhìn) chưa kiểm chứng được vì replay luôn hiện
 địch. **Cần một trận thật chơi với `auto_flash_debug_frames` bật** để kiểm cả hai.
 
+**Mô phỏng sương mù cho replay (21/10 chiều, gợi ý của người dùng: chọn tầm nhìn chỉ của phe mình).** Giao diện replay có ô
+"Sương Mù" với ba lựa chọn **Xanh / Đỏ / Tất cả** ở góc dưới trái (Replay API chỉ có công tắc `fogOfWar`; phím V gửi giả
+không có tác dụng). Chọn "Xanh" (phe ORDER, phe có camera) chỉ **làm tối vùng sương mù trên minimap, icon tướng địch vẫn hiện**.
+Độ sáng nền ngay ngoài vòng icon tách được hai trường hợp: vùng nhìn thấy ~70–110, vùng sương mù ~50. `replay_ui.py` chọn
+phe bằng chuột (`replay_session.py --fog Xanh`), `minimap_tracker.fog_min_lum = 65` bỏ icon địch nằm trong vùng tối, nên minimap
+thử nghiệm gần với trận thật. Kết quả trên 18 tiếng Flash (cùng trận 1610904509): Flash địch tự bấm đúng **2/9** (trước 4/9 khi
+thấy cả hai phe), sai 0, hỏi 7; Flash đồng minh vẫn hỏi cả 9. Quy tắc "không địch nào hiện trên minimap thì tiếng đó là đồng
+minh" loại được 3/9 ca đồng minh nhưng cũng đòi bỏ 1/9 ca địch (22:07: Jinx Flash, app vẫn nghe thấy tiếng dù không còn
+vòng đỏ nào): **âm thanh replay không bị sương mù chặn như trận thật**, nên giả thiết của quy tắc không kiểm chứng được bằng
+replay. Kết luận: cần trận thật. (Lần chạy này luồng chụp màn hình của bộ ghi dừng sau ~150 s nên không có nhãn HUD riêng;
+dùng nhãn của phiên 104846, cùng trận.)
+
 ### 9.9. Việc tiếp theo
 
 1. Âm thanh: tăng tỉ lệ bắt trong giao tranh (còn ~20% sót): huấn luyện lại với 26 trận đã có,
