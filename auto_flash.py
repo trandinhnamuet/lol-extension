@@ -152,6 +152,18 @@ class AutoFlash:
         if self.strip and now >= self.strip_hide_at:
             self.hide_strip()
 
+    def note_manual(self, slot, what):
+        """Người dùng bấm / hủy tay một ô: ghi nhật ký (nhãn "bạn thấy mà app bỏ lỡ" khi đối chiếu), và nếu đang chẩn đoán
+        thì lưu ~10 s ảnh minimap trước lúc bấm (mỗi ảnh thứ hai)."""
+        if not self.log_file:
+            return
+        champ = getattr(slot.row, "champ_id", None)
+        self.log(f"TAY {what} {champ} {slot.name}")
+        if what == "bấm" and self.tracker is not None and self.tracker.debug_dir:
+            self.debug_n = getattr(self, "debug_n", 0) + 1
+            self.tracker.dump_debug(time.monotonic(), f"{self.debug_n:03d}_tay_{slot.name}_{champ}_g{int(self.app.estimated_game_time() or 0)}",
+                                    before=10.0, after=0.2, step=2)
+
     def flash_slot(self, row, key="flash"):
         for slot in row.spell_slots:
             if slot.key == key:

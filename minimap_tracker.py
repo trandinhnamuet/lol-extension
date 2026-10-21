@@ -151,7 +151,7 @@ class MinimapTracker(threading.Thread):
         self.blue_positions = deque()
         self.red_positions = deque()  # (t, [(x, y)]) mọi vòng đỏ, kể cả chưa nhận ra tên
         self.fog_min_lum = None  # chỉ để thử bằng replay (xem replay_ui.py); trận thật để None
-        self.debug_frames = deque(maxlen=40)  # (t, ảnh) ~2 s gần nhất, chỉ khi debug_dir được đặt
+        self.debug_frames = deque(maxlen=220)  # (t, ảnh) ~11 s gần nhất (20 fps), chỉ khi debug_dir được đặt
         self.debug_dir = None
         side = min(self.rect[2], self.rect[3])
         self.r_min, self.r_max = max(6, int(side * RING_R_FRAC[0])), int(side * RING_R_FRAC[1]) + 1
@@ -379,14 +379,14 @@ class MinimapTracker(threading.Thread):
                     out.append((champ, best))
         return sorted(out, key=lambda r: -r[1])
 
-    def dump_debug(self, t_event, tag, before=0.9, after=0.6):
+    def dump_debug(self, t_event, tag, before=0.9, after=0.6, step=1):
         """Ghi các khung minimap thô quanh mốc tiếng vào debug_dir/<tag>/<t - t_event>.png (để chỉnh luật ngoại tuyến)."""
         if not self.debug_dir or cv2 is None:
             return
         d = os.path.join(self.debug_dir, tag)
         os.makedirs(d, exist_ok=True)
-        for t, f in list(self.debug_frames):
-            if t_event - before <= t <= t_event + after:
+        for i, (t, f) in enumerate(list(self.debug_frames)):
+            if t_event - before <= t <= t_event + after and i % step == 0:
                 cv2.imwrite(os.path.join(d, f"{t - t_event:+.3f}.png"), f)
 
     def snapshot(self, path):
