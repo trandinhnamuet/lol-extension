@@ -151,7 +151,8 @@ class FlashListener(threading.Thread):
         self.last_stats_update = 0
         # chẩn đoán (auto_flash_debug_frames): ghi âm thanh đã nghe và xác suất từng bước để xem lại ngoại tuyến
         self.debug_dir = None
-        self._wav = None
+        self._wav = None  # tệp PCM thô (tên giữ _wav cho gọn)
+        self._wav_flush = 0.0
         self._prob_csv = None
 
     # ---------- âm thanh ----------
@@ -198,8 +199,11 @@ class FlashListener(threading.Thread):
                 y = y.reshape(-1, self.channels).mean(axis=1)
             y = self._resample(y)
             if self._wav is not None:
-                try:
-                    self._wav.writeframes((np.clip(y, -1, 1) * 32767).astype(np.int16).tobytes())
+                try:  # PCM thô int16 mono 48 kHz, xả đĩa mỗi giây: app bị tắt đột ngột vẫn giữ được dữ liệu
+                    self._wav.write((np.clip(y, -1, 1) * 32767).astype(np.int16).tobytes())
+                    if time.monotonic() - self._wav_flush >= 1.0:
+                        self._wav.flush()
+                        self._wav_flush = time.monotonic()
                 except Exception:
                     self._wav = None
             with self.lock:
@@ -261,14 +265,10 @@ class FlashListener(threading.Thread):
             return
         if self.debug_dir:
             try:
-                import wave
                 os.makedirs(self.debug_dir, exist_ok=True)
                 stamp = time.strftime("%Y%m%d_%H%M%S")
-                self._wav = wave.open(os.path.join(self.debug_dir, f"audio_{stamp}.wav"), "wb")
-                self._wav.setnchannels(1)
-                self._wav.setsampwidth(2)
-                self._wav.setframerate(SR)
-                self._prob_csv = open(os.path.join(self.debug_dir, f"probs_{stamp}.csv"), "w", encoding="utf-8")
+                self._wav = open(os.path.join(self.debug_dir, f"audio_{stamp}.pcm"), "wb")  # int16 mono 48 kHz
+                self._prob_csv = open(os.path.join(self.debug_dir, f"probs_{stamp}.csv"), "w", encoding="utf-8", buffering=1)
                 self._prob_csv.write("mono," + ",".join(self.models) + "\n")
             except Exception as e:
                 self.status = f"đang nghe (không ghi chẩn đoán: {e})"
