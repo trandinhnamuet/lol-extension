@@ -40,6 +40,11 @@ DEFAULT_CONFIG = {
     "champion_abilities": {},
     # ghi đè thời gian hồi (giây), vd {"flash": 300}; mặc định lấy theo Data Dragon
     "cd_override": {"smite": 90},
+    # tự bắt Flash: nghe tiếng Flash từ âm thanh hệ thống + xem icon địch nào nhảy trên minimap
+    "auto_flash": False,
+    "auto_flash_threshold": 0.95,  # xác suất tối thiểu của mô hình âm thanh
+    "auto_flash_ask_unknown": True,  # không biết ai: hiện dải chân dung để chọn
+    "minimap_rect": None,  # [x, y, w, h] vùng minimap trên màn hình; None = góc dưới phải 1080p
 }
 
 # key: (id Data Dragon, tên ngắn, thời gian hồi dự phòng khi chưa tải được Data Dragon)
@@ -501,6 +506,7 @@ class TimerSlot:
         self.ready_at = None  # monotonic
         self.total = 1  # tổng thời gian hồi của lần đếm hiện tại
         self.ready_game_time = None
+        self.auto_label_until = 0  # hiện nhãn "auto" sau khi được bấm tự động
         self.pixels = None
         size, mid = self.app.icon_size, self.app.icon_size / 2
         fonts = self.app.fonts
@@ -649,6 +655,9 @@ class SpellSlot(TimerSlot):
 
     def load_pixels(self):
         return self.app.assets.icon_pixels(SPELLS[self.key][0], self.app.icon_size)
+
+    def badge(self):
+        return "auto" if time.monotonic() < self.auto_label_until else ""
 
     def show_menu(self, event):
         menu = make_menu(self.app.root)
@@ -1231,6 +1240,10 @@ class App:
 
         self.poller = Poller(mock_path)
         self.poller.start()
+        from auto_flash import AutoFlash
+        self.auto = AutoFlash(self)
+        if self.cfg.get("auto_flash"):
+            self.root.after(500, lambda: self.auto.set_enabled(True))
         self.root.after(300, self.preload_images)
         self.tick()
 
@@ -1313,6 +1326,16 @@ class App:
                              selectcolor=ACCENT,
                              command=lambda: self.save_after(self.set_compact,
                                                              self._compact_var.get()))
+        menu.add_separator()
+        self._auto_var = tk.BooleanVar(value=bool(self.cfg.get("auto_flash")))
+        menu.add_checkbutton(label="Tự bắt Flash (nghe tiếng + minimap)", variable=self._auto_var,
+                             selectcolor=ACCENT,
+                             command=lambda: self.save_after(self.auto.set_enabled,
+                                                             self._auto_var.get()))
+        menu.add_command(label=f"   {self.auto.status()}", state="disabled")
+        if self.auto.enabled:
+            menu.add_command(label="   Chụp thử vùng minimap (minimap_snapshot.png)",
+                             command=self.auto.snapshot)
         menu.add_separator()
         menu.add_command(label="Mẹo: Ctrl + lăn chuột = độ trong suốt", state="disabled")
         menu.add_command(label="Mẹo: kéo góc ◢ = kích thước", state="disabled")
@@ -1494,6 +1517,10 @@ class App:
         for row in self.rows:
             for slot in row.slots:
                 slot.render()
+        try:
+            self.auto.poll()
+        except Exception as e:  # không để lỗi của phần tự bắt làm đơ app
+            self.set_status(f"tự bắt Flash lỗi: {e}", hold=5)
         self.root.after(200, self.tick)
 
     # ---------- hành động ----------
@@ -1516,6 +1543,8 @@ class App:
 
     def quit(self):
         self.cfg["x"], self.cfg["y"] = self.root.winfo_x(), self.root.winfo_y()
+        if self.auto.enabled:
+            self.auto.stop()
         save_config(self.cfg)
         self.root.destroy()
 

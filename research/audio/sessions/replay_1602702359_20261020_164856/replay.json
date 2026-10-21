@@ -1,0 +1,278 @@
+{
+ "gameId": 1602702359,
+ "me": "SRV TranKhoaCu#ICS",
+ "myChampion": "Jax",
+ "playback": {
+  "length": 1342.4964599609375,
+  "paused": false,
+  "seeking": false,
+  "speed": 1.0,
+  "time": 0.5798746943473816
+ },
+ "render": {
+  "banners": false,
+  "cameraAttached": true,
+  "cameraLockX": false,
+  "cameraLockY": false,
+  "cameraLockZ": false,
+  "cameraLookSpeed": 1.0,
+  "cameraMode": "top",
+  "cameraMoveSpeed": 500.0,
+  "cameraPosition": {
+   "x": 300.0,
+   "y": 1911.8480224609375,
+   "z": -769.5577392578125
+  },
+  "cameraRotation": {
+   "x": 0.0,
+   "y": 56.0,
+   "z": 0.0
+  },
+  "champions": true,
+  "characters": true,
+  "depthFogColor": {
+   "a": 1.0,
+   "b": 0.0,
+   "g": 0.0,
+   "r": 0.0
+  },
+  "depthFogEnabled": false,
+  "depthFogEnd": 8000.0,
+  "depthFogIntensity": 1.0,
+  "depthFogStart": 5000.0,
+  "depthOfFieldCircle": 10.0,
+  "depthOfFieldDebug": false,
+  "depthOfFieldEnabled": false,
+  "depthOfFieldFar": 5000.0,
+  "depthOfFieldMid": 2000.0,
+  "depthOfFieldNear": 0.0,
+  "depthOfFieldWidth": 800.0,
+  "environment": true,
+  "farClip": 24250.0,
+  "fieldOfView": 40.0,
+  "floatingText": true,
+  "fogOfWar": true,
+  "healthBarChampions": true,
+  "healthBarMinions": true,
+  "healthBarPets": true,
+  "healthBarStructures": true,
+  "healthBarWards": true,
+  "heightFogColor": {
+   "a": 1.0,
+   "b": 0.0,
+   "g": 0.0,
+   "r": 0.0
+  },
+  "heightFogEnabled": false,
+  "heightFogEnd": -100.0,
+  "heightFogIntensity": 1.0,
+  "heightFogStart": 300.0,
+  "interfaceAll": true,
+  "interfaceAnnounce": true,
+  "interfaceChat": true,
+  "interfaceFrames": true,
+  "interfaceKillCallouts": true,
+  "interfaceMinimap": true,
+  "interfaceNeutralTimers": false,
+  "interfaceQuests": null,
+  "interfaceReplay": true,
+  "interfaceScore": true,
+  "interfaceScoreboard": true,
+  "interfaceTarget": true,
+  "interfaceTimeline": false,
+  "minions": true,
+  "navGridOffset": 0.0,
+  "nearClip": 50.0,
+  "outlineHover": true,
+  "outlineSelect": true,
+  "particles": true,
+  "selectionName": "SRV TranKhoaCu",
+  "selectionOffset": {
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "simulateAllParticlesWhileOffScreen": false,
+  "skyboxOffset": 0.0,
+  "skyboxPath": "<path to cubemap on local file system>",
+  "skyboxRadius": 2500.0,
+  "skyboxRotation": 0.0,
+  "sunDirection": {
+   "x": 0.31559720635414124,
+   "y": -0.9467916488647461,
+   "z": 0.06311944127082825
+  }
+ },
+ "players": [
+  {
+   "riotId": "SRV TranKhoaCu#ICS",
+   "championName": "Jax",
+   "team": "ORDER",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Thiêu Đốt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+    }
+   }
+  },
+  {
+   "riotId": "Yoshiboo#2504",
+   "championName": "Kindred",
+   "team": "ORDER",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Trừng Phạt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerSmite_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerSmite_DisplayName"
+    }
+   }
+  },
+  {
+   "riotId": "HiTrAlg Baby Fox#vn2",
+   "championName": "Akshan",
+   "team": "ORDER",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Lá Chắn",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerBarrier_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerBarrier_DisplayName"
+    }
+   }
+  },
+  {
+   "riotId": "Tøßüﾒ#56789",
+   "championName": "Teemo",
+   "team": "ORDER",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Tốc Hành",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerHaste_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHaste_DisplayName"
+    }
+   }
+  },
+  {
+   "riotId": "Kaidaizz11#155",
+   "championName": "Cassiopeia",
+   "team": "ORDER",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Thiêu Đốt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    }
+   }
+  },
+  {
+   "riotId": "PHG#2209",
+   "championName": "Aatrox",
+   "team": "CHAOS",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Thiêu Đốt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+    }
+   }
+  },
+  {
+   "riotId": "Hung 100 Kilo#SP Ga",
+   "championName": "Graves",
+   "team": "CHAOS",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Trừng Phạt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerSmite_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerSmite_DisplayName"
+    }
+   }
+  },
+  {
+   "riotId": "Anh Đăng Bến Tre#vn2",
+   "championName": "Twisted Fate",
+   "team": "CHAOS",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Dịch Chuyển",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerTeleport_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerTeleport_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    }
+   }
+  },
+  {
+   "riotId": "GapBoLaToiCho#vn2",
+   "championName": "Jhin",
+   "team": "CHAOS",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Lá Chắn",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerBarrier_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerBarrier_DisplayName"
+    }
+   }
+  },
+  {
+   "riotId": "Đạt ơi Đạt#vn98",
+   "championName": "Elise",
+   "team": "CHAOS",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Thiêu Đốt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+    }
+   }
+  }
+ ]
+}

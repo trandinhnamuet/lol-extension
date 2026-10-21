@@ -3,7 +3,7 @@
 Cửa sổ nhỏ luôn nổi trên game để bấm đếm ngược phép bổ trợ và chiêu cuối (R) của 5 địch (TOP / JGL / MID / ADC / SUP).
 
 ## Chạy
-- **Bản exe (không cần cài Python):** chạy `dist/LOL Spell Timer.exe`. Có thể copy file này đi đâu cũng được; `config.json` và `cache/` sẽ được tạo ngay cạnh nó.
+- **Bản exe (không cần cài Python):** tải `LOL.Spell.Timer.exe` ở trang [Releases](https://github.com/trandinhnamuet/lol-extension/releases). Có thể để file này ở đâu cũng được; `config.json` và `cache/` sẽ được tạo ngay cạnh nó.
 - **Từ mã nguồn:** nháy đúp `Chay Spell Timer.bat` (hoặc `pythonw spell_timer.py`).
 - **Build lại exe:** chạy `build.bat` (cần `pip install pyinstaller pillow`).
 
@@ -40,6 +40,26 @@ Khi vào trận (sau màn hình chờ), app tự điền tướng, phép và v�
 Kỹ năng thêm/bỏ được **nhớ theo từng tướng**: thêm W cho Yasuo một lần, lần sau gặp Yasuo sẽ tự có W; bỏ R của tướng nào thì tướng đó không hiện R nữa.
 Bạn vẫn có thể chọn lại bằng tay bất cứ lúc nào. Nếu không có dữ liệu từ trận, cứ chọn tay hết.
 
+## Tự bắt Flash (nghe tiếng + minimap)
+
+Bật trong **⚙ → Tự bắt Flash**. App nghe âm thanh hệ thống (loopback, không cần micro) bằng một
+mô hình nhỏ nhận ra tiếng Tốc Biến, đồng thời chụp vùng minimap ~20 lần/giây để xem icon địch nào
+vừa nhảy. Nghe thấy Flash và đúng một địch nhảy → tự bấm đếm ngược Flash của người đó (ô hiện
+nhãn **auto** 3 giây, click lần nữa nếu sai). Không rõ ai → hiện dải chân dung ngay dưới bảng,
+click một cái để gán, 6 giây không click thì tự ẩn.
+
+- Game phải **có focus** (tiếng game tắt khi mất focus) và ở chế độ Không viền.
+- Tắt nhạc trong game giúp nghe tốt hơn (Cài đặt → Âm thanh → Nhạc = 0).
+- Mặc định vùng minimap là góc dưới phải màn hình 1920×1080 với tỉ lệ minimap mặc định. Màn hình
+  hoặc tỉ lệ khác: **⚙ → Chụp thử vùng minimap** rồi xem `minimap_snapshot.png` (icon tìm được
+  khoanh xanh), chỉnh `minimap_rect: [x, y, w, h]` trong `config.json`.
+- Tốn ~3% một lõi CPU, ~80 MB RAM, không cần GPU. Mọi quyết định ghi vào `auto_flash.log`.
+- Đo trên replay (xem `research/audio/RESEARCH.md` mục 9): mô hình âm thanh nghe thấy ~75–83%
+  Flash với ~1 báo sai mỗi 10 phút ở ngưỡng 0,95 (`auto_flash_threshold`); trong số nghe thấy,
+  khoảng một nửa tự bấm được đúng người, còn lại hỏi (dải chân dung). Trong 2 trận thử cuối không
+  có lần tự bấm sai nào. Tiếng Flash trong giao tranh đông dễ bị lấn, nên không phải lần nào cũng
+  nghe thấy; dải hỏi cũng hiện khi đồng minh Flash (tiếng giống nhau), cứ bỏ qua.
+
 ## Tùy chỉnh `config.json`
 File được tạo ở lần chạy đầu.
 - `cd_override`: ghi đè thời gian hồi, ví dụ `{"smite": 90, "flash": 300}`. Mặc định lấy theo Data Dragon của patch hiện tại.
@@ -47,6 +67,7 @@ File được tạo ở lần chạy đầu.
 - `ability_haste_options`: các mức điểm hồi kỹ năng hiện trong menu.
 - `champion_abilities`: kỹ năng theo dõi của từng tướng, vd `{"Yasuo": ["W", "R"], "LeeSin": []}` (app tự ghi khi bạn thêm/bỏ).
 - TP+ mặc định hồi 330s (level 1) → 240s (level 18). Các nguồn đang ghi khác nhau; muốn cố định thì thêm `"teleport_unleashed": 300` vào `cd_override`.
+- `auto_flash`: bật tự bắt Flash. `auto_flash_threshold`: ngưỡng xác suất (0,9 nhạy hơn, 0,98 ít báo sai hơn). `auto_flash_ask_unknown`: hỏi khi không biết ai (false = chỉ tự bấm khi chắc). `minimap_rect`: vùng minimap.
 - `opacity`: độ trong suốt (0.2 – 1.0, mặc định 0.7). `scale`: kích thước (0.5 – 1.5, mặc định 0.8). `compact`: chế độ gọn. Cả ba chỉnh được ngay trong app.
 
 ## An toàn tài khoản

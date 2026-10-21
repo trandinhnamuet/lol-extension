@@ -1,0 +1,125 @@
+{
+ "gameId": 1609077581,
+ "me": "SRV TranKhoaCu#ICS",
+ "myChampion": null,
+ "playback": {
+  "length": 1150.457763671875,
+  "paused": false,
+  "seeking": false,
+  "speed": 1.0,
+  "time": 1.6774276494979858
+ },
+ "render": {
+  "banners": false,
+  "cameraAttached": false,
+  "cameraLockX": false,
+  "cameraLockY": false,
+  "cameraLockZ": false,
+  "cameraLookSpeed": 1.0,
+  "cameraMode": "top",
+  "cameraMoveSpeed": 500.0,
+  "cameraPosition": {
+   "x": 14272.63671875,
+   "y": 1911.8480224609375,
+   "z": 12962.302734375
+  },
+  "cameraRotation": {
+   "x": 0.0,
+   "y": 56.0,
+   "z": 0.0
+  },
+  "champions": true,
+  "characters": true,
+  "depthFogColor": {
+   "a": 1.0,
+   "b": 0.0,
+   "g": 0.0,
+   "r": 0.0
+  },
+  "depthFogEnabled": false,
+  "depthFogEnd": 8000.0,
+  "depthFogIntensity": 1.0,
+  "depthFogStart": 5000.0,
+  "depthOfFieldCircle": 10.0,
+  "depthOfFieldDebug": false,
+  "depthOfFieldEnabled": false,
+  "depthOfFieldFar": 5000.0,
+  "depthOfFieldMid": 2000.0,
+  "depthOfFieldNear": 0.0,
+  "depthOfFieldWidth": 800.0,
+  "environment": true,
+  "farClip": 24250.0,
+  "fieldOfView": 40.0,
+  "floatingText": true,
+  "fogOfWar": true,
+  "healthBarChampions": true,
+  "healthBarMinions": true,
+  "healthBarPets": true,
+  "healthBarStructures": true,
+  "healthBarWards": true,
+  "heightFogColor": {
+   "a": 1.0,
+   "b": 0.0,
+   "g": 0.0,
+   "r": 0.0
+  },
+  "heightFogEnabled": false,
+  "heightFogEnd": -100.0,
+  "heightFogIntensity": 1.0,
+  "heightFogStart": 300.0,
+  "interfaceAll": true,
+  "interfaceAnnounce": true,
+  "interfaceChat": true,
+  "interfaceFrames": true,
+  "interfaceKillCallouts": true,
+  "interfaceMinimap": true,
+  "interfaceNeutralTimers": false,
+  "interfaceQuests": null,
+  "interfaceReplay": true,
+  "interfaceScore": true,
+  "interfaceScoreboard": true,
+  "interfaceTarget": true,
+  "interfaceTimeline": false,
+  "minions": true,
+  "navGridOffset": 0.0,
+  "nearClip": 50.0,
+  "outlineHover": true,
+  "outlineSelect": true,
+  "particles": true,
+  "selectionName": "",
+  "selectionOffset": {
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "simulateAllParticlesWhileOffScreen": false,
+  "skyboxOffset": 0.0,
+  "skyboxPath": "<path to cubemap on local file system>",
+  "skyboxRadius": 2500.0,
+  "skyboxRotation": 0.0,
+  "sunDirection": {
+   "x": 0.31559720635414124,
+   "y": -0.9467916488647461,
+   "z": 0.06311944127082825
+  }
+ },
+ "players": [
+  {
+   "riotId": "Wanglin王林#1801",
+   "championName": "Gangplank",
+   "team": "ORDER",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Thiêu Đốt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+    }
+   }
+  }
+ ]
+}

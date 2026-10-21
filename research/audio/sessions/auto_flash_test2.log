@@ -1,0 +1,120 @@
+01:30:19 mono=105151.66 game=--:-- bật
+01:30:19 mono=105151.69 game=--:-- đội hình: []
+01:30:19 mono=105151.72 game=--:-- trạng thái: nghe: chưa chạy | minimap: chưa chạy (0 khung)
+01:30:30 mono=105162.81 game=0:00 đội hình: ['Azir', 'Nidalee', 'Yone', 'Lucian', 'Morgana']
+01:30:49 mono=105181.88 game=0:16 trạng thái: nghe: đang nghe | minimap: đang theo dõi (601 khung)
+01:31:11 mono=105203.94 game=0:38 tiếng p=1.00 -> nhảy ['Morgana:6px'] -> TỰ BẤM Morgana
+01:31:19 mono=105211.97 game=0:46 trạng thái: nghe: đang nghe | minimap: đang theo dõi (1203 khung)
+01:31:27 mono=105220.03 game=0:54 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Nidalee', 'Yone', 'Lucian']
+01:31:49 mono=105241.98 game=1:16 trạng thái: nghe: đang nghe | minimap: đang theo dõi (1803 khung)
+01:32:19 mono=105272.17 game=1:46 trạng thái: nghe: đang nghe | minimap: đang theo dõi (2407 khung)
+01:32:20 mono=105272.78 game=1:47 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Nidalee', 'Yone', 'Lucian']
+01:32:22 mono=105274.59 game=1:49 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Nidalee', 'Yone', 'Lucian']
+01:32:49 mono=105302.19 game=2:16 trạng thái: nghe: đang nghe | minimap: đang theo dõi (3007 khung)
+01:32:52 mono=105304.59 game=2:19 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Nidalee', 'Yone', 'Lucian']
+01:32:53 mono=105306.22 game=2:20 tiếng p=1.00 -> nhảy ['Azir:7px'] -> TỰ BẤM Azir
+01:33:19 mono=105332.26 game=2:46 trạng thái: nghe: đang nghe | minimap: đang theo dõi (3609 khung)
+01:33:22 mono=105334.48 game=2:49 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Nidalee', 'Yone', 'Lucian']
+01:33:49 mono=105362.34 game=3:16 trạng thái: nghe: đang nghe | minimap: đang theo dõi (4211 khung)
+01:33:53 mono=105365.58 game=3:20 tiếng p=1.00 -> nhảy ['Yone:9px'] -> TỰ BẤM Yone
+01:33:55 mono=105368.42 game=3:22 tiếng p=1.00 -> nhảy ['Nidalee:6px'] -> TỰ BẤM Nidalee
+01:33:57 mono=105369.64 game=3:24 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Lucian']
+01:34:19 mono=105392.38 game=3:46 trạng thái: nghe: đang nghe | minimap: đang theo dõi (4811 khung)
+01:34:49 mono=105422.44 game=4:16 trạng thái: nghe: đang nghe | minimap: đang theo dõi (5413 khung)
+01:35:20 mono=105452.50 game=4:47 trạng thái: nghe: đang nghe | minimap: đang theo dõi (6014 khung)
+01:35:50 mono=105482.55 game=5:17 trạng thái: nghe: đang nghe | minimap: đang theo dõi (6615 khung)
+01:36:06 mono=105499.00 game=5:33 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Lucian']
+01:36:20 mono=105512.58 game=5:47 trạng thái: nghe: đang nghe | minimap: đang theo dõi (7215 khung)
+01:36:50 mono=105542.75 game=6:17 trạng thái: nghe: đang nghe | minimap: đang theo dõi (7819 khung)
+01:37:20 mono=105572.75 game=6:47 trạng thái: nghe: đang nghe | minimap: đang theo dõi (8418 khung)
+01:37:50 mono=105602.91 game=7:17 trạng thái: nghe: đang nghe | minimap: đang theo dõi (9022 khung)
+01:38:11 mono=105623.50 game=7:38 tiếng p=1.00 -> nhảy ['Lucian:6px'] -> TỰ BẤM Lucian
+01:38:15 mono=105627.75 game=7:42 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Morgana']
+01:38:20 mono=105633.01 game=7:47 trạng thái: nghe: đang nghe | minimap: đang theo dõi (9624 khung)
+01:38:50 mono=105663.17 game=8:17 trạng thái: nghe: đang nghe | minimap: đang theo dõi (10227 khung)
+01:38:59 mono=105672.25 game=8:26 tiếng p=1.00 -> nhảy ['Yone:5px'] -> TỰ BẤM Yone
+01:39:02 mono=105675.08 game=8:29 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Nidalee', 'Morgana']
+01:39:20 mono=105693.25 game=8:47 trạng thái: nghe: đang nghe | minimap: đang theo dõi (10829 khung)
+01:39:50 mono=105723.33 game=9:17 trạng thái: nghe: đang nghe | minimap: đang theo dõi (11430 khung)
+01:40:20 mono=105753.41 game=9:47 trạng thái: nghe: đang nghe | minimap: đang theo dõi (12032 khung)
+01:40:50 mono=105783.47 game=10:17 trạng thái: nghe: đang nghe | minimap: đang theo dõi (12633 khung)
+01:41:13 mono=105806.28 game=10:40 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Nidalee', 'Morgana']
+01:41:21 mono=105813.55 game=10:48 trạng thái: nghe: đang nghe | minimap: đang theo dõi (13235 khung)
+01:41:51 mono=105843.62 game=11:18 trạng thái: nghe: đang nghe | minimap: đang theo dõi (13836 khung)
+01:42:06 mono=105858.56 game=11:33 tiếng p=0.99 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Nidalee', 'Morgana']
+01:42:21 mono=105873.72 game=11:48 trạng thái: nghe: đang nghe | minimap: đang theo dõi (14438 khung)
+01:42:51 mono=105903.78 game=12:18 trạng thái: nghe: đang nghe | minimap: đang theo dõi (15039 khung)
+01:43:21 mono=105933.83 game=12:48 trạng thái: nghe: đang nghe | minimap: đang theo dõi (15640 khung)
+01:43:31 mono=105943.88 game=12:58 tiếng p=1.00 -> nhảy ['Morgana:7px'] -> TỰ BẤM Morgana
+01:43:51 mono=105963.88 game=13:18 trạng thái: nghe: đang nghe | minimap: đang theo dõi (16241 khung)
+01:44:01 mono=105973.76 game=13:28 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Nidalee', 'Yone', 'Lucian']
+01:44:21 mono=105993.91 game=13:48 trạng thái: nghe: đang nghe | minimap: đang theo dõi (16842 khung)
+01:44:48 mono=106021.48 game=14:15 tiếng p=1.00 -> nhảy ['Azir:8px'] -> TỰ BẤM Azir
+01:44:51 mono=106023.91 game=14:18 trạng thái: nghe: đang nghe | minimap: đang theo dõi (17442 khung)
+01:45:21 mono=106054.00 game=14:48 trạng thái: nghe: đang nghe | minimap: đang theo dõi (18044 khung)
+01:45:24 mono=106057.22 game=14:51 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Nidalee', 'Yone', 'Lucian']
+01:45:51 mono=106084.08 game=15:18 trạng thái: nghe: đang nghe | minimap: đang theo dõi (18645 khung)
+01:46:17 mono=106109.55 game=15:44 tiếng p=1.00 -> nhảy ['Yone:7px'] -> TỰ BẤM Yone
+01:46:21 mono=106114.20 game=15:48 trạng thái: nghe: đang nghe | minimap: đang theo dõi (19248 khung)
+01:46:25 mono=106118.06 game=15:52 tiếng p=1.00 -> nhảy ['Nidalee:9px'] -> TỰ BẤM Nidalee
+01:46:51 mono=106144.26 game=16:18 trạng thái: nghe: đang nghe | minimap: đang theo dõi (19849 khung)
+01:47:21 mono=106174.30 game=16:48 trạng thái: nghe: đang nghe | minimap: đang theo dõi (20450 khung)
+01:47:51 mono=106204.36 game=17:18 trạng thái: nghe: đang nghe | minimap: đang theo dõi (21051 khung)
+01:48:21 mono=106234.38 game=17:48 trạng thái: nghe: đang nghe | minimap: đang theo dõi (21651 khung)
+01:48:52 mono=106264.55 game=18:19 trạng thái: nghe: đang nghe | minimap: đang theo dõi (22255 khung)
+01:48:53 mono=106265.56 game=18:20 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Lucian', 'Morgana']
+01:49:22 mono=106294.73 game=18:49 trạng thái: nghe: đang nghe | minimap: đang theo dõi (22858 khung)
+01:49:24 mono=106297.16 game=18:51 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Lucian', 'Morgana']
+01:49:52 mono=106324.88 game=19:19 trạng thái: nghe: đang nghe | minimap: đang theo dõi (23461 khung)
+01:50:22 mono=106354.98 game=19:49 trạng thái: nghe: đang nghe | minimap: đang theo dõi (24063 khung)
+01:50:52 mono=106385.06 game=20:19 trạng thái: nghe: đang nghe | minimap: đang theo dõi (24665 khung)
+01:51:22 mono=106415.12 game=20:49 trạng thái: nghe: đang nghe | minimap: đang theo dõi (25266 khung)
+01:51:39 mono=106431.78 game=21:06 tiếng p=1.00 -> nhảy ['Yone:8px', 'Nidalee:5px'] (minimap ok) -> HỎI ['Yone', 'Nidalee']
+01:51:52 mono=106445.22 game=21:19 trạng thái: nghe: đang nghe | minimap: đang theo dõi (25868 khung)
+01:52:22 mono=106475.28 game=21:49 trạng thái: nghe: đang nghe | minimap: đang theo dõi (26469 khung)
+01:52:41 mono=106493.73 game=22:08 tiếng p=1.00 -> nhảy ['Morgana:6px'] -> TỰ BẤM Morgana
+01:52:52 mono=106505.41 game=22:19 trạng thái: nghe: đang nghe | minimap: đang theo dõi (27072 khung)
+01:52:54 mono=106507.22 game=22:21 tiếng p=1.00 -> nhảy ['Yone:6px', 'Nidalee:6px'] (minimap ok) -> HỎI ['Yone', 'Nidalee']
+01:53:22 mono=106535.41 game=22:49 trạng thái: nghe: đang nghe | minimap: đang theo dõi (27672 khung)
+01:53:36 mono=106548.89 game=23:03 tiếng p=1.00 -> nhảy ['Lucian:6px', 'Nidalee:5px'] (minimap ok) -> HỎI ['Lucian', 'Nidalee']
+01:53:53 mono=106565.59 game=23:20 trạng thái: nghe: đang nghe | minimap: đang theo dõi (28276 khung)
+01:54:23 mono=106595.76 game=23:50 trạng thái: nghe: đang nghe | minimap: đang theo dõi (28879 khung)
+01:54:24 mono=106597.17 game=23:51 tiếng p=1.00 -> nhảy ['Lucian:6px'] -> TỰ BẤM Lucian
+01:54:53 mono=106625.84 game=24:20 trạng thái: nghe: đang nghe | minimap: đang theo dõi (29480 khung)
+01:55:23 mono=106655.94 game=24:50 trạng thái: nghe: đang nghe | minimap: đang theo dõi (30082 khung)
+01:55:30 mono=106662.59 game=24:57 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Nidalee', 'Yone']
+01:55:53 mono=106686.03 game=25:20 trạng thái: nghe: đang nghe | minimap: đang theo dõi (30684 khung)
+01:56:23 mono=106716.14 game=25:50 trạng thái: nghe: đang nghe | minimap: đang theo dõi (31286 khung)
+01:56:53 mono=106746.22 game=26:20 trạng thái: nghe: đang nghe | minimap: đang theo dõi (31888 khung)
+01:57:17 mono=106770.25 game=26:44 tiếng p=1.00 -> nhảy ['Azir:5px'] -> TỰ BẤM Azir
+01:57:23 mono=106776.31 game=26:50 trạng thái: nghe: đang nghe | minimap: đang theo dõi (32490 khung)
+01:57:53 mono=106806.38 game=27:20 trạng thái: nghe: đang nghe | minimap: đang theo dõi (33091 khung)
+01:57:57 mono=106810.22 game=27:24 tiếng p=1.00 -> nhảy ['Yone:7px'] -> TỰ BẤM Yone
+01:58:24 mono=106836.55 game=27:51 trạng thái: nghe: đang nghe | minimap: đang theo dõi (33694 khung)
+01:58:54 mono=106866.70 game=28:21 trạng thái: nghe: đang nghe | minimap: đang theo dõi (34298 khung)
+01:58:57 mono=106870.16 game=28:24 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Nidalee', 'Morgana']
+01:58:59 mono=106872.19 game=28:26 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Nidalee', 'Morgana']
+01:59:11 mono=106883.94 game=28:38 tiếng p=1.00 -> nhảy ['Nidalee:7px', 'Morgana:5px'] (minimap ok) -> HỎI ['Nidalee', 'Morgana']
+01:59:15 mono=106888.39 game=28:42 tiếng p=1.00 -> nhảy ['Morgana:7px'] -> TỰ BẤM Morgana
+01:59:24 mono=106896.70 game=28:51 trạng thái: nghe: đang nghe | minimap: đang theo dõi (34898 khung)
+01:59:54 mono=106926.86 game=29:21 trạng thái: nghe: đang nghe | minimap: đang theo dõi (35501 khung)
+02:00:24 mono=106957.01 game=29:51 trạng thái: nghe: đang nghe | minimap: đang theo dõi (36104 khung)
+02:00:54 mono=106987.19 game=30:21 trạng thái: nghe: đang nghe | minimap: đang theo dõi (36707 khung)
+02:01:24 mono=107017.36 game=30:51 trạng thái: nghe: đang nghe | minimap: đang theo dõi (37311 khung)
+02:01:25 mono=107018.17 game=30:52 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Nidalee', 'Lucian']
+02:01:55 mono=107047.53 game=31:22 trạng thái: nghe: đang nghe | minimap: đang theo dõi (37914 khung)
+02:02:25 mono=107077.69 game=31:52 trạng thái: nghe: đang nghe | minimap: đang theo dõi (38517 khung)
+02:02:55 mono=107107.78 game=32:22 trạng thái: nghe: đang nghe | minimap: đang theo dõi (39119 khung)
+02:03:25 mono=107137.78 game=32:52 trạng thái: nghe: đang nghe | minimap: đang theo dõi (39719 khung)
+02:03:55 mono=107167.94 game=33:22 trạng thái: nghe: đang nghe | minimap: đang theo dõi (40322 khung)
+02:04:05 mono=107177.97 game=33:32 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Azir', 'Nidalee', 'Yone', 'Lucian', 'Morgana']
+02:04:16 mono=107189.20 game=33:43 tiếng p=1.00 -> nhảy ['Azir:5px'] -> TỰ BẤM Azir
+02:04:17 mono=107190.42 game=33:44 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Nidalee', 'Yone', 'Lucian', 'Morgana']
+02:04:25 mono=107198.06 game=33:52 trạng thái: nghe: đang nghe | minimap: đang theo dõi (40925 khung)
+02:04:55 mono=107228.25 game=34:22 trạng thái: nghe: đang nghe | minimap: đang theo dõi (41528 khung)
+02:05:25 mono=107258.44 game=34:52 trạng thái: nghe: đang nghe | minimap: đang theo dõi (42132 khung)
+02:05:55 mono=107287.61 game=35:22 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Nidalee', 'Yone', 'Lucian', 'Morgana']
+02:05:56 mono=107288.61 game=35:23 trạng thái: nghe: đang nghe | minimap: đang theo dõi (42736 khung)
+02:06:26 mono=107318.80 game=35:53 trạng thái: nghe: đang nghe | minimap: đang theo dõi (43340 khung)
+02:06:31 mono=107324.03 game=35:58 tiếng p=1.00 -> nhảy [] (minimap ok) -> HỎI ['Nidalee', 'Yone', 'Lucian', 'Morgana']
+02:06:56 mono=107348.98 game=36:23 trạng thái: nghe: đang nghe | minimap: đang theo dõi (43943 khung)
