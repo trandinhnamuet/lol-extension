@@ -269,7 +269,7 @@ class FlashListener(threading.Thread):
                 stamp = time.strftime("%Y%m%d_%H%M%S")
                 self._wav = open(os.path.join(self.debug_dir, f"audio_{stamp}.pcm"), "wb")  # int16 mono 48 kHz
                 self._prob_csv = open(os.path.join(self.debug_dir, f"probs_{stamp}.csv"), "w", encoding="utf-8", buffering=1)
-                self._prob_csv.write("mono," + ",".join(self.models) + "\n")
+                self._prob_csv.write("mono," + ",".join(self.models) + ",rms_db\n")
             except Exception as e:
                 self.status = f"đang nghe (không ghi chẩn đoán: {e})"
                 self._wav = self._prob_csv = None
@@ -292,7 +292,8 @@ class FlashListener(threading.Thread):
                 p = self.score_window(self.stats.normalize(X))
                 t_center = t_end - 0.5
                 if self._prob_csv is not None:
-                    self._prob_csv.write(f"{t_center:.2f}," + ",".join(f"{p[n]:.3f}" for n in self.models) + "\n")
+                    rms = float(np.sqrt(np.mean(y[-SR // 10:] ** 2)) + 1e-9)  # âm lượng 100 ms mới nhất (dBFS)
+                    self._prob_csv.write(f"{t_center:.2f}," + ",".join(f"{p[n]:.3f}" for n in self.models) + f",{20 * np.log10(rms):.1f}\n")
                 for name, v in p.items():
                     self.probs[name].append((t_center, v))
                     self._maybe_emit(name)

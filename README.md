@@ -77,6 +77,7 @@ File được tạo ở lần chạy đầu.
 - `champion_abilities`: kỹ năng theo dõi của từng tướng, vd `{"Yasuo": ["W", "R"], "LeeSin": []}` (app tự ghi khi bạn thêm/bỏ).
 - TP+ mặc định hồi 330s (level 1) → 240s (level 18). Các nguồn đang ghi khác nhau; muốn cố định thì thêm `"teleport_unleashed": 300` vào `cd_override`.
 - `auto_flash`: bật tự bắt Flash. `auto_ignite` (mặc định true) và `auto_ignite_threshold`: phần Thiêu Đốt. `auto_flash_threshold`: ngưỡng xác suất (0,9 nhạy hơn, 0,98 ít báo sai hơn). `auto_flash_ask_unknown`: hỏi khi không biết ai (false = chỉ tự bấm khi chắc). `minimap_rect`: vùng minimap.
+- `auto_flash_debug_frames` (mặc định false): ghi chẩn đoán vào `data/debug_frames/` để tìm lý do app bỏ lỡ: ảnh minimap quanh mỗi tiếng nghe được, âm thanh thô `audio_*.pcm` (int16 mono 48 kHz), `probs_*.csv` (xác suất + âm lượng mỗi 100 ms) và, mỗi lần **bạn bấm tay** một ô, 10 giây ảnh minimap trước đó (thư mục `NNN_tay_...`). Mỗi lần bấm/hủy tay cũng ghi vào `auto_flash.log` (`TAY bấm <tướng> <phép>`). Sau trận chạy `python research/audio/review_manual.py data` để xem từng lần bấm tay có phải là lần app bỏ lỡ không, và vì sao.
 - `opacity`: độ trong suốt (0.2 – 1.0, mặc định 0.7). `scale`: kích thước (0.5 – 1.5, mặc định 0.8). `compact`: chế độ gọn. Cả ba chỉnh được ngay trong app.
 
 ## An toàn tài khoản

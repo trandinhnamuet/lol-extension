@@ -567,10 +567,15 @@ class TimerSlot:
         self.render()
 
     def toggle(self):
+        auto = getattr(self.app, "auto", None)
         if self.remaining():
+            if auto:
+                auto.note_manual(self, "hủy")
             self.reset()  # click lại khi đang hồi = hủy (bấm nhầm)
         else:
             self.start()
+            if auto:
+                auto.note_manual(self, "bấm")
 
     def start(self):
         cd = self.cooldown()
