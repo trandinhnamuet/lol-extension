@@ -576,6 +576,18 @@ Quy kết: Thiêu Đốt tầm 600 đơn vị ≈ 10,7 px minimap 1080p. Kẻ th
 địch cũng tạo vòng xanh giả). Mơ hồ (đồng minh mang Thiêu Đốt đứng trong tầm ứng viên) thì hỏi vì tiếng
 hai phe giống nhau.
 
+**Bài thử 6 (21/10, 09:08): replay 16.21 của người khác (1610904509, 23 phút), camera gắn vào phe ORDER,
+địch (CHAOS) ẩn trong sương mù như trận thật.** Flash địch 10: nghe 7, tự bấm đúng 2, sai 0, hỏi 5. Thiêu Đốt địch
+4 (chỉ Shaco mang): nghe 3, tự bấm 0, sai 0, hỏi 3 (Shaco đốt từ tàng hình nên không có vị trí trên minimap).
+Không có lần bấm không căn cứ nào ở cả hai phép.
+
+**Lưu ý quan trọng về các bài thử 2–5:** app không có `activePlayer` trong replay nên coi ORDER là phe mình;
+ở các trận đó người chơi lại thuộc CHAOS, tức là "địch" theo app chính là phe có camera, **luôn hiện trên
+minimap**. Tỉ lệ tự bấm 60–70% của các bài đó vì thế lạc quan hơn trận thật. Bài 6 là điều kiện thật: địch
+trong sương mù thì không có vết, Flash từ sương mù vào tầm nhìn cũng không có "đứng yên trước" nên không
+tự bấm được, chỉ hỏi. Hướng cải thiện: icon địch *vừa xuất hiện* trong [t, t + 0,4 s] gần đồng minh có thể
+xếp lên đầu dải hỏi (không tự bấm).
+
 ### 9.9. Việc tiếp theo
 
 1. Âm thanh: tăng tỉ lệ bắt trong giao tranh (còn ~20% sót): huấn luyện lại với 26 trận đã có,

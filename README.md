@@ -59,11 +59,12 @@ click một cái để gán, 6 giây không click thì tự ẩn.
   hoặc tỉ lệ khác: **⚙ → Chụp thử vùng minimap** rồi xem `minimap_snapshot.png` (icon tìm được
   khoanh xanh), chỉnh `minimap_rect: [x, y, w, h]` trong `config.json`.
 - Tốn ~3% một lõi CPU, ~80 MB RAM, không cần GPU. Mọi quyết định ghi vào `auto_flash.log`.
-- Đo trên replay (xem `research/audio/RESEARCH.md` mục 9): mô hình âm thanh nghe thấy ~75–83%
-  Flash với ~1 báo sai mỗi 10 phút ở ngưỡng 0,95 (`auto_flash_threshold`); trong số nghe thấy,
-  khoảng một nửa tự bấm được đúng người, còn lại hỏi (dải chân dung). Trong 2 trận thử cuối không
-  có lần tự bấm sai nào. Tiếng Flash trong giao tranh đông dễ bị lấn, nên không phải lần nào cũng
-  nghe thấy; dải hỏi cũng hiện khi đồng minh Flash (tiếng giống nhau), cứ bỏ qua.
+- Đo trên replay (xem `research/audio/RESEARCH.md` mục 9): mô hình âm thanh nghe thấy ~70–80%
+  Flash với ~1 báo sai mỗi 10 phút ở ngưỡng 0,95 (`auto_flash_threshold`). Trong số nghe thấy, tự
+  bấm được đúng người khi địch đang hiện trên minimap lúc Flash (khoảng 30–60% tùy trận), còn lại
+  hỏi bằng dải chân dung; các bài thử không ghi nhận lần tự bấm sai người. Tiếng Flash trong giao
+  tranh đông dễ bị lấn, nên không phải lần nào cũng nghe thấy; dải hỏi cũng hiện khi đồng minh
+  Flash (tiếng giống nhau), cứ bỏ qua.
 
 ### Thiêu Đốt (từ v1.3.0)
 Cùng bộ nghe (mô hình thứ hai trên cùng log-mel, thêm ~2,5% một lõi). Thiêu Đốt nhắm mục tiêu nên không có cú nhảy; thay vào đó: kẻ thi triển phải là địch mang Thiêu Đốt đang cách một đồng minh (hoặc bạn) không quá tầm 600 trên minimap lúc nghe thấy tiếng. Một ứng viên → tự bấm. Hỏi khi: nhiều ứng viên, không ứng viên nào trong tầm, hoặc một đồng minh cũng mang Thiêu Đốt đứng trong tầm (tiếng của hai phe giống nhau, không phân biệt được ai vừa dùng). Tắt riêng bằng `auto_ignite: false`.
