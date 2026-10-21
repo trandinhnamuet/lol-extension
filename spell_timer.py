@@ -1240,6 +1240,8 @@ class App:
 
         self.poller = Poller(mock_path)
         self.poller.start()
+        from update_ui import UpdateController
+        self.updates = UpdateController(self, self.header)
         from auto_flash import AutoFlash
         self.auto = AutoFlash(self)
         if self.cfg.get("auto_flash"):
@@ -1337,6 +1339,14 @@ class App:
             menu.add_command(label="   Chụp thử vùng minimap (minimap_snapshot.png)",
                              command=self.auto.snapshot)
         menu.add_separator()
+        from version import APP_VERSION
+        menu.add_command(label=f"Phiên bản {APP_VERSION}", state="disabled")
+        menu.add_command(label="Kiểm tra cập nhật" if self.updates.info is None else
+                         f"Cập nhật lên v{self.updates.info.latest}…",
+                         command=lambda: (self.updates.open_dialog() if self.updates.info is not None
+                                          else (setattr(self.updates, "last_check", 0),
+                                                self.set_status("đang kiểm tra bản mới…", hold=2))))
+        menu.add_separator()
         menu.add_command(label="Mẹo: Ctrl + lăn chuột = độ trong suốt", state="disabled")
         menu.add_command(label="Mẹo: kéo góc ◢ = kích thước", state="disabled")
         self.popup(menu, event)
@@ -1371,7 +1381,7 @@ class App:
 
     # ---------- UI ----------
     def build_header(self):
-        header = tk.Frame(self.root, bg=HEADER_BG)
+        header = self.header = tk.Frame(self.root, bg=HEADER_BG)
         header.pack(fill="x")
         self.title = tk.Label(header, font=self.fonts["title"], bg=HEADER_BG, fg=FG,
                               text="⏱" if self.cfg["compact"] else "⏱ LOL Spell Timer")
