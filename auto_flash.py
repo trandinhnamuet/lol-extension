@@ -62,6 +62,9 @@ class AutoFlash:
         self.listener.start()
         rect = self.cfg.get("minimap_rect")
         self.tracker = minimap_tracker.MinimapTracker(rect=tuple(rect) if rect else None)
+        fog = os.environ.get("LOLSPELLTIMER_FOG_LUM")  # chỉ để thử bằng replay chọn sương mù Xanh (không dùng trong bản phát hành)
+        if fog and not appdirs.FROZEN:
+            self.tracker.fog_min_lum = float(fog)
         if self.cfg.get("auto_flash_debug_frames"):  # chỉ để chỉnh luật: lưu ảnh minimap thô quanh mỗi tiếng
             self.tracker.debug_dir = os.path.join(APP_DIR, "debug_frames")
             self.debug_n = 0

@@ -83,7 +83,19 @@ def blue_mask(frame):
     return ((h >= 95) & (h <= 125) & (s >= 110) & (v >= 120)).astype(np.uint8) * 255
 
 
-def find_rings(frame, r_min, r_max, color="red"):
+def annulus_luminance(frame, x, y, r):
+    """Độ sáng trung vị của nền ngay ngoài vòng (r+3..r+7 px): vùng nhìn thấy ~70–110, vùng sương mù ~50."""
+    g = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    H, W = g.shape
+    x0, x1, y0, y1 = max(0, int(x - r - 8)), min(W, int(x + r + 9)), max(0, int(y - r - 8)), min(H, int(y + r + 9))
+    sub = g[y0:y1, x0:x1].astype(float)
+    yy, xx = np.ogrid[y0:y1, x0:x1]
+    d2 = (xx - x) ** 2 + (yy - y) ** 2
+    m = (d2 >= (r + 3) ** 2) & (d2 <= (r + 7) ** 2)
+    return float(np.median(sub[m])) if m.any() else 255.0
+
+
+def find_rings(frame, r_min, r_max, color="red", fog_min_lum=None):
     """Tâm và bán kính các vòng (icon tướng) trên minimap; color = "red" (địch) | "blue" (đồng minh)."""
     mask = red_mask(frame) if color == "red" else blue_mask(frame)
     circles = cv2.HoughCircles(mask, cv2.HOUGH_GRADIENT, dp=1, minDist=r_min, param1=50, param2=8,
@@ -112,6 +124,8 @@ def find_rings(frame, r_min, r_max, color="red"):
             disc = (cx_ - x) ** 2 + (cy_ - y) ** 2 <= core ** 2
             if disc.any() and (sub[disc] > 0).mean() > CORE_RED_MAX:
                 continue  # đặc đỏ: trụ, ping
+        if fog_min_lum is not None and color == "red" and annulus_luminance(frame, x, y, r) < fog_min_lum:
+            continue  # mô phỏng minimap thật trong replay: icon địch nằm trong vùng sương mù thì không hiện
         out.append((x, y, r))
     return out
 
@@ -136,6 +150,7 @@ class MinimapTracker(threading.Thread):
         self.last_blue = []
         self.blue_positions = deque()
         self.red_positions = deque()  # (t, [(x, y)]) mọi vòng đỏ, kể cả chưa nhận ra tên
+        self.fog_min_lum = None  # chỉ để thử bằng replay (xem replay_ui.py); trận thật để None
         self.debug_frames = deque(maxlen=40)  # (t, ảnh) ~2 s gần nhất, chỉ khi debug_dir được đặt
         self.debug_dir = None
         side = min(self.rect[2], self.rect[3])
@@ -232,7 +247,7 @@ class MinimapTracker(threading.Thread):
                     h.popleft()
 
     def process(self, frame, t):
-        rings = find_rings(frame, self.r_min, self.r_max)
+        rings = find_rings(frame, self.r_min, self.r_max, "red", self.fog_min_lum)
         self.last_rings = rings
         with self.lock:
             self.red_positions.append((t, [(x, y) for x, y, r in rings]))
