@@ -135,6 +135,9 @@ class MinimapTracker(threading.Thread):
         self.last_rings = []
         self.last_blue = []
         self.blue_positions = deque()
+        self.red_positions = deque()  # (t, [(x, y)]) mọi vòng đỏ, kể cả chưa nhận ra tên
+        self.debug_frames = deque(maxlen=40)  # (t, ảnh) ~2 s gần nhất, chỉ khi debug_dir được đặt
+        self.debug_dir = None
         side = min(self.rect[2], self.rect[3])
         self.r_min, self.r_max = max(6, int(side * RING_R_FRAC[0])), int(side * RING_R_FRAC[1]) + 1
 
@@ -231,6 +234,10 @@ class MinimapTracker(threading.Thread):
     def process(self, frame, t):
         rings = find_rings(frame, self.r_min, self.r_max)
         self.last_rings = rings
+        with self.lock:
+            self.red_positions.append((t, [(x, y) for x, y, r in rings]))
+            while self.red_positions and t - self.red_positions[0][0] > HISTORY_SECONDS:
+                self.red_positions.popleft()
         self._identify(frame, rings, t)
         if self.track_allies:
             blue = find_rings(frame, self.r_min, self.r_max, "blue")
@@ -253,6 +260,34 @@ class MinimapTracker(threading.Thread):
         if not pts:
             return None
         return float(np.median([p[0] for p in pts])), float(np.median([p[1] for p in pts]))
+
+    def ring_jumps(self, t_event, color="blue"):
+        """Cú nhảy ẩn danh của vòng `color` ("blue" đồng minh | "red" địch) quanh mốc tiếng: một vòng
+        đứng yên rồi biến mất, và ở khung kế một vòng mới hiện cách nó 5–12 px. Trả [(x1, y1, x2, y2, px)].
+        Không cần biết tên nên dùng được cho cả đồng minh (chân dung ít khi nhận ra)."""
+        side = min(self.rect[2], self.rect[3])
+        jump_px, jump_max, tol = side * JUMP_PX_FRAC, side * JUMP_MAX_FRAC, side * STABLE_TOL_FRAC
+        with self.lock:
+            frames = list(self.blue_positions if color == "blue" else self.red_positions)
+        out = []
+        for k in range(1, len(frames)):
+            (t1, a), (t2, b) = frames[k - 1], frames[k]
+            if not (t_event - WINDOW_BEFORE <= t2 <= t_event + WINDOW_AFTER) or not 0 < t2 - t1 <= JUMP_MAX_DT:
+                continue
+            gone = [p for p in a if all(np.hypot(p[0] - q[0], p[1] - q[1]) > tol for q in b)]
+            new = [q for q in b if all(np.hypot(p[0] - q[0], p[1] - q[1]) > tol for p in a)]
+            for p in gone:
+                for q in new:
+                    d = float(np.hypot(p[0] - q[0], p[1] - q[1]))
+                    if not jump_px <= d <= jump_max:
+                        continue
+                    before = [pts for t, pts in frames[:k] if t1 - STABLE_BEFORE <= t < t1]
+                    stable = sum(1 for pts in before if any(np.hypot(p[0] - r[0], p[1] - r[1]) <= tol for r in pts))
+                    after = [pts for t, pts in frames[k + 1:] if t2 < t <= t2 + 0.3]
+                    stay = all(any(np.hypot(q[0] - r[0], q[1] - r[1]) <= tol for r in pts) for pts in after) if after else True
+                    if stable >= 2 and stay:
+                        out.append((p[0], p[1], q[0], q[1], d))
+        return out
 
     def allies_near(self, x, y, radius, t0, t1):
         """Số vòng xanh (đồng minh/mình) cách (x, y) <= radius trong [t0, t1] (tính theo khung gần nhất)."""
@@ -288,6 +323,8 @@ class MinimapTracker(threading.Thread):
                     t = time.monotonic()
                     self.last_frame = frame
                     self.frames += 1
+                    if self.debug_dir:
+                        self.debug_frames.append((t, frame))
                     self.process(frame, t)
         except Exception as e:
             self.status = f"lỗi minimap: {e}"
@@ -326,6 +363,16 @@ class MinimapTracker(threading.Thread):
                 if best:
                     out.append((champ, best))
         return sorted(out, key=lambda r: -r[1])
+
+    def dump_debug(self, t_event, tag, before=0.9, after=0.6):
+        """Ghi các khung minimap thô quanh mốc tiếng vào debug_dir/<tag>/<t - t_event>.png (để chỉnh luật ngoại tuyến)."""
+        if not self.debug_dir or cv2 is None:
+            return
+        d = os.path.join(self.debug_dir, tag)
+        os.makedirs(d, exist_ok=True)
+        for t, f in list(self.debug_frames):
+            if t_event - before <= t <= t_event + after:
+                cv2.imwrite(os.path.join(d, f"{t - t_event:+.3f}.png"), f)
 
     def snapshot(self, path):
         frame = self.last_frame

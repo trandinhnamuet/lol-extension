@@ -60,6 +60,9 @@ class AutoFlash:
         self.listener.start()
         rect = self.cfg.get("minimap_rect")
         self.tracker = minimap_tracker.MinimapTracker(rect=tuple(rect) if rect else None)
+        if self.cfg.get("auto_flash_debug_frames"):  # chỉ để chỉnh luật: lưu ảnh minimap thô quanh mỗi tiếng
+            self.tracker.debug_dir = os.path.join(APP_DIR, "debug_frames")
+            self.debug_n = 0
         self.enemy_ids = None
         self.sync_enemies(force=True)
         self.tracker.start()
@@ -132,6 +135,9 @@ class AutoFlash:
         ready = [e for e in self.pending if now - e[0] >= DECIDE_AFTER]
         self.pending = [e for e in self.pending if now - e[0] < DECIDE_AFTER]
         for t, p, spell in ready:
+            if self.tracker is not None and self.tracker.debug_dir:
+                self.debug_n += 1
+                self.tracker.dump_debug(t, f"{self.debug_n:03d}_{spell}_g{int(self.app.estimated_game_time() or 0)}")
             if spell in TARGETED:
                 self.decide_targeted(t, p, spell)
             else:
@@ -206,6 +212,11 @@ class AutoFlash:
                 tracks = {c: [(round(tt - t, 2), round(x), round(y), round(sc, 2)) for tt, x, y, sc in h
                               if t - 0.8 <= tt <= t + 0.5] for c, h in self.tracker.history.items()}
             self.log("vết: " + "; ".join(f"{c}={v}" for c, v in tracks.items() if v))
+        if tracker_ok:  # chẩn đoán: cú nhảy ẩn danh của vòng xanh / đỏ quanh mốc tiếng
+            for color in ("blue", "red"):
+                js = self.tracker.ring_jumps(t, color)
+                if js:
+                    self.log(f"nhảy {color}: " + "; ".join(f"({a:.0f},{b:.0f})->({c:.0f},{d:.0f}) {px:.0f}px" for a, b, c, d, px in js))
         candidates = [(rows_by_champ[c], px) for c, px in jumped if c in rows_by_champ]
         # bỏ ứng viên mà Flash đang hồi sẵn (đã bấm rồi, hoặc khớp nhiễu)
         candidates = [(row, px) for row, px in candidates

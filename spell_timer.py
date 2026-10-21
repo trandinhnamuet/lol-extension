@@ -46,6 +46,7 @@ DEFAULT_CONFIG = {
     "auto_flash_ask_unknown": True,  # không biết ai: hiện dải chân dung để chọn
     "auto_ignite": True,  # cũng nghe Thiêu Đốt (quy kết bằng tầm 600 quanh đồng minh trên minimap)
     "auto_ignite_threshold": 0.95,
+    "auto_flash_debug_frames": False,  # chỉ để chỉnh luật: lưu ảnh minimap thô quanh mỗi tiếng vào debug_frames/
     "minimap_rect": None,  # [x, y, w, h] vùng minimap trên màn hình; None = góc dưới phải 1080p
 }
 
