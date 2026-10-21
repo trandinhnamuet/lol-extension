@@ -1,0 +1,613 @@
+{
+ "activePlayer": {
+  "error": "Spectator mode doesn't currently support this feature"
+ },
+ "allPlayers": [
+  {
+   "championName": "Graves",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "TOP",
+   "rawChampionName": "game_character_displayname_Graves",
+   "rawSkinName": "game_character_skin_displayname_Graves_5",
+   "respawnTimer": 0.0,
+   "riotId": "asasasassa#vn2",
+   "riotIdGameName": "asasasassa",
+   "riotIdTagLine": "vn2",
+   "runes": {
+    "keystone": {
+     "displayName": "Bước Chân Thần Tốc",
+     "id": 8021,
+     "rawDescription": "perk_tooltip_FleetFootwork",
+     "rawDisplayName": "perk_displayname_FleetFootwork"
+    },
+    "primaryRuneTree": {
+     "displayName": "Chuẩn Xác",
+     "id": 8000,
+     "rawDescription": "perkstyle_tooltip_7201",
+     "rawDisplayName": "perkstyle_displayname_7201"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Pháp Thuật",
+     "id": 8200,
+     "rawDescription": "perkstyle_tooltip_7202",
+     "rawDisplayName": "perkstyle_displayname_7202"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "skinID": 5,
+   "skinName": "Graves Tiệc Bể Bơi",
+   "summonerName": "asasasassa#vn2",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Thiêu Đốt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    }
+   },
+   "team": "ORDER"
+  },
+  {
+   "championName": "Malphite",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "JUNGLE",
+   "rawChampionName": "game_character_displayname_Malphite",
+   "rawSkinName": "game_character_skin_displayname_Malphite_6",
+   "respawnTimer": 0.0,
+   "riotId": "Hiệp Yêu Em#LUPJ",
+   "riotIdGameName": "Hiệp Yêu Em",
+   "riotIdTagLine": "LUPJ",
+   "runes": {
+    "keystone": {
+     "displayName": "Quyền Năng Bất Diệt",
+     "id": 8437,
+     "rawDescription": "perk_tooltip_GraspOfTheUndying",
+     "rawDisplayName": "perk_displayname_GraspOfTheUndying"
+    },
+    "primaryRuneTree": {
+     "displayName": "Kiên Định",
+     "id": 8400,
+     "rawDescription": "perkstyle_tooltip_7204",
+     "rawDisplayName": "perkstyle_displayname_7204"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Cảm Hứng",
+     "id": 8300,
+     "rawDescription": "perkstyle_tooltip_7203",
+     "rawDisplayName": "perkstyle_displayname_7203"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "skinID": 6,
+   "skinName": "Malphite Máy Móc",
+   "summonerName": "Hiệp Yêu Em#LUPJ",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Trừng Phạt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerSmite_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerSmite_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    }
+   },
+   "team": "ORDER"
+  },
+  {
+   "championName": "Cassiopeia",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "MIDDLE",
+   "rawChampionName": "game_character_displayname_Cassiopeia",
+   "rawSkinName": "game_character_skin_displayname_Cassiopeia_9",
+   "respawnTimer": 0.0,
+   "riotId": "Serru#77777",
+   "riotIdGameName": "Serru",
+   "riotIdTagLine": "77777",
+   "runes": {
+    "keystone": {
+     "displayName": "Xung Kích Bão Tố",
+     "id": 8230,
+     "rawDescription": "perk_tooltip_PhaseRush",
+     "rawDisplayName": "perk_displayname_PhaseRush"
+    },
+    "primaryRuneTree": {
+     "displayName": "Pháp Thuật",
+     "id": 8200,
+     "rawDescription": "perkstyle_tooltip_7202",
+     "rawDisplayName": "perkstyle_displayname_7202"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Chuẩn Xác",
+     "id": 8000,
+     "rawDescription": "perkstyle_tooltip_7201",
+     "rawDisplayName": "perkstyle_displayname_7201"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "skinID": 9,
+   "skinName": "Cassiopeia Mị Hoặc Xà Yêu",
+   "summonerName": "Serru#77777",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Dịch Chuyển",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerTeleport_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerTeleport_DisplayName"
+    }
+   },
+   "team": "ORDER"
+  },
+  {
+   "championName": "Caitlyn",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "BOTTOM",
+   "rawChampionName": "game_character_displayname_Caitlyn",
+   "rawSkinName": "game_character_skin_displayname_Caitlyn_10",
+   "respawnTimer": 0.0,
+   "riotId": "A Vũ Buồn Ngủ#8148",
+   "riotIdGameName": "A Vũ Buồn Ngủ",
+   "riotIdTagLine": "8148",
+   "runes": {
+    "keystone": {
+     "displayName": "Đòn Phủ Đầu",
+     "id": 8369,
+     "rawDescription": "perk_tooltip_FirstStrike",
+     "rawDisplayName": "perk_displayname_FirstStrike"
+    },
+    "primaryRuneTree": {
+     "displayName": "Cảm Hứng",
+     "id": 8300,
+     "rawDescription": "perkstyle_tooltip_7203",
+     "rawDisplayName": "perkstyle_displayname_7203"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Pháp Thuật",
+     "id": 8200,
+     "rawDescription": "perkstyle_tooltip_7202",
+     "rawDisplayName": "perkstyle_displayname_7202"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "skinID": 10,
+   "skinName": "Caitlyn Nguyệt Hồn",
+   "summonerName": "A Vũ Buồn Ngủ#8148",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Lá Chắn",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerBarrier_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerBarrier_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    }
+   },
+   "team": "ORDER"
+  },
+  {
+   "championName": "Nautilus",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "UTILITY",
+   "rawChampionName": "game_character_displayname_Nautilus",
+   "rawSkinName": "game_character_skin_displayname_Nautilus_33",
+   "respawnTimer": 0.0,
+   "riotId": "huong giang#5555",
+   "riotIdGameName": "huong giang",
+   "riotIdTagLine": "5555",
+   "runes": {
+    "keystone": {
+     "displayName": "Nâng Cấp Băng Giá",
+     "id": 8351,
+     "rawDescription": "perk_tooltip_GlacialAugment",
+     "rawDisplayName": "perk_displayname_GlacialAugment"
+    },
+    "primaryRuneTree": {
+     "displayName": "Cảm Hứng",
+     "id": 8300,
+     "rawDescription": "perkstyle_tooltip_7203",
+     "rawDisplayName": "perkstyle_displayname_7203"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Kiên Định",
+     "id": 8400,
+     "rawDescription": "perkstyle_tooltip_7204",
+     "rawDisplayName": "perkstyle_displayname_7204"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "skinID": 33,
+   "skinName": "Nautilus Hiệp Sĩ Vũ Trụ (Hồng Tinh)",
+   "summonerName": "huong giang#5555",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Thiêu Đốt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+    }
+   },
+   "team": "ORDER"
+  },
+  {
+   "championName": "Jayce",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "TOP",
+   "rawChampionName": "game_character_displayname_Jayce",
+   "rawSkinName": "game_character_skin_displayname_Jayce_15",
+   "respawnTimer": 0.0,
+   "riotId": "Vịt Đây Rồi#2102",
+   "riotIdGameName": "Vịt Đây Rồi",
+   "riotIdTagLine": "2102",
+   "runes": {
+    "keystone": {
+     "displayName": "Quyền Năng Bất Diệt",
+     "id": 8437,
+     "rawDescription": "perk_tooltip_GraspOfTheUndying",
+     "rawDisplayName": "perk_displayname_GraspOfTheUndying"
+    },
+    "primaryRuneTree": {
+     "displayName": "Kiên Định",
+     "id": 8400,
+     "rawDescription": "perkstyle_tooltip_7204",
+     "rawDisplayName": "perkstyle_displayname_7204"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Chuẩn Xác",
+     "id": 8000,
+     "rawDescription": "perkstyle_tooltip_7201",
+     "rawDisplayName": "perkstyle_displayname_7201"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "skinID": 15,
+   "skinName": "Jayce Kháng Chiến",
+   "summonerName": "Vịt Đây Rồi#2102",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Dịch Chuyển",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerTeleport_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerTeleport_DisplayName"
+    }
+   },
+   "team": "CHAOS"
+  },
+  {
+   "championName": "Shaco",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "JUNGLE",
+   "rawChampionName": "game_character_displayname_Shaco",
+   "rawSkinName": "game_character_displayname_Shaco",
+   "respawnTimer": 0.0,
+   "riotId": "Phi Công Già#0307",
+   "riotIdGameName": "Phi Công Già",
+   "riotIdTagLine": "0307",
+   "runes": {
+    "keystone": {
+     "displayName": "Mưa Kiếm",
+     "id": 9923,
+     "rawDescription": "perk_tooltip_HailOfBlades",
+     "rawDisplayName": "perk_displayname_HailOfBlades"
+    },
+    "primaryRuneTree": {
+     "displayName": "Áp Đảo",
+     "id": 8100,
+     "rawDescription": "perkstyle_tooltip_7200",
+     "rawDisplayName": "perkstyle_displayname_7200"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Chuẩn Xác",
+     "id": 8000,
+     "rawDescription": "perkstyle_tooltip_7201",
+     "rawDisplayName": "perkstyle_displayname_7201"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "skinID": 0,
+   "skinName": "Shaco",
+   "summonerName": "Phi Công Già#0307",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Thiêu Đốt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Trừng Phạt",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerSmite_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerSmite_DisplayName"
+    }
+   },
+   "team": "CHAOS"
+  },
+  {
+   "championName": "Viktor",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "MIDDLE",
+   "rawChampionName": "game_character_displayname_Viktor",
+   "rawSkinName": "game_character_displayname_Viktor",
+   "respawnTimer": 0.0,
+   "riotId": "Foxrain#4194",
+   "riotIdGameName": "Foxrain",
+   "riotIdTagLine": "4194",
+   "runes": {
+    "keystone": {
+     "displayName": "Lửa Tử Thần",
+     "id": 8992,
+     "rawDescription": "perk_tooltip_DeathfireTouch",
+     "rawDisplayName": "perk_displayname_DeathfireTouch"
+    },
+    "primaryRuneTree": {
+     "displayName": "Pháp Thuật",
+     "id": 8200,
+     "rawDescription": "perkstyle_tooltip_7202",
+     "rawDisplayName": "perkstyle_displayname_7202"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Kiên Định",
+     "id": 8400,
+     "rawDescription": "perkstyle_tooltip_7204",
+     "rawDisplayName": "perkstyle_displayname_7204"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "skinID": 0,
+   "skinName": "Viktor",
+   "summonerName": "Foxrain#4194",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Dịch Chuyển",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerTeleport_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerTeleport_DisplayName"
+    }
+   },
+   "team": "CHAOS"
+  },
+  {
+   "championName": "Jinx",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "BOTTOM",
+   "rawChampionName": "game_character_displayname_Jinx",
+   "rawSkinName": "game_character_skin_displayname_Jinx_20",
+   "respawnTimer": 0.0,
+   "riotId": "T1 Learez#55555",
+   "riotIdGameName": "T1 Learez",
+   "riotIdTagLine": "55555",
+   "runes": {
+    "keystone": {
+     "displayName": "Nhịp Độ Chết Người",
+     "id": 8008,
+     "rawDescription": "perk_tooltip_LethalTempo",
+     "rawDisplayName": "perk_displayname_LethalTempo"
+    },
+    "primaryRuneTree": {
+     "displayName": "Chuẩn Xác",
+     "id": 8000,
+     "rawDescription": "perkstyle_tooltip_7201",
+     "rawDisplayName": "perkstyle_displayname_7201"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Cảm Hứng",
+     "id": 8300,
+     "rawDescription": "perkstyle_tooltip_7203",
+     "rawDisplayName": "perkstyle_displayname_7203"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "skinID": 20,
+   "skinName": "SIÊU PHẨM: Jinx",
+   "summonerName": "T1 Learez#55555",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Lá Chắn",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerBarrier_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerBarrier_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    }
+   },
+   "team": "CHAOS"
+  },
+  {
+   "championName": "Seraphine",
+   "isBot": false,
+   "isDead": false,
+   "items": [],
+   "level": 1,
+   "position": "UTILITY",
+   "rawChampionName": "Character_Seraphine_Name",
+   "rawSkinName": "game_character_displayname_Seraphine",
+   "respawnTimer": 0.0,
+   "riotId": "Trần An Nhiên#0803",
+   "riotIdGameName": "Trần An Nhiên",
+   "riotIdTagLine": "0803",
+   "runes": {
+    "keystone": {
+     "displayName": "Triệu Hồi Aery",
+     "id": 8214,
+     "rawDescription": "perk_tooltip_SummonAery",
+     "rawDisplayName": "perk_displayname_SummonAery"
+    },
+    "primaryRuneTree": {
+     "displayName": "Pháp Thuật",
+     "id": 8200,
+     "rawDescription": "perkstyle_tooltip_7202",
+     "rawDisplayName": "perkstyle_displayname_7202"
+    },
+    "secondaryRuneTree": {
+     "displayName": "Cảm Hứng",
+     "id": 8300,
+     "rawDescription": "perkstyle_tooltip_7203",
+     "rawDisplayName": "perkstyle_displayname_7203"
+    }
+   },
+   "scores": {
+    "assists": 0,
+    "creepScore": 0,
+    "deaths": 0,
+    "kills": 0,
+    "wardScore": 0.0
+   },
+   "screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+   "skinID": 0,
+   "skinName": "Seraphine",
+   "summonerName": "Trần An Nhiên#0803",
+   "summonerSpells": {
+    "summonerSpellOne": {
+     "displayName": "Tốc Biến",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+    },
+    "summonerSpellTwo": {
+     "displayName": "Hồi Máu",
+     "rawDescription": "GeneratedTip_SummonerSpell_SummonerHeal_Description",
+     "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHeal_DisplayName"
+    }
+   },
+   "team": "CHAOS"
+  }
+ ],
+ "events": {
+  "Events": [
+   {
+    "EventID": 0,
+    "EventName": "GameStart",
+    "EventTime": 0.0
+   }
+  ]
+ },
+ "gameData": {
+  "gameMode": "CLASSIC",
+  "gameTime": 0.0,
+  "mapName": "Map11",
+  "mapNumber": 11,
+  "mapTerrain": "Default"
+ }
+}

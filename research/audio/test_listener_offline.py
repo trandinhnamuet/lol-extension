@@ -27,14 +27,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("session")
     ap.add_argument("--thr", type=float, default=0.95)
+    ap.add_argument("--spell", default="flash")
     args = ap.parse_args()
     s = args.session
     y = load_wav(os.path.join(s, "audio.wav"))
-    with open(os.path.join(s, "flash_events.csv"), newline="", encoding="utf-8") as f:
+    with open(os.path.join(s, f"{args.spell}_events.csv"), newline="", encoding="utf-8") as f:
         ev = np.array([float(r["t"]) for r in csv.DictReader(f)]) - CENTER
 
     events = []
-    lst = fl.FlashListener(lambda t, p: events.append((t, p)), threshold=args.thr)
+    lst = fl.FlashListener(lambda t, p, spell: events.append((t, p)), threshold=args.thr,
+                           models={args.spell: fl.model_path(args.spell + "_cnn")})
     lst._load_model()
     lst.t0 = 0.0
     need = fl.N_FFT + fl.HOP * (fl.W + fl.DELTA - 1)
@@ -51,10 +53,10 @@ def main():
         if t_end - lst.last_stats_update >= 2:
             lst.stats.update()
             lst.last_stats_update = t_end
-        p = lst.score_window(lst.stats.normalize(X))
-        lst.probs.append((t_end - 0.5, p))
+        p = lst.score_window(lst.stats.normalize(X))[args.spell]
+        lst.probs[args.spell].append((t_end - 0.5, p))
         probs.append((t_end - 0.5, p))
-        lst._maybe_emit()
+        lst._maybe_emit(args.spell)
     took = time.perf_counter() - t_start
     dur = len(y) / fl.SR
     print(f"{dur / 60:.1f} phút âm thanh, xử lý {took:.0f} s ({took / dur * 100:.1f}% thời gian thực, 1 luồng)")
@@ -64,7 +66,7 @@ def main():
     fp = sum(1 for t in et if len(ev) == 0 or np.min(np.abs(ev - t)) > MATCH)
     print(f"Streaming, ngưỡng {args.thr}: bắt {hit}/{len(ev)}, báo sai {fp} ({fp / (dur / 600):.1f}/10 phút)")
 
-    cp = os.path.join(s, "cnn_prob.npy")
+    cp = os.path.join(s, ("cnn_prob.npy" if args.spell == "flash" else f"{args.spell}_cnn_prob.npy"))
     if os.path.exists(cp):
         from scipy.signal import find_peaks
         st, pr = np.load(cp)

@@ -22,6 +22,10 @@ ROW0, PITCH = 79, 51
 SLOT_DY = 11
 LEFT_X, RIGHT_X = (5, 11), (949, 955)
 ICON_H = 8  # y: ROW0+1 .. ROW0+1+ICON_H
+SPELL = "flash"  # --spell: phép cần lấy mốc; ô sáng/tối đọc giống nhau cho mọi phép bổ trợ
+SPELL_KEYS = {"flash": ("SummonerFlash", "Flash", "Tốc Biến"), "ignite": ("SummonerDot", "Thiêu Đốt", "Ignite"),
+              "heal": ("SummonerHeal", "Hồi Máu"), "exhaust": ("SummonerExhaust", "Kiệt Sức"),
+              "barrier": ("SummonerBarrier", "Lá Chắn"), "teleport": ("SummonerTeleport", "Dịch Chuyển")}
 READY_HI, READY_LO = 50, 35  # độ vàng (R+G)/2-B: sẵn sàng ~68-78; đang hồi ~20-25 (lớp phủ bán trong suốt, dao động theo nền)
 STABLE = 4  # khung (1 s ở 4 fps) ổn định trước và sau mốc
 
@@ -53,7 +57,7 @@ def load_players(session):
         flash_slot = None
         for i, key in enumerate(("summonerSpellOne", "summonerSpellTwo")):
             name = ss[key]["rawDisplayName"] + " " + ss[key]["displayName"]
-            if "SummonerFlash" in name or "Flash" in name or "Tốc Biến" in name:
+            if any(k in name for k in SPELL_KEYS[SPELL]):
                 flash_slot = i
         players.append({"name": p.get("riotIdGameName") or p.get("summonerName"),
                         "champion": p["championName"], "team": p["team"], "flash_slot": flash_slot})
@@ -70,8 +74,11 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("session")
     ap.add_argument("--plot", action="store_true")
+    ap.add_argument("--spell", default="flash", choices=sorted(SPELL_KEYS))
     args = ap.parse_args()
     session = args.session
+    global SPELL
+    SPELL = args.spell
 
     global CROP
     if os.path.exists(os.path.join(session, "hud_crop.json")):
@@ -134,7 +141,7 @@ def main():
     ts = np.array([e["t"] for e in events])
     events = [e for e in events if (np.abs(ts - e["t"]) <= 1.0).sum() < 3]
 
-    out = os.path.join(session, "flash_events.csv")
+    out = os.path.join(session, f"{SPELL}_events.csv")
     with open(out, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["t", "gameTime", "player", "champion", "team", "slot", "yellow_before", "yellow_after"])
         w.writeheader()

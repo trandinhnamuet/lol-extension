@@ -44,6 +44,8 @@ DEFAULT_CONFIG = {
     "auto_flash": False,
     "auto_flash_threshold": 0.95,  # xác suất tối thiểu của mô hình âm thanh
     "auto_flash_ask_unknown": True,  # không biết ai: hiện dải chân dung để chọn
+    "auto_ignite": True,  # cũng nghe Thiêu Đốt (quy kết bằng tầm 600 quanh đồng minh trên minimap)
+    "auto_ignite_threshold": 0.95,
     "minimap_rect": None,  # [x, y, w, h] vùng minimap trên màn hình; None = góc dưới phải 1080p
 }
 
@@ -1224,6 +1226,8 @@ class App:
         self.assets_seen = self.assets.changed
         self.game_time = None
         self.game_time_at = 0
+        self.ally_champ_ids = ()
+        self.ally_ignite_ids = ()
         self.signature = None
         self.last_seq = -1
         self.status_hold_until = 0
@@ -1468,6 +1472,11 @@ class App:
         my_team = next((p.get("team") for p in players
                         if {p.get("riotId"), p.get("summonerName")} & my_ids), "ORDER")
         enemies = [p for p in players if p.get("team") != my_team][:len(self.rows)]
+        allies = [p for p in players if p.get("team") == my_team]
+        # cho phần tự bắt phép: đồng minh (kể cả mình) và ai trong số đó mang Thiêu Đốt
+        self.ally_champ_ids = tuple(self.assets.find_champion(p) for p in allies)
+        self.ally_ignite_ids = tuple(self.assets.find_champion(p) for p in allies
+                                     if "ignite" in api_spell_keys(p))
         if len(enemies) == len(self.rows) and \
                 sorted(API_ROLE_ORDER.get(p.get("position"), -1) for p in enemies) == [0, 1, 2, 3, 4]:
             enemies.sort(key=lambda p: API_ROLE_ORDER[p["position"]])

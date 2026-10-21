@@ -42,6 +42,8 @@ JUMP_MAX_DT = 0.25  # giây: bước nhảy phải xảy ra trong chừng này
 WINDOW_BEFORE, WINDOW_AFTER = 0.1, 0.4  # giây quanh mốc tiếng: đo thật cú nhảy đến sau mốc tiếng 0,08-0,31 s
 TRACK_DIST = 10  # px: vết cũ cách vòng mới dưới chừng này thì coi là cùng tướng
 CORE_RED_MAX = 0.35  # lõi vòng có hơn chừng này điểm đỏ -> trụ / ping, không phải icon
+RING_MIN_FRAC = 0.3  # phần vành (r±1,5 px) phải có màu đang tìm
+RING_OTHER_MAX = 0.2  # vành không được là màu phe kia
 
 
 def default_rect():
@@ -74,25 +76,40 @@ def red_mask(frame):
     return (((h <= 10) | (h >= 170)) & (s >= 120) & (v >= 120)).astype(np.uint8) * 255
 
 
-def find_rings(frame, r_min, r_max):
-    """Tâm và bán kính các vòng đỏ (icon địch) trên minimap."""
-    mask = red_mask(frame)
+def blue_mask(frame):
+    """Viền icon đồng minh (xanh dương); icon của chính mình viền sáng hơn, cũng lọt vào đây."""
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    h, s, v = hsv[..., 0], hsv[..., 1], hsv[..., 2]
+    return ((h >= 95) & (h <= 125) & (s >= 110) & (v >= 120)).astype(np.uint8) * 255
+
+
+def find_rings(frame, r_min, r_max, color="red"):
+    """Tâm và bán kính các vòng (icon tướng) trên minimap; color = "red" (địch) | "blue" (đồng minh)."""
+    mask = red_mask(frame) if color == "red" else blue_mask(frame)
     circles = cv2.HoughCircles(mask, cv2.HOUGH_GRADIENT, dp=1, minDist=r_min, param1=50, param2=8,
                                minRadius=r_min, maxRadius=r_max)
     out = []
     if circles is None:
         return out
     H, W = mask.shape
+    other = blue_mask(frame) if color == "red" else red_mask(frame)
+    yy, xx = np.ogrid[:H, :W]
     for x, y, r in circles[0]:
         x, y, r = float(x), float(y), float(r)
         if x - r < 0 or y - r < 0 or x + r >= W or y + r >= H:
             continue
+        # vành phải thật sự có màu đang tìm (Hough trên mask dễ "vẽ" vòng qua các mảng màu rời rạc),
+        # và không phải vành màu kia (chân dung tím/xanh bên trong icon địch có thể bị coi là xanh)
+        ring = ((xx - x) ** 2 + (yy - y) ** 2 <= (r + 1.5) ** 2) & ((xx - x) ** 2 + (yy - y) ** 2 >= (r - 1.5) ** 2)
+        if ring.any():
+            if (mask[ring] > 0).mean() < RING_MIN_FRAC or (other[ring] > 0).mean() > RING_OTHER_MAX:
+                continue
         core = r - 4
         if core >= 3:
             y0, y1, x0, x1 = int(y - core), int(y + core) + 1, int(x - core), int(x + core) + 1
             sub = mask[y0:y1, x0:x1]
-            yy, xx = np.ogrid[y0:y1, x0:x1]
-            disc = (xx - x) ** 2 + (yy - y) ** 2 <= core ** 2
+            cy_, cx_ = np.ogrid[y0:y1, x0:x1]  # lưới riêng, không ghi đè yy/xx của cả khung
+            disc = (cx_ - x) ** 2 + (cy_ - y) ** 2 <= core ** 2
             if disc.any() and (sub[disc] > 0).mean() > CORE_RED_MAX:
                 continue  # đặc đỏ: trụ, ping
         out.append((x, y, r))
@@ -109,10 +126,15 @@ class MinimapTracker(threading.Thread):
         self.templates = {}  # champ -> {size: (img, mask)}
         self.paths = {}
         self.history = {}  # champ -> deque[(t, x, y, score)]
+        self.ally_paths = {}  # đồng minh: chỉ cần vị trí; chân dung (nếu có) để biết ai mang phép gì
+        self.ally_history = {}  # champ (hoặc "?n") -> deque[(t, x, y, score)]
+        self.track_allies = False
         self.status = "chưa chạy"
         self.frames = 0
         self.last_frame = None
         self.last_rings = []
+        self.last_blue = []
+        self.blue_positions = deque()
         side = min(self.rect[2], self.rect[3])
         self.r_min, self.r_max = max(6, int(side * RING_R_FRAC[0])), int(side * RING_R_FRAC[1]) + 1
 
@@ -122,10 +144,20 @@ class MinimapTracker(threading.Thread):
             self.templates = {c: {} for c in self.paths}
             self.history = {c: deque() for c in self.paths}
 
+    def set_allies(self, champ_paths):
+        """Bật theo dõi vòng xanh. champ_paths: {champ_id: png} của đồng minh (kể cả mình); có thể rỗng."""
+        with self.lock:
+            self.ally_paths = {c: p for c, p in (champ_paths or {}).items() if p and os.path.exists(p)}
+            for c in self.ally_paths:
+                self.templates.setdefault(c, {})
+            self.ally_history = {c: deque() for c in self.ally_paths}
+            self.track_allies = True
+
     def _template(self, champ, size):
         cache = self.templates.setdefault(champ, {})
         if size not in cache:
-            cache[size] = circular_template(self.paths[champ], size)
+            path = self.paths.get(champ) or self.ally_paths.get(champ)
+            cache[size] = circular_template(path, size) if path else (None, None)
         return cache[size]
 
     def _grab(self, sct):
@@ -133,11 +165,13 @@ class MinimapTracker(threading.Thread):
         shot = sct.grab({"left": x, "top": y, "width": w, "height": h})
         return np.ascontiguousarray(np.asarray(shot)[:, :, :3])
 
-    def _identify(self, frame, rings, t):
+    def _identify(self, frame, rings, t, paths=None, history=None):
         """Điểm NCC của từng tướng tại từng vòng, rồi gán tham lam có nhớ vết."""
         with self.lock:
-            champs = list(self.paths)
-            last = {c: (h[-1] if h else None) for c, h in self.history.items()}
+            paths = self.paths if paths is None else paths
+            history = self.history if history is None else history
+            champs = list(paths)
+            last = {c: (h[-1] if h else None) for c, h in history.items()}
         if not champs or not rings:
             return
         scores = np.full((len(rings), len(champs)), -1.0)
@@ -187,7 +221,7 @@ class MinimapTracker(threading.Thread):
             assigned[champs[j]] = (rings[i][0], rings[i][1], float(scores[i, j]))
         with self.lock:
             for c, (x, y, s) in assigned.items():
-                h = self.history.get(c)
+                h = history.get(c)
                 if h is None:
                     continue
                 h.append((t, x, y, s))
@@ -198,7 +232,40 @@ class MinimapTracker(threading.Thread):
         rings = find_rings(frame, self.r_min, self.r_max)
         self.last_rings = rings
         self._identify(frame, rings, t)
+        if self.track_allies:
+            blue = find_rings(frame, self.r_min, self.r_max, "blue")
+            # chân dung tím/xanh bên trong icon địch cũng tạo "vòng xanh": bỏ vòng xanh trùng vị trí vòng đỏ
+            blue = [b for b in blue if all(np.hypot(b[0] - r[0], b[1] - r[1]) > 6 for r in rings)]
+            self.last_blue = blue
+            if self.ally_paths:
+                self._identify(frame, blue, t, self.ally_paths, self.ally_history)
+            with self.lock:  # vị trí mọi vòng xanh, không cần biết ai (cho luật tầm phép nhắm mục tiêu)
+                self.blue_positions.append((t, [(x, y) for x, y, r in blue]))
+                while self.blue_positions and t - self.blue_positions[0][0] > HISTORY_SECONDS:
+                    self.blue_positions.popleft()
         return rings
+
+    def position(self, champ, t0, t1, ally=False):
+        """Vị trí (x, y) trung vị của tướng trong [t0, t1], hoặc None."""
+        with self.lock:
+            h = (self.ally_history if ally else self.history).get(champ, ())
+            pts = [(x, y) for t, x, y, s in h if t0 <= t <= t1]
+        if not pts:
+            return None
+        return float(np.median([p[0] for p in pts])), float(np.median([p[1] for p in pts]))
+
+    def allies_near(self, x, y, radius, t0, t1):
+        """Số vòng xanh (đồng minh/mình) cách (x, y) <= radius trong [t0, t1] (tính theo khung gần nhất)."""
+        with self.lock:
+            frames = [pts for t, pts in self.blue_positions if t0 <= t <= t1]
+        best = 0
+        for pts in frames:
+            best = max(best, sum(1 for px, py in pts if np.hypot(px - x, py - y) <= radius))
+        return best
+
+    def units_to_px(self, units, map_units=14800):
+        """Đơn vị bản đồ -> px minimap (Summoner's Rift ~14800 đơn vị mỗi cạnh)."""
+        return units / map_units * min(self.rect[2], self.rect[3])
 
     def run(self):
         if cv2 is None:

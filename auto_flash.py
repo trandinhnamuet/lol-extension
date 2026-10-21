@@ -14,6 +14,9 @@ from collections import deque
 APP_DIR = os.path.dirname(os.path.abspath(sys.argv[0]))
 LOG_PATH = os.path.join(APP_DIR, "auto_flash.log")
 DECIDE_AFTER = 0.5  # giây sau mốc tiếng mới quyết định (chờ minimap ghi được cú nhảy)
+IGNITE_RANGE = 600  # đơn vị bản đồ: tầm Thiêu Đốt; kẻ thi triển phải cách nạn nhân (đồng minh) không quá chừng này
+IGNITE_SLACK = 1.3  # nới tầm cho sai số vị trí minimap (±2 px) và di chuyển trong 0,5 s
+TARGETED = {"ignite": IGNITE_RANGE}  # phép nhắm mục tiêu: quy kết bằng tầm, không bằng cú nhảy
 ASK_SECONDS = 6  # dải hỏi tự ẩn sau chừng này giây
 AUTO_LABEL_SECONDS = 3
 
@@ -48,8 +51,12 @@ class AutoFlash:
         self.enabled = True
         self.log_file = open(LOG_PATH, "a", encoding="utf-8")
         self.log("bật")
-        self.listener = flash_listener.FlashListener(self._on_event,
-                                                     threshold=float(self.cfg.get("auto_flash_threshold", 0.95)))
+        models = dict(flash_listener.DEFAULT_MODELS)
+        if not self.cfg.get("auto_ignite", True):
+            models.pop("ignite", None)
+        self.listener = flash_listener.FlashListener(
+            self._on_event, threshold=float(self.cfg.get("auto_flash_threshold", 0.95)), models=models,
+            thresholds={"ignite": float(self.cfg.get("auto_ignite_threshold", 0.95))})
         self.listener.start()
         rect = self.cfg.get("minimap_rect")
         self.tracker = minimap_tracker.MinimapTracker(rect=tuple(rect) if rect else None)
@@ -93,19 +100,22 @@ class AutoFlash:
         """Cập nhật mẫu icon theo tướng của 5 hàng (gọi mỗi lần poll, rẻ khi không đổi)."""
         if not self.tracker:
             return
-        ids = tuple(row.champ_id for row in self.app.rows)
+        allies = tuple(getattr(self.app, "ally_champ_ids", ()))
+        enemy_ids = tuple(row.champ_id for row in self.app.rows)
+        ids = enemy_ids + ("|",) + allies
         if ids == self.enemy_ids and not force:
             return
         self.enemy_ids = ids
         from spell_timer import CACHE_DIR
-        paths = {cid: os.path.join(CACHE_DIR, "champion", cid + ".png") for cid in ids if cid}
+        paths = {cid: os.path.join(CACHE_DIR, "champion", cid + ".png") for cid in enemy_ids if cid}
         self.tracker.set_enemies(paths)
-        self.log(f"đội hình: {list(paths)}")
+        self.tracker.set_allies({cid: os.path.join(CACHE_DIR, "champion", cid + ".png") for cid in allies if cid})
+        self.log(f"đội hình: {list(paths)} | đồng minh: {list(allies)}")
 
     # ---------- sự kiện ----------
-    def _on_event(self, t, p):  # luồng nghe
+    def _on_event(self, t, p, spell="flash"):  # luồng nghe
         with self.lock:
-            self.events.append((t, p))
+            self.events.append((t, p, spell))
 
     def poll(self):
         """Gọi từ App.tick (mỗi 200 ms, luồng Tk)."""
@@ -121,16 +131,68 @@ class AutoFlash:
             self.log("trạng thái: " + self.status() + (f" ({self.tracker.frames} khung)" if self.tracker else ""))
         ready = [e for e in self.pending if now - e[0] >= DECIDE_AFTER]
         self.pending = [e for e in self.pending if now - e[0] < DECIDE_AFTER]
-        for t, p in ready:
-            self.decide(t, p)
+        for t, p, spell in ready:
+            if spell in TARGETED:
+                self.decide_targeted(t, p, spell)
+            else:
+                self.decide(t, p)
         if self.strip and now >= self.strip_hide_at:
             self.hide_strip()
 
-    def flash_slot(self, row):
+    def flash_slot(self, row, key="flash"):
         for slot in row.spell_slots:
-            if slot.key == "flash":
+            if slot.key == key:
                 return slot
         return None
+
+    def decide_targeted(self, t, p, spell):
+        """Phép nhắm mục tiêu (Thiêu Đốt): kẻ thi triển là địch mang phép, đang cách một đồng minh không quá
+        tầm phép quanh mốc tiếng. Một ứng viên và không có đồng minh nào cũng mang phép trong tầm -> tự bấm;
+        còn lại hỏi (tiếng của đồng minh và của địch giống nhau)."""
+        if self.app.game_time is None:
+            self.log(f"tiếng {spell} p={p:.2f} nhưng không trong trận, bỏ qua")
+            return
+        tracker_ok = self.tracker is not None and self.tracker.status == "đang theo dõi" and self.tracker.frames > 10
+        carriers = [row for row in self.app.rows if row.champ_id and self.flash_slot(row, spell)
+                    and not self.flash_slot(row, spell).remaining()]
+        if not carriers:
+            self.log(f"tiếng {spell} p={p:.2f} -> không địch nào mang {spell} còn phép -> bỏ qua")
+            return
+        if not tracker_ok:
+            self.show_strip(carriers, p, spell)
+            self.log(f"tiếng {spell} p={p:.2f} -> minimap không chạy -> HỎI {[r.champ_id for r in carriers]}")
+            return
+        radius = self.tracker.units_to_px(TARGETED[spell]) * IGNITE_SLACK
+        t0, t1 = t - 0.3, t + 0.5
+        near = []
+        for row in carriers:
+            pos = self.tracker.position(row.champ_id, t0, t1)
+            if pos is None:
+                continue
+            n_ally = self.tracker.allies_near(pos[0], pos[1], radius, t0, t1)
+            if n_ally:
+                near.append((row, pos, n_ally))
+        ally_carriers = [c for c in getattr(self.app, "ally_ignite_ids", ()) if c]
+        ambiguous = False
+        if near and ally_carriers:  # đồng minh mang cùng phép đứng trong tầm ứng viên: có thể chính đồng minh vừa dùng
+            for row, pos, _ in near:
+                for c in ally_carriers:
+                    ap_ = self.tracker.position(c, t0, t1, ally=True)
+                    if ap_ is not None and ((ap_[0] - pos[0]) ** 2 + (ap_[1] - pos[1]) ** 2) ** 0.5 <= radius:
+                        ambiguous = True
+        info = [f"{r.champ_id}@({pos[0]:.0f},{pos[1]:.0f}) đồng minh gần:{n}" for r, pos, n in near]
+        note = " (đồng minh cũng mang)" if ambiguous else ""
+        if len(near) == 1 and not ambiguous:
+            self.auto_start(near[0][0], spell)
+            self.log(f"tiếng {spell} p={p:.2f} -> trong tầm {info} -> TỰ BẤM {near[0][0].champ_id}")
+        elif near:
+            self.show_strip([r for r, _, _ in near], p, spell)
+            self.log(f"tiếng {spell} p={p:.2f} -> trong tầm {info}{note} -> HỎI")
+        elif self.cfg.get("auto_flash_ask_unknown", True):
+            self.show_strip(carriers, p, spell)
+            self.log(f"tiếng {spell} p={p:.2f} -> không ứng viên trong tầm -> HỎI {[r.champ_id for r in carriers]}")
+        else:
+            self.log(f"tiếng {spell} p={p:.2f} -> không ứng viên trong tầm -> bỏ qua")
 
     def decide(self, t, p):
         if self.app.game_time is None:
@@ -163,24 +225,25 @@ class AutoFlash:
         else:
             self.log(f"tiếng p={p:.2f} -> không icon địch nào nhảy -> bỏ qua")
 
-    def auto_start(self, row):
-        slot = self.flash_slot(row)
+    def auto_start(self, row, spell="flash"):
+        slot = self.flash_slot(row, spell)
         if slot and not slot.remaining():
             slot.start()
             slot.auto_label_until = time.monotonic() + AUTO_LABEL_SECONDS
             slot._last_render = None
-            self.app.set_status(f"tự bấm Flash {row.champ_name()}", hold=3)
+            self.app.set_status(f"tự bấm {slot.name} {row.champ_name()}", hold=3)
 
     # ---------- dải hỏi ----------
-    def show_strip(self, rows, p):
-        from spell_timer import ACCENT, BG, FG, MUTED, ROW_BG
+    def show_strip(self, rows, p, spell="flash"):
+        from spell_timer import ACCENT, BG, FG, MUTED, ROW_BG, SPELLS
         self.hide_strip()
         if not rows:
             return
         app = self.app
+        self.strip_spell = spell
         strip = tk.Frame(app.root, bg=ROW_BG)
         strip.pack(fill="x", padx=3, pady=(0, 3))
-        tk.Label(strip, text=f"Nghe thấy Flash ({p:.0%}) — ai?", font=app.fonts["bold"],
+        tk.Label(strip, text=f"Nghe thấy {SPELLS[spell][1]} ({p:.0%}) — ai?", font=app.fonts["bold"],
                  bg=ROW_BG, fg=ACCENT).pack(side="left", padx=(6, 8))
         size = app.avatar_size
         self.strip_images = []
@@ -200,8 +263,9 @@ class AutoFlash:
         self.strip_hide_at = time.monotonic() + ASK_SECONDS
 
     def pick(self, row):
-        self.auto_start(row)
-        self.log(f"người dùng chọn {row.champ_id}")
+        spell = getattr(self, "strip_spell", "flash")
+        self.auto_start(row, spell)
+        self.log(f"người dùng chọn {row.champ_id} ({spell})")
         self.hide_strip()
 
     def hide_strip(self):

@@ -166,6 +166,10 @@ def main():
         time.sleep(1)
         st, data = game_api("/liveclientdata/allgamedata")
     mine = my_champion(data, game_name, tag) if st == 200 else None
+    if mine is None and st == 200 and data.get("allPlayers"):
+        # replay của người khác: gắn camera vào người đầu phe ORDER (app coi ORDER là phe mình khi không có activePlayer)
+        mine = next((p for p in data["allPlayers"] if p.get("team") == "ORDER"), data["allPlayers"][0])
+        print(f"Người chơi không có trong trận; gắn camera vào {mine.get('riotIdGameName')} ({mine['championName']}, {mine['team']})")
     st_r, render = game_api("/replay/render")
     print("Render hiện tại:", {k: render.get(k) for k in ("cameraAttached", "cameraMode", "selectionName", "selectionOffset")}
           if st_r == 200 else (st_r, render))

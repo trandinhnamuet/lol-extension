@@ -562,7 +562,33 @@ khung (bước 22–95 px) thành Flash; bỏ giới hạn cửa sổ thì kỹ 
 trùng tiếng Flash của người khác bị bấm nhầm. Các lần "hỏi" còn lại là icon chồng nhau / mất dấu
 (Graves NCC chỉ 0,25–0,31) hoặc cú nhảy đọc được 4–4,5 px dưới ngưỡng.
 
-### 9.8. Việc tiếp theo
+### 9.8. Thiêu Đốt (21/10)
+
+HUD replay có cả ô phép thứ hai, nên `hud_flash.py --spell ignite` cho 580 mốc Thiêu Đốt trong 30 phiên
+(3,4 người mang mỗi trận). Huấn luyện `train_cnn.py --events ignite_events.csv --mine` trên 22 trận, kiểm
+8 trận (187 mốc, 248 phút): p ≥ 0,95 nghe 64%, 1,5 báo sai / 10 phút; p ≥ 0,98 nghe 61%, 1,0. Mô hình
+`models/ignite_cnn.onnx`; `flash_listener.py` chạy hai mô hình trên cùng một log-mel (4,5% thời gian thực
+một luồng cho cả hai).
+
+Quy kết: Thiêu Đốt tầm 600 đơn vị ≈ 10,7 px minimap 1080p. Kẻ thi triển = địch mang Thiêu Đốt còn phép,
+đứng cách một vòng xanh (đồng minh/mình) ≤ 600 × 1,3 trong [t − 0,3; t + 0,5]. Tracker thêm vòng xanh
+(mặt nạ H 95–125) với kiểm tra vành đúng màu và loại vòng xanh trùng vòng đỏ (chân dung tím bên trong icon
+địch cũng tạo vòng xanh giả). Mơ hồ (đồng minh mang Thiêu Đốt đứng trong tầm ứng viên) thì hỏi vì tiếng
+hai phe giống nhau.
+
+**Bài thử 6 (21/10, 09:08): replay 16.21 của người khác (1610904509, 23 phút), camera gắn vào phe ORDER,
+địch (CHAOS) ẩn trong sương mù như trận thật.** Flash địch 10: nghe 7, tự bấm đúng 2, sai 0, hỏi 5. Thiêu Đốt địch
+4 (chỉ Shaco mang): nghe 3, tự bấm 0, sai 0, hỏi 3 (Shaco đốt từ tàng hình nên không có vị trí trên minimap).
+Không có lần bấm không căn cứ nào ở cả hai phép.
+
+**Lưu ý quan trọng về các bài thử 2–5:** app không có `activePlayer` trong replay nên coi ORDER là phe mình;
+ở các trận đó người chơi lại thuộc CHAOS, tức là "địch" theo app chính là phe có camera, **luôn hiện trên
+minimap**. Tỉ lệ tự bấm 60–70% của các bài đó vì thế lạc quan hơn trận thật. Bài 6 là điều kiện thật: địch
+trong sương mù thì không có vết, Flash từ sương mù vào tầm nhìn cũng không có "đứng yên trước" nên không
+tự bấm được, chỉ hỏi. Hướng cải thiện: icon địch *vừa xuất hiện* trong [t, t + 0,4 s] gần đồng minh có thể
+xếp lên đầu dải hỏi (không tự bấm).
+
+### 9.9. Việc tiếp theo
 
 1. Âm thanh: tăng tỉ lệ bắt trong giao tranh (còn ~20% sót): huấn luyện lại với 26 trận đã có,
    augmentation trộn tiếng Flash sạch vào nền giao tranh, kênh delta đã có; nghe thử 20 "sót" bằng tai
