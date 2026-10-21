@@ -171,6 +171,10 @@ class FlashListener(threading.Thread):
         return np.interp(np.linspace(0, len(y), n, endpoint=False), np.arange(len(y)), y).astype(np.float32)
 
     def _write(self, y):
+        size = len(self.buf)
+        if len(y) > size:  # lớn hơn cả bộ đệm: chỉ giữ phần cuối, phần trước đó coi như đã trôi qua
+            self.written += len(y) - size
+            y = y[-size:]
         n = len(y)
         pos = self.written % len(self.buf)
         end = pos + n
@@ -193,6 +197,10 @@ class FlashListener(threading.Thread):
                 expected = int((time.monotonic() - self.t0) * SR)
                 missing = expected - (self.written + len(y))
                 if missing > MAX_GAP_FILL * SR:
+                    size = len(self.buf)
+                    if missing > size:  # im lặng rất lâu (hàng giờ ở sảnh): bỏ qua phần ngoài bộ đệm, không cấp phát hàng triệu mẫu
+                        self.written += missing - size
+                        missing = size
                     self._write(np.zeros(missing, np.float32))
                 self._write(y)
         except Exception as e:  # không để lỗi giết luồng âm thanh
