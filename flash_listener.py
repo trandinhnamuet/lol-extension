@@ -149,6 +149,10 @@ class FlashListener(threading.Thread):
         self.session = None
         self.stats = RunningStats()
         self.last_stats_update = 0
+        # chẩn đoán (auto_flash_debug_frames): ghi âm thanh đã nghe và xác suất từng bước để xem lại ngoại tuyến
+        self.debug_dir = None
+        self._wav = None
+        self._prob_csv = None
 
     # ---------- âm thanh ----------
     def _open_stream(self):
@@ -193,6 +197,11 @@ class FlashListener(threading.Thread):
             if self.channels > 1:
                 y = y.reshape(-1, self.channels).mean(axis=1)
             y = self._resample(y)
+            if self._wav is not None:
+                try:
+                    self._wav.writeframes((np.clip(y, -1, 1) * 32767).astype(np.int16).tobytes())
+                except Exception:
+                    self._wav = None
             with self.lock:
                 expected = int((time.monotonic() - self.t0) * SR)
                 missing = expected - (self.written + len(y))
@@ -250,6 +259,20 @@ class FlashListener(threading.Thread):
         except Exception as e:
             self.status = f"không nghe được: {e}"
             return
+        if self.debug_dir:
+            try:
+                import wave
+                os.makedirs(self.debug_dir, exist_ok=True)
+                stamp = time.strftime("%Y%m%d_%H%M%S")
+                self._wav = wave.open(os.path.join(self.debug_dir, f"audio_{stamp}.wav"), "wb")
+                self._wav.setnchannels(1)
+                self._wav.setsampwidth(2)
+                self._wav.setframerate(SR)
+                self._prob_csv = open(os.path.join(self.debug_dir, f"probs_{stamp}.csv"), "w", encoding="utf-8")
+                self._prob_csv.write("mono," + ",".join(self.models) + "\n")
+            except Exception as e:
+                self.status = f"đang nghe (không ghi chẩn đoán: {e})"
+                self._wav = self._prob_csv = None
         need = N_FFT + HOP * (W + DELTA - 1)  # mẫu cho W + DELTA khung
         next_at = time.monotonic()
         try:
@@ -268,6 +291,8 @@ class FlashListener(threading.Thread):
                     self.last_stats_update = t_end
                 p = self.score_window(self.stats.normalize(X))
                 t_center = t_end - 0.5
+                if self._prob_csv is not None:
+                    self._prob_csv.write(f"{t_center:.2f}," + ",".join(f"{p[n]:.3f}" for n in self.models) + "\n")
                 for name, v in p.items():
                     self.probs[name].append((t_center, v))
                     self._maybe_emit(name)
@@ -280,6 +305,13 @@ class FlashListener(threading.Thread):
                 self.pa.terminate()
             except Exception:
                 pass
+            for f in (self._wav, self._prob_csv):
+                try:
+                    if f is not None:
+                        f.close()
+                except Exception:
+                    pass
+            self._wav = self._prob_csv = None
             if self.status == "đang nghe":
                 self.status = "đã dừng"
 

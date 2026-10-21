@@ -59,6 +59,8 @@ class AutoFlash:
         self.listener = flash_listener.FlashListener(
             self._on_event, threshold=float(self.cfg.get("auto_flash_threshold", 0.95)), models=models,
             thresholds={"ignite": float(self.cfg.get("auto_ignite_threshold", 0.95))})
+        if self.cfg.get("auto_flash_debug_frames"):  # cùng cờ với ảnh minimap: ghi cả âm thanh + xác suất
+            self.listener.debug_dir = os.path.join(APP_DIR, "debug_frames")
         self.listener.start()
         rect = self.cfg.get("minimap_rect")
         self.tracker = minimap_tracker.MinimapTracker(rect=tuple(rect) if rect else None)
