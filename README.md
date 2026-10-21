@@ -3,7 +3,7 @@
 Cửa sổ nhỏ luôn nổi trên game để bấm đếm ngược phép bổ trợ và chiêu cuối (R) của 5 địch (TOP / JGL / MID / ADC / SUP).
 
 ## Chạy
-- **Bản exe (không cần cài Python):** tải `LOL.Spell.Timer.exe` ở trang [Releases](https://github.com/trandinhnamuet/lol-extension/releases). Có thể để file này ở đâu cũng được; `config.json` và `cache/` sẽ được tạo ngay cạnh nó.
+- **Bản exe (không cần cài Python):** tải `LOL.Spell.Timer.exe` ở [trang phát hành](https://github.com/trandinhnamuet/lol-spell-timer-releases/releases/latest) (repo công khai riêng, không chứa mã nguồn). Có thể để file này ở đâu cũng được; `config.json` và `cache/` sẽ được tạo ngay cạnh nó.
 - **Từ mã nguồn:** nháy đúp `Chay Spell Timer.bat` (hoặc `pythonw spell_timer.py`).
 - **Build lại exe:** chạy `build.bat` (cần `pip install pyinstaller pillow`).
 
@@ -39,6 +39,11 @@ Khi vào trận (sau màn hình chờ), app tự điền tướng, phép và v�
 
 Kỹ năng thêm/bỏ được **nhớ theo từng tướng**: thêm W cho Yasuo một lần, lần sau gặp Yasuo sẽ tự có W; bỏ R của tướng nào thì tướng đó không hiện R nữa.
 Bạn vẫn có thể chọn lại bằng tay bất cứ lúc nào. Nếu không có dữ liệu từ trận, cứ chọn tay hết.
+
+## Tự cập nhật
+Từ v1.2.0, mở app là tự kiểm tra bản mới (và 6 giờ một lần khi mở lâu). Có bản mới thì nhãn **⬆ v…** hiện trên thanh tiêu đề: bấm vào, đọc ghi chú, bấm **Cập nhật**. App tải exe mới, kiểm SHA-256, đổi tên file đang chạy, thay bằng bản mới rồi tự khởi động lại; `config.json` và `cache/` giữ nguyên. Không có mạng thì dùng bình thường. Đang trong trận thì hộp thoại cảnh báo các đếm ngược đang chạy sẽ mất. **⚙ → Kiểm tra cập nhật** để kiểm tra thủ công. Chạy từ mã nguồn chỉ báo, không tự thay file.
+
+Phát hành bản mới (người bảo trì): sửa `version.py`, viết `release/notes/v<số>.md`, chạy `build.bat`, rồi `python release/publish.py` (có `--dry-run`). Script tính SHA-256, tạo `version.json` gom ghi chú các bản và đăng release lên repo phát hành.
 
 ## Tự bắt Flash (nghe tiếng + minimap)
 

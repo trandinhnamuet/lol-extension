@@ -381,7 +381,17 @@ chạm vào tiến trình game.
 Mô hình âm thanh và cách tạo nhãn tự động từ HUD replay: `research/audio/RESEARCH.md` mục 9.
 Trên 18 trận kiểm chéo theo trận: bắt 79% Flash, 1,1 báo sai / 10 phút ở ngưỡng 0,95.
 
-## 13. Gợi ý tìm hiểu thêm
+## 13. Tự cập nhật
+
+`updater.py` (logic, không dính Tk) + `update_ui.py` (nhãn ⬆, hộp thoại, luồng tải) + `release/publish.py`.
+
+- Mã nguồn ở repo private, exe ở repo **công khai riêng** `lol-spell-timer-releases`: release của repo private luôn private nên app không thể tải nếu không có token.
+- App đọc `https://github.com/<repo>/releases/latest/download/version.json`: `{version, page, asset{url,size,sha256}, notes{ver: markdown}}`. Bản đăng sau cùng là "latest".
+- Tải về `<exe>.new.part` → kiểm cỡ + SHA-256 → đổi `.new`; trước khi cài kiểm lại SHA-256 (chống tráo file). Windows không cho ghi đè exe đang chạy nhưng cho **đổi tên**: `exe → exe.old`, `exe.new → exe`; lỗi giữa chừng thì đổi ngược. Khởi động lại với `PYINSTALLER_RESET_ENVIRONMENT=1` để bản mới tự giải nén riêng (bản `--onefile` cũ xoá thư mục tạm khi thoát). Bản mới dọn `.old` lúc mở và 30 giây sau.
+- Link tải phải bắt đầu bằng `https://github.com/<repo>/releases/`; biến môi trường kiểm thử chỉ có tác dụng khi chạy từ mã nguồn hoặc cạnh exe có `lolspelltimer-test.flag`.
+- Kiểm thử: `python -m unittest tests.test_updater` (10 ca: so phiên bản, thiếu mạng, manifest sai, sai SHA-256, tải thiếu, link lạ, file bị tráo, cài + dọn). Đã chạy đầu-cuối: exe 1.2.0 tự thay bằng exe 1.2.1 từ máy chủ cục bộ trong 9 giây, bản mới chạy và `.old` được dọn.
+
+## 14. Gợi ý tìm hiểu thêm
 
 - **Riot Developer Portal:** Game Client API, Data Dragon, chính sách bên thứ ba.
 - **Tkinter Canvas và PhotoImage:** [tkdocs.com](https://tkdocs.com), và trang `photo` trong tài liệu Tcl/Tk (các lệnh `data`, `put`, `copy -subsample/-zoom`).
