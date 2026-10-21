@@ -9,7 +9,7 @@ set PY=py -3
   --name "LOL Spell Timer" ^
   --icon "%~dp0assets\icon.ico" ^
   --version-file "%~dp0tools\version_info.txt" ^
-  --add-data "%~dp0models\flash_cnn.onnx;models" --add-data "%~dp0models\ignite_cnn.onnx;models" ^
+  --add-data "%~dp0assets\icon.ico;assets" --add-data "%~dp0models\flash_cnn.onnx;models" --add-data "%~dp0models\ignite_cnn.onnx;models" ^
   --hidden-import pyaudiowpatch --hidden-import onnxruntime --hidden-import mss --hidden-import cv2 ^
   --collect-binaries onnxruntime ^
   --exclude-module torch --exclude-module torchvision --exclude-module torchaudio --exclude-module scipy ^

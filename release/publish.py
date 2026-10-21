@@ -26,7 +26,10 @@ from updater import REPO as DEFAULT_REPO  # noqa: E402
 from version import APP_VERSION  # noqa: E402
 
 EXE = os.path.join(ROOT, "dist", "LOL Spell Timer.exe")
-ASSET = "LOL.Spell.Timer.exe"
+ASSET = "LOL-Spell-Timer-update.exe"  # exe lẻ cho bộ tự cập nhật (GitHub đổi dấu cách thành dấu chấm trong tên tệp)
+ZIP = "LOL-Spell-Timer.zip"  # gói người dùng tải: thư mục "LOL Spell Timer" chứa "LOL Spell Timer.exe"
+ZIP_DIR = "LOL Spell Timer"
+EXE_NAME = "LOL Spell Timer.exe"
 OUT = os.path.join(ROOT, "release", "out")
 
 
@@ -65,6 +68,21 @@ def notes():
     return out
 
 
+def make_zip(exe, version):
+    """LOL-Spell-Timer.zip: thư mục "LOL Spell Timer" có exe đúng tên và một tệp hướng dẫn ngắn."""
+    import zipfile
+    path = os.path.join(OUT, ZIP)
+    guide = ("LOL Spell Timer " + version + "\r\n\r\n"
+             "1. Giải nén thư mục này ở đâu cũng được, mở LOL Spell Timer.exe.\r\n"
+             "2. Trong LMHT: Cài đặt > Video > Chế độ cửa sổ: Không viền (Borderless).\r\n"
+             "3. Lần đầu cần mạng để tải ảnh tướng và phép. Cấu hình, ảnh tải về và nhật ký nằm trong thư mục data cạnh exe.\r\n"
+             "4. App tự báo khi có bản mới (nhãn ⬆ trên thanh tiêu đề), bấm Cập nhật là xong.\r\n")
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
+        z.write(exe, f"{ZIP_DIR}/{EXE_NAME}")
+        z.writestr(f"{ZIP_DIR}/Doc toi.txt", guide.encode("utf-8"))
+    return path
+
+
 def api(method, url, tok, body=None, raw=None, ctype="application/json"):
     data = raw if raw is not None else (json.dumps(body).encode() if body is not None else None)
     req = urllib.request.Request(url, data=data, method=method, headers={
@@ -96,18 +114,20 @@ def main():
     json.dump(manifest, open(mpath, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     spath = os.path.join(OUT, ASSET + ".sha256")
     open(spath, "w").write(f"{digest}  {ASSET}\n")
-    print(f"{tag}: {size / 1e6:.1f} MB, sha256 {digest[:16]}…  -> {mpath}")
+    zpath = make_zip(args.exe, version)
+    print(f"{tag}: {size / 1e6:.1f} MB, sha256 {digest[:16]}…  -> {mpath}; zip {os.path.getsize(zpath) / 1e6:.1f} MB")
     if args.dry_run:
         return
     tok = token()
-    body = (f"{all_notes[version]}\n\n## Tải về\n\n- Tải **{ASSET}**, để vào thư mục bất kỳ rồi chạy. "
-            "Không cần cài Python.\n- Đang dùng từ v1.2.0 trở lên: app tự báo có bản mới, bấm **Cập nhật** là xong.\n"
-            "- Trong LMHT: Cài đặt → Video → Chế độ cửa sổ: Không viền (Borderless).\n")
+    body = (f"{all_notes[version]}\n\n## Tải về\n\n- Tải **{ZIP}**, giải nén, mở `{EXE_NAME}`. Không cần cài Python.\n"
+            f"- Đang dùng từ v1.2.0 trở lên: app tự báo có bản mới, bấm **Cập nhật** là xong (`{ASSET}` và `version.json` "
+            "chỉ dành cho bộ tự cập nhật, không cần tải)." + "\n- Trong LMHT: Cài đặt → Video → Chế độ cửa sổ: Không viền (Borderless)." + "\n")
     rel = api("POST", f"https://api.github.com/repos/{args.repo}/releases", tok,
               {"tag_name": tag, "name": f"LOL Spell Timer {tag}", "body": body, "draft": False, "prerelease": False,
                "make_latest": "true"})
     up = rel["upload_url"].split("{")[0]
-    for path, name, ctype in ((args.exe, ASSET, "application/octet-stream"), (spath, ASSET + ".sha256", "text/plain"),
+    for path, name, ctype in ((zpath, ZIP, "application/zip"), (args.exe, ASSET, "application/octet-stream"),
+                              (spath, ASSET + ".sha256", "text/plain"),
                               (mpath, "version.json", "application/json")):
         a = api("POST", f"{up}?name={name}", tok, raw=open(path, "rb").read(), ctype=ctype)
         print("đã tải lên:", a["browser_download_url"], a["size"], "byte")

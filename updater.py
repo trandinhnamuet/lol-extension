@@ -43,8 +43,8 @@ class UpdateError(Exception):
 def log(msg):
     """Nhật ký cập nhật (update.log cạnh exe / file chạy); không bao giờ làm hỏng luồng chính."""
     try:
-        base = os.path.dirname(exe_path()) if is_frozen() else os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(base, "update.log"), "a", encoding="utf-8") as f:
+        import appdirs
+        with open(appdirs.path("update.log"), "a", encoding="utf-8") as f:
             f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} v{APP_VERSION} {msg}\n")
     except Exception:
         pass

@@ -11,7 +11,9 @@ import time
 import tkinter as tk
 from collections import deque
 
-APP_DIR = os.path.dirname(os.path.abspath(sys.argv[0]))
+import appdirs
+
+APP_DIR = appdirs.DATA_DIR  # nhật ký, ảnh chẩn đoán nằm trong data/
 LOG_PATH = os.path.join(APP_DIR, "auto_flash.log")
 DECIDE_AFTER = 0.5  # giây sau mốc tiếng mới quyết định (chờ minimap ghi được cú nhảy)
 IGNITE_RANGE = 600  # đơn vị bản đồ: tầm Thiêu Đốt; kẻ thi triển phải cách nạn nhân (đồng minh) không quá chừng này
