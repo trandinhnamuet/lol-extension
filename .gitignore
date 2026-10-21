@@ -15,3 +15,4 @@ minimap_snapshot.png
 dist/
 research/audio/sessions/replay_*/detect_flash/*.jpg
 research/audio/sessions/replay_*/labels_check/
+release/out/
