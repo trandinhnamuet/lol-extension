@@ -22,9 +22,12 @@ from functools import lru_cache
 
 API_URL = "https://127.0.0.1:2999/liveclientdata/allgamedata"
 DDRAGON = "https://ddragon.leagueoflegends.com"
-APP_DIR = os.path.dirname(os.path.abspath(sys.argv[0]))
-CONFIG_PATH = os.path.join(APP_DIR, "config.json")
-CACHE_DIR = os.path.join(APP_DIR, "cache")
+import appdirs  # noqa: E402
+
+APP_DIR, DATA_DIR = appdirs.APP_DIR, appdirs.DATA_DIR
+appdirs.migrate()  # bản cũ để config.json / cache cạnh exe: gom vào data/
+CONFIG_PATH = os.path.join(DATA_DIR, "config.json")
+CACHE_DIR = os.path.join(DATA_DIR, "cache")
 
 DEFAULT_CONFIG = {
     "opacity": 0.7,
@@ -46,6 +49,7 @@ DEFAULT_CONFIG = {
     "auto_flash_ask_unknown": True,  # không biết ai: hiện dải chân dung để chọn
     "auto_ignite": True,  # cũng nghe Thiêu Đốt (quy kết bằng tầm 600 quanh đồng minh trên minimap)
     "auto_ignite_threshold": 0.95,
+    "auto_flash_debug_frames": False,  # chỉ để chỉnh luật: lưu ảnh minimap thô quanh mỗi tiếng vào debug_frames/
     "minimap_rect": None,  # [x, y, w, h] vùng minimap trên màn hình; None = góc dưới phải 1080p
 }
 
@@ -1212,6 +1216,10 @@ class App:
         self.cfg = load_config()
         self.root = tk.Tk()
         self.root.title("LOL Spell Timer")
+        try:  # icon của app cho mọi cửa sổ (hộp thoại cập nhật, bảng chọn tướng) thay cho lông vũ mặc định của Tk
+            self.root.iconbitmap(default=appdirs.resource("assets", "icon.ico"))
+        except Exception:
+            pass
         self.root.overrideredirect(True)
         self.root.attributes("-topmost", True)
         self.root.attributes("-alpha", self.cfg["opacity"])
