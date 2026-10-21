@@ -108,8 +108,8 @@ def find_rings(frame, r_min, r_max, color="red"):
         if core >= 3:
             y0, y1, x0, x1 = int(y - core), int(y + core) + 1, int(x - core), int(x + core) + 1
             sub = mask[y0:y1, x0:x1]
-            yy, xx = np.ogrid[y0:y1, x0:x1]
-            disc = (xx - x) ** 2 + (yy - y) ** 2 <= core ** 2
+            cy_, cx_ = np.ogrid[y0:y1, x0:x1]  # lưới riêng, không ghi đè yy/xx của cả khung
+            disc = (cx_ - x) ** 2 + (cy_ - y) ** 2 <= core ** 2
             if disc.any() and (sub[disc] > 0).mean() > CORE_RED_MAX:
                 continue  # đặc đỏ: trụ, ping
         out.append((x, y, r))
