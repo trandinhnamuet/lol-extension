@@ -153,6 +153,7 @@ class FlashListener(threading.Thread):
         self.debug_dir = None
         self._wav = None  # tệp PCM thô (tên giữ _wav cho gọn)
         self._wav_flush = 0.0
+        self.game_time_fn = None  # () -> giờ game (giây) hoặc None: để ghép nhật ký xác suất với replay chính xác
         self._prob_csv = None
 
     # ---------- âm thanh ----------
@@ -251,7 +252,7 @@ class FlashListener(threading.Thread):
         out = {}
         for name, (sess, inp) in self.sessions.items():
             logit = sess.run(None, {inp: x})[0]
-            out[name] = float(1 / (1 + np.exp(-logit.reshape(-1)[0])))
+            out[name] = float(1 / (1 + np.exp(-np.clip(logit.reshape(-1)[0], -30.0, 30.0))))
         return out
 
     # ---------- vòng chính ----------
@@ -269,7 +270,7 @@ class FlashListener(threading.Thread):
                 stamp = time.strftime("%Y%m%d_%H%M%S")
                 self._wav = open(os.path.join(self.debug_dir, f"audio_{stamp}.pcm"), "wb")  # int16 mono 48 kHz
                 self._prob_csv = open(os.path.join(self.debug_dir, f"probs_{stamp}.csv"), "w", encoding="utf-8", buffering=1)
-                self._prob_csv.write("mono," + ",".join(self.models) + ",rms_db\n")
+                self._prob_csv.write("mono," + ",".join(self.models) + ",rms_db,game\n")
             except Exception as e:
                 self.status = f"đang nghe (không ghi chẩn đoán: {e})"
                 self._wav = self._prob_csv = None
@@ -293,7 +294,7 @@ class FlashListener(threading.Thread):
                 t_center = t_end - 0.5
                 if self._prob_csv is not None:
                     rms = float(np.sqrt(np.mean(y[-SR // 10:] ** 2)) + 1e-9)  # âm lượng 100 ms mới nhất (dBFS)
-                    self._prob_csv.write(f"{t_center:.2f}," + ",".join(f"{p[n]:.3f}" for n in self.models) + f",{20 * np.log10(rms):.1f}\n")
+                    self._prob_csv.write(f"{t_center:.2f}," + ",".join(f"{p[n]:.3f}" for n in self.models) + f",{20 * np.log10(rms):.1f},{self._game_time():.2f}\n")
                 for name, v in p.items():
                     self.probs[name].append((t_center, v))
                     self._maybe_emit(name)
@@ -315,6 +316,13 @@ class FlashListener(threading.Thread):
             self._wav = self._prob_csv = None
             if self.status == "đang nghe":
                 self.status = "đã dừng"
+
+    def _game_time(self):
+        try:
+            g = self.game_time_fn() if self.game_time_fn else None
+            return -1.0 if g is None else float(g)
+        except Exception:
+            return -1.0
 
     def _maybe_emit(self, name="flash"):
         """Đỉnh: p[-2] >= ngưỡng, lớn hơn hai bên, cách sự kiện trước (cùng phép) >= MIN_GAP."""

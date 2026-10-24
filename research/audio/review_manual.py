@@ -42,8 +42,7 @@ def load_probs(folder):
             head = next(r, None)
             if not head or head[0] != "mono":
                 continue
-            has_rms = head[-1] == "rms_db"
-            names = [h for h in head[1:] if h != "rms_db"]
+            names = [h for h in head[1:] if h not in ("rms_db", "game")]
             for row in r:
                 try:
                     rows.append([float(x) for x in row])
